@@ -1,13 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Press+Start+2P&family=Prompt:wght@300&display=swap');
+
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.auth-button{
+  width: 14em;
+  height: 5em;
+  border: solid 7px rgb(46, 44, 48);
+  background-color: white;
+  cursor: pointer
+}
+.auth-button:hover,
+.auth-button:focus{
+  width: 14em;
+  height: 5em;
+  border: solid 9px rgb(46, 44, 48);
+  background-color: rgb(255, 240, 27);
+  cursor: pointer
+}
+
+.auth{
+  text-decoration: none;
+}
+.map-h2 {
+  cursor: pointer;
+  text-decoration: none;
+}
+.map-h2:hover,
+.map-h2:focus {
+  color: rgb(255, 240, 27);
+  cursor: pointer;
+  text-decoration: none;
+}
+.map-h4 {
+  cursor: pointer;
+  text-decoration: none;
+}
+.map-h4:hover,
+.map-h4:focus {
+  color: rgb(255, 240, 27);
+  cursor: pointer;
+  text-decoration: none;
 }
