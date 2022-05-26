@@ -1,18 +1,20 @@
-import React, { Component, useState } from 'react'
-import App from '../../App'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useAppSelector } from '../store/hooks';
 
-export default class PotionInventory extends Component <{ethBalance: any}> {
 
-  render() {
-    const { ethBalance } = this.props
-    return (
-      <div style={{backgroundColor: 'white', color: 'white'}}>
-          <h1 style={{color: 'black'}}>ETH Balance{ethBalance}</h1>
-          <Link to="/house">
-            <button>X</button>
-          </Link>
-      </div>
-    )
-  }
+export const PotionInventory = () => {
+  const count = useAppSelector((state) => state);
+  return (
+    <div style={{
+      width: '300px',
+      height: '200px',
+      backgroundColor: 'black',
+      position: 'absolute',
+      top: 'calc(50%) - 100px',
+      left: 'calc(50%) - 150px',
+      }}>
+        <h1 style={{color: 'white'}}>Potion Inventory</h1>
+        <h1 style={{color: 'white'}}>ETH: {count}</h1>
+    </div>
+  )
 }
