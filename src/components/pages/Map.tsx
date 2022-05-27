@@ -78,7 +78,7 @@ export default class Map extends Component {
                   top: 'calc(50% + 240px)'
               }} className='map-div'>
               
-              <Link to="/app/house" className='auth'><h2 className='map-h2'>Nursery</h2></Link>
+              <Link to="/app/nursery" className='auth'><h2 className='map-h2'>Nursery</h2></Link>
           </div>
         </div>
       </div>

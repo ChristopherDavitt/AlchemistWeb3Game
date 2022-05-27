@@ -1,20 +1,31 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { useAppSelector } from '../store/hooks';
 
-export default class Forest extends Component {
-  render() {
+export const Forest =()=> {
+    const count = useAppSelector((state)=> state)
     return (
-      <div>
-          {/* Background image of a mountain */}
-          {/* if on quest Button not clickable */}
-          {/* else */}
-          <div>
-              <form>
-                  <button>
-                      Venture into the Forest
-                  </button>
-              </form>
-          </div>
+      <div style={{
+        display: 'grid',
+        justifyContent: 'center',
+        alignItems: 'center',
+        }}>
+        {/* Background image of a mountain */}
+        {/* if on quest Button not clickable */}
+        {/* else */}
+        
+          <h1 style={{color: 'white'}}>Explore the Forest</h1>
+          <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr'
+            }}>
+                <h4 style={{color:'white'}}>NFT Staked: {count}</h4>
+                <h4 style={{color:'white'}}>Potion Staked: {count}</h4>
+                <button>Stake NFT</button>
+                <button>Stake Potion</button>
+            </div>
+          <br></br>
+          <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
       </div>
     )
-  }
 }

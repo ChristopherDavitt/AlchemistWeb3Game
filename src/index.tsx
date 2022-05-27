@@ -7,16 +7,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 
-import Home from './components/landingPage/Home';
-import Mountains from './components/map/Mountains';
-import Forest from './components/map/Forest';
-import Ocean from './components/map/Ocean';
-import Swamp from './components/map/Swamp';
-import Tundra from './components/map/Tundra';
-import { House } from './components/pages/House';
 import Map from './components/pages/Map';
-import Caves from './components/map/Caves';
+import Home from './components/landingPage/Home';
+import {Mountains} from './components/map/Mountains';
+import {Forest} from './components/map/Forest';
+import {Ocean} from './components/map/Ocean';
+import {Swamp} from './components/map/Swamp';
+import {Tundra} from './components/map/Tundra';
+import { Caves } from './components/map/Caves';
+import { House } from './components/pages/House';
 import { App } from './App';
+import { Nursery } from './components/pages/Nursery';
+import { AlchemyStation } from './components/houseStuff/AlchemyStation';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -37,8 +39,9 @@ root.render(
           <Route path='/app/forest' element={<Forest />} />
           <Route path='/app/caves' element={<Caves />} />
           <Route path='/app/house' element={<House />} />
+          <Route path='/app/nursery' element={<Nursery />} />
+          <Route path='/app/house/alchemy-table' element={<AlchemyStation />} />
         </Routes>
-        
       </Router>
     </Provider>
     

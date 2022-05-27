@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Press+Start+2P&family=Prompt:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Press+Start+2P&family=Prompt&display=swap');
 
 * {
     font-family: 'Press Start 2P', cursive;
@@ -52,6 +52,18 @@ code {
 }
 .map-h4:hover,
 .map-h4:focus {
+  color: rgb(255, 240, 27);
+  cursor: pointer;
+  text-decoration: none;
+}
+.quest-map {
+  cursor: pointer;
+  text-decoration: none;
+  color: rgb(252, 252, 252);
+  text-align: center;
+}
+.quest-map:hover,
+.quest-map:focus {
   color: rgb(255, 240, 27);
   cursor: pointer;
   text-decoration: none;
