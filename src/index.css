@@ -9,6 +9,7 @@ body {
   margin: 0;
   -moz-osx-font-smoothing: grayscale;
   background-color: black;
+  color: white
 }
 
 code {
@@ -67,4 +68,7 @@ code {
   color: rgb(255, 240, 27);
   cursor: pointer;
   text-decoration: none;
+}
+.minter-h {
+  color: white
 }

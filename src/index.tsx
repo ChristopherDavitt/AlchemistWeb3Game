@@ -19,6 +19,7 @@ import { House } from './components/pages/House';
 import { App } from './App';
 import { Nursery } from './components/pages/Nursery';
 import { AlchemyStation } from './components/houseStuff/AlchemyStation';
+import { Minter } from './components/pages/Minter';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -31,6 +32,7 @@ root.render(
         <App/>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/minter' element={<Minter />} />
           <Route path='/app' element={<Map />} />
           <Route path='/app/mountains' element={<Mountains />} />
           <Route path='/app/ocean' element={<Ocean />} />

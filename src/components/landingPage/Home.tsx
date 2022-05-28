@@ -7,7 +7,6 @@ export default class Home extends Component {
       <div style={{
           display:'grid',
           backgroundImage: `url(${landingGif})`,
-
           width: '100vw',
           height: '100vh',
           backgroundRepeat: 'no-repeat',
@@ -18,7 +17,7 @@ export default class Home extends Component {
           textAlign: 'center',
           alignContent:'center',
           display:'grid'
-      }}>Wizard Game</h1>
+      }}>The Alchemist</h1>
         <div style={{
             display: "grid",
             justifyContent: "center",
@@ -26,6 +25,11 @@ export default class Home extends Component {
             gap: '0.5rem'
             
         }}>
+          <Link to="/minter" className='auth'>
+            <button className='auth-button'>
+              Mint Your NFT
+            </button>
+          </Link>
           <a href='https://github.com' className='auth'>
             <button className='auth-button'>
               Explore The Docs
