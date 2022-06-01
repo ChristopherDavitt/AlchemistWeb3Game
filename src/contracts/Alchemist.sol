@@ -30,7 +30,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
   string public uriSuffix = ".json";
   string public hiddenMetadataUri;
   
-  uint256 public cost = 0.01 ether;
+  uint256 public cost = 100 ether;
   uint256 public maxSupply = 10000;
   uint256 public maxMintAmountPerTx = 5;
 

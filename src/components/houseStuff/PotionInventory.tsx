@@ -3,7 +3,7 @@ import { useAppSelector } from '../store/hooks';
 
 
 export const PotionInventory = () => {
-  const count = useAppSelector((state) => state);
+  const count = useAppSelector((state) => state.items);
   return (
 
     <div style={{

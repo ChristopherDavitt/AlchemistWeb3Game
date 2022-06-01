@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useAppSelector } from '../store/hooks';
 
 export const ItemInventory = () => {
-  const count = useAppSelector((state) => state);
+  const count = useAppSelector((state) => state.items);
   return (
     <div style={{backgroundColor: 'gray', opacity: '90'}} >
       <div style={{
