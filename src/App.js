@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { ethers, providers, getDefaultProvider, EtherscanProvider } from 'ethers';
 import { useAppDispatch, useAppSelector } from './components/store/hooks';
 import { store } from './components/store/store';
-import { tokenABI } from './components/assets/helpers/tokenABI';
-
+import { tokenABI } from './components/assets/abis/tokenABI';
+import { berryAddress } from './components/assets/contractAddresses/contractAddresses';
 
 export const App = () => {
     
@@ -26,6 +26,7 @@ export const App = () => {
             setErrorMessage(err.message);
         }
     }
+
 
     const handleChainChange = () => {
         window.location.reload()
@@ -71,15 +72,15 @@ export const App = () => {
     const connectWalletHandler = () => {
         if (connected === false){
             if (window.ethereum) {
-                if (window.ethereum.networkVersion != 137) {
+                if (window.ethereum.networkVersion != 4) {
                     handleNetworkSwitch('polygon')
                 } else {
                     window.ethereum.request({method: 'eth_requestAccounts'})
                     .then(result => {
                         setDefaultAccount(result[0]);
-                        getUserBalance(result[0]);
                         setConnButtonText(result[0].slice(0,6)+ '...');
                         setConnected(true);
+                        getUserBalance(result[0]);
                         console.log('Account Updated')
                     })
                 } 
@@ -99,16 +100,19 @@ export const App = () => {
         }
     }
 
-    const getUserBalance = (address) => {
+    const getUserBalance = async (address) => {
         const ethers = require('ethers')
-        const network = 'matic'
-        const provider = new ethers.providers.InfuraProvider(network)
-        provider.getBalance(address).then((balance) => {
-            // convert a currency unit from wei to ether
-            const balanceInEth = ethers.utils.formatEther(balance)
-            console.log(`balance: ${balanceInEth} ETH`)
-        })
+        const network = 'rinkeby'
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const berryContract = new ethers.Contract(berryAddress, tokenABI, provider)
+        try {
+            const berryBalance = await berryContract.balanceOf(address);
+            console.log(parseInt(berryBalance._hex, 16))
+        } catch (error) {
+            console.log(error)
+        }
     }
+
 
     // This was what it was, trying to find a way to implement contract calls to get token balances of multiple coins. 
 

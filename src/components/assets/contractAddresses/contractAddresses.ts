@@ -1,0 +1,1 @@
+export const berryAddress = '0xEa7b7Aaac01efdc35880D8497d2379A1D603d175'

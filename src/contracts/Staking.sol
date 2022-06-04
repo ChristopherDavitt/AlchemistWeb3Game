@@ -10,8 +10,6 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 contract Staking is ERC721Holder, Ownable {
     // These are the contract addresses for each potion and NFT contract for staking
     IERC721 public nft;
-    // Potions must be burned after use. NFT potion contracts are burnable
-    IERC721 public potion;
 
     // Add ERC20 tokens available for each area
     IERC20 public berry;
@@ -21,6 +19,7 @@ contract Staking is ERC721Holder, Ownable {
     mapping(uint256 => address) public tokenOwnerOf;
     mapping(uint256 => address) public potionOwnerOf;
     mapping(uint256 => uint256) public tokenStakedAt;
+    mapping(address => uint256[]) public listOfNftStaked;
 
     constructor(address _nft, address _berry, address _grape) {
         nft = IERC721(_nft);
@@ -32,6 +31,7 @@ contract Staking is ERC721Holder, Ownable {
         nft.safeTransferFrom(msg.sender, address(this), tokenId);
         tokenOwnerOf[tokenId] = msg.sender;
         tokenStakedAt[tokenId] = block.timestamp;
+        listOfNftStaked[msg.sender].push(tokenId);
     }
 
     function createRandom(uint number) public returns(uint){
@@ -56,7 +56,26 @@ contract Staking is ERC721Holder, Ownable {
         }
 
         nft.transferFrom(address(this), msg.sender, tokenId);
+        removeNFT(tokenId, msg.sender);
         delete tokenOwnerOf[tokenId];
         delete tokenStakedAt[tokenId];
+    }
+
+    function remove(uint256 _index, address _sender) internal {
+        listOfNftStaked[_sender][_index] =  listOfNftStaked[_sender][listOfNftStaked[_sender].length - 1];
+        listOfNftStaked[_sender].pop();
+    }
+
+    function removeNFT(uint256 _tokenId, address _sender) internal {
+        for (uint256 i=0; i< listOfNftStaked[_sender].length; i++){
+            if (listOfNftStaked[_sender][i] == _tokenId) {
+                remove(i, _sender);
+                return;
+            }
+        }
+    }
+
+    function getMapping(address _sender) public view returns(uint256[] memory) {
+        return listOfNftStaked[_sender];
     }
 }
