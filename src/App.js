@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { ethers, providers, getDefaultProvider, EtherscanProvider } from 'ethers';
 import { useAppDispatch, useAppSelector } from './components/store/hooks';
 import { store } from './components/store/store';
-import { tokenABI } from './components/assets/abis/tokenABI';
-import { berryAddress } from './components/assets/contractAddresses/contractAddresses';
+import { tokenABI, potionBrewABI, alchemistABI, stakingABI, creatureABI } from './components/assets/abis/tokenABI';
+import { berryAddress, AlchemistNFTAddress, grapeAddress, fungusAddress, potion1Address,
+     potion2Address, potion3Address, creature1Address, creature2Address, creature3Address, 
+     nftStakingAddress } from './components/assets/contractAddresses/contractAddresses';
+import { networks } from './components/assets/helpers/networks';
 
 export const App = () => {
     
@@ -12,6 +15,17 @@ export const App = () => {
     const [defaultAccount, setDefaultAccount] = useState(null);
     const [userBalance, setUserBalance] = useState(0.0);
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+
+    const handleChainChange = () => {
+        window.location.reload()
+    }
+
+    const dispatch = useAppDispatch();
+    
+    const handleNetworkSwitch = async (networkName) => {
+        setErrorMessage();
+        await changeNetwork({ networkName, setErrorMessage })
+    }
     
     const changeNetwork = async ({ networkName, setErrorMessage }) => {
         try {
@@ -27,51 +41,10 @@ export const App = () => {
         }
     }
 
-
-    const handleChainChange = () => {
-        window.location.reload()
-    }
-
-    const count = store.getState()
-    const dispatch = useAppDispatch();
-
-    const networks = {
-        polygon: {
-          chainId: `0x${Number(137).toString(16)}`,
-          chainName: "Polygon Mainnet",
-          nativeCurrency: {
-            name: "MATIC",
-            symbol: "MATIC",
-            decimals: 18
-          },
-          rpcUrls: ["https://polygon-rpc.com/"],
-          blockExplorerUrls: ["https://polygonscan.com/"]
-        },
-        mumbai: {
-          chainId: `0x${Number(80001).toString(16)}`,
-          chainName: "Polygon Testnet Mumbai",
-          nativeCurrency: {
-            name: "MATIC",
-            symbol: "MATIC",
-            decimals: 18
-          },
-          rpcUrls: [
-            "https://matic-mumbai.chainstacklabs.com",
-            "https://rpc-mumbai.maticvigil.com",
-            "https://matic-testnet-archive-rpc.bwarelabs.com"
-            ],
-          blockExplorerUrls: ["https://mumbai.polygonscan.com"]
-        }
-      };
-
-    const handleNetworkSwitch = async (networkName) => {
-        setErrorMessage();
-        await changeNetwork({ networkName, setErrorMessage })
-    }
-
     const connectWalletHandler = () => {
         if (connected === false){
             if (window.ethereum) {
+                // Trigger network switch
                 if (window.ethereum.networkVersion != 4) {
                     handleNetworkSwitch('polygon')
                 } else {
@@ -80,22 +53,25 @@ export const App = () => {
                         setDefaultAccount(result[0]);
                         setConnButtonText(result[0].slice(0,6)+ '...');
                         setConnected(true);
+                        dispatch({type: 'CONNECT_WALLET'});
                         getUserBalance(result[0]);
                         console.log('Account Updated')
                     })
                 } 
             } else {
                 setConnected(false);
+                dispatch({type: 'DISCONNECT_WALLET'});
                 setDefaultAccount('');
                 setUserBalance(0.0);
-                dispatch({type: 'UPDATE_ITEMS', payload: 0})
+                dispatch({type: 'UPDATE_ITEMS', payload: {} });
                 setConnButtonText('Connect Wallet'); 
             }
         } else {
             setConnected(false);
+            dispatch({type: 'DISCONNECT_WALLET'});
             setDefaultAccount('');
             setUserBalance(0.0);
-            dispatch({type: 'UPDATE_ITEMS', payload: 0})
+            dispatch({type: 'UPDATE_ITEMS', payload: {} });
             setConnButtonText('Connect Wallet'); 
         }
     }
@@ -105,27 +81,85 @@ export const App = () => {
         const network = 'rinkeby'
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const berryContract = new ethers.Contract(berryAddress, tokenABI, provider)
+        const grapeContract = new ethers.Contract(grapeAddress, tokenABI, provider)
+        const fungusContract = new ethers.Contract(fungusAddress, tokenABI, provider)
+        const nftStakingContract = new ethers.Contract(nftStakingAddress, stakingABI, provider)
+        const alchemistNFTContract = new ethers.Contract(AlchemistNFTAddress, potionBrewABI, provider)
+        const creature1Contract = new ethers.Contract(creature1Address, creatureABI, provider)
+        const creature2Contract = new ethers.Contract(creature2Address, creatureABI, provider)
+        const creature3Contract = new ethers.Contract(creature3Address, creatureABI, provider)
+        const potion1Contract = new ethers.Contract(potion1Address, potionBrewABI, provider)
+        const potion2Contract = new ethers.Contract(potion2Address, potionBrewABI, provider)
+        const potion3Contract = new ethers.Contract(potion3Address, potionBrewABI, provider)
+        
         try {
             const berryBalance = await berryContract.balanceOf(address);
-            console.log(parseInt(berryBalance._hex, 16))
+            const grapeBalance = await grapeContract.balanceOf(address);
+            const fungusBalance = await fungusContract.balanceOf(address);
+            const itemObject = {
+                berry: parseInt(berryBalance._hex, 16),
+                grape: parseInt(grapeBalance._hex, 16),
+                fungus: parseInt(fungusBalance._hex, 16),
+            }
+            dispatch({type: 'UPDATE_ITEMS', payload: itemObject})
         } catch (error) {
-            console.log(error)
+            console.log('Gettings Items' + error)
         }
+        try {
+            const creature1Balance = await creature1Contract.balanceOf(address);
+            const creature2Balance = await creature2Contract.balanceOf(address);
+            const creature3Balance = await creature3Contract.balanceOf(address);
+            console.log('Creature 1 Balance' + creature1Balance)
+            const creatureObject = {
+                Boog: parseInt(creature1Balance._hex, 16),
+                Asriel: parseInt(creature2Balance._hex, 16),
+                Garchud: parseInt(creature3Balance._hex, 16),
+            }
+            dispatch({type: 'UPDATE_CREATURES', payload: creatureObject})
+        } catch (error) {
+            console.log('Gettings Creatures' + error)
+        }
+        try {
+            const potion1Balance = await potion1Contract.balanceOf(address);
+            const potion2Balance = await potion2Contract.balanceOf(address);
+            const potion3Balance = await potion3Contract.balanceOf(address);
+            console.log('Potion 1 Balance' + potion1Balance)
+            const potionObject = {
+                potion1: parseInt(potion1Balance._hex, 16),
+                potion2: parseInt(potion2Balance._hex, 16),
+                potion3: parseInt(potion3Balance._hex, 16),
+            }
+            dispatch({type: 'UPDATE_POTIONS', payload: potionObject})
+        } catch (error) {
+            console.log('Gettings Potions ' + error)
+        }
+        try {
+            const nftStakingBalance = await nftStakingContract.getMapping(address);
+            console.log('GetMapping of Staked Stuff: ' + nftStakingBalance)
+            const nftStakedObject = {
+                forest: parseInt(nftStakingBalance._hex, 16),
+            }
+            dispatch({type: 'NFTS_STAKED', payload: nftStakedObject})
+        } catch (error) {
+            console.log('Gettings NFT Staked ' + error)
+        }
+        try {
+            const nftBalance = await alchemistNFTContract.balanceOf(address);
+            console.log('Getting Available NFTs: ' + nftBalance)
+            const nftbalanceObject = {
+                nfts: parseInt(nftBalance._hex, 16),
+            }
+            dispatch({type: 'NFTS_AVAIL', payload: nftbalanceObject})
+        } catch (error) {
+            console.log('Gettings NFTs ' + error)
+        }
+
     }
-
-
-    // This was what it was, trying to find a way to implement contract calls to get token balances of multiple coins. 
-
-    // window.ethereum.request({method: 'eth_getBalance', params: [address, 'latest']})
-    //     .then(balance => {
-    //         setUserBalance(ethers.utils.formatEther(balance));
-    //         dispatch({type: 'UPDATE_ITEMS', payload: ethers.utils.formatEther(balance)})
-    //         console.log('Retrieving Wallet Contents')
-    //         console.log(count)
-    //     });
   
+
     window.ethereum.on('accountsChanged', connectWalletHandler)
     window.ethereum.on('chainChanged', handleChainChange)
+    
 
     return (
         

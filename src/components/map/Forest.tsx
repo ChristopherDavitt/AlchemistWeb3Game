@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 
-export const Forest =()=> {
-    const count = useAppSelector((state)=> state.items)
+export const Forest = () => {
+    
+  const nftCount = useAppSelector((state) => state.nftStaked)
+  const potionCount = useAppSelector((state) => state.potions)
+
     return (
       <div style={{
         display: 'grid',
@@ -19,8 +22,8 @@ export const Forest =()=> {
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr'
             }}>
-                <h4 style={{color:'white'}}>NFT Staked: {count}</h4>
-                <h4 style={{color:'white'}}>Potion Staked: {count}</h4>
+                <h4 style={{color:'white'}}>NFT Staked: {nftCount.forest}</h4>
+                <h4 style={{color:'white'}}>Potion Staked: {potionCount.potion1}</h4>
                 <button>Stake NFT</button>
                 <button>Stake Potion</button>
             </div>

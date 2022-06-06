@@ -30,7 +30,7 @@ code {
   height: 5em;
   border: solid 9px rgb(46, 44, 48);
   background-color: rgb(255, 240, 27);
-  cursor: pointer
+  cursor: pointer;
 }
 
 .auth{
@@ -70,5 +70,5 @@ code {
   text-decoration: none;
 }
 .minter-h {
-  color: white
+  color: white;
 }

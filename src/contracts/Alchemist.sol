@@ -19,8 +19,9 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract SimpleNftLowerGas is ERC721, Ownable {
+contract Alchemist is ERC721, Ownable, ERC721Enumerable{
   using Strings for uint256;
   using Counters for Counters.Counter;
 
@@ -30,7 +31,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
   string public uriSuffix = ".json";
   string public hiddenMetadataUri;
   
-  uint256 public cost = 20 ether;
+  uint256 public cost = 0 ether;
   uint256 public maxSupply = 10000;
   uint256 public maxMintAmountPerTx = 5;
 

@@ -34,9 +34,9 @@ contract PotionStaking is ERC721, ERC721Holder, Ownable {
         require(tokenStakedAt[tokenId] + 60 seconds < block.timestamp, "Not Done With Quest Yet");
 
         // Mint the new Creature
-        uint256 tokenId = _tokenIdCounter.current();
+        uint256 creatureId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _safeMint(msg.sender, tokenId);
+        _safeMint(msg.sender, creatureId);
 
         // Using OpenZeppelins burn() Function
         selectivePotion.burn(tokenId);

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 
 export const Swamp =()=>{
-    const count = useAppSelector((state)=> state.items)
+    const nftCount = useAppSelector((state) => state.nftStaked)
+    const potionCount = useAppSelector((state) => state.potions)
+
     return (
         <div style={{
             display: 'grid',
@@ -19,8 +21,8 @@ export const Swamp =()=>{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr'
             }}>
-                <h4 style={{color:'white'}}>NFT Staked: {count}</h4>
-                <h4 style={{color:'white'}}>Potion Staked: {count}</h4>
+                <h4 style={{color:'white'}}>NFT Staked:</h4>
+                <h4 style={{color:'white'}}>Potion Staked:</h4>
                 <button>Stake NFT</button>
                 <button>Stake Potion</button>
             </div>
