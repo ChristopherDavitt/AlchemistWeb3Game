@@ -21,9 +21,7 @@ export const Nursery =()=> {
                 gridTemplateColumns: '1fr 1fr'
             }}>
                 <h4 style={{color:'white'}}>Creatures Found</h4>
-                <h4 style={{color:'white'}}>Booj : {count.Boog}</h4>
-                <h4 style={{color:'white'}}>Arluis : {count.Asriel}</h4>
-                <h4 style={{color:'white'}}>Garchud : {count.Garchud}</h4>
+                
             </div>
             <br></br>
             <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>

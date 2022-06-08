@@ -10,8 +10,8 @@ export default class Home extends Component {
           display:'grid',
           justifyContent: 'center',
           backgroundImage: `url(${landingGif})`,
-          width: '99vw',
-          height: 'calc(100vh - 50px)',
+          width: 'calc(100vw)',
+          height: 'calc(100vh - 93px)',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',          
       }}>
@@ -21,7 +21,7 @@ export default class Home extends Component {
           display:'grid',
           position: 'absolute',
           top: '100px',
-          left: 'calc(50% - 220px)'
+          left: 'calc(50% - 205px)'
       }} />
         <div style={{
             display: "grid",

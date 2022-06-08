@@ -1,11 +1,12 @@
 import { legacy_createStore } from "redux";
 
-const reducer = (state = { creatures: {Boog: 0, Asriel: 0, Garchud: 0},
-    items: {berry: 0, grape: 0, fungus: 0},
-    potions: {potion1: 0, potion2: 0, potion3: 0}, 
-    nftStaked: {forest: 0},
-    nfts: {nfts: 0}, 
-    connected: false }, action:any) => {
+const reducer = (state = { creatures: [],
+    items: [],
+    potions: [], 
+    nftStaked: {forest: [] },
+    nfts: 0, 
+    connected: false,
+    address: '0x0000000000000000000000000000000000000000' }, action:any) => {
   switch (action.type) {
     case "UPDATE_CREATURES":
       return {...state, creatures: action.payload};
@@ -19,6 +20,8 @@ const reducer = (state = { creatures: {Boog: 0, Asriel: 0, Garchud: 0},
       return {...state, nfts: action.payload};
     case "CONNECT_WALLET":
       return {...state, connected: true};
+    case "UPDATE_ADDRESS":
+      return {...state, address: action.payload};
     case "DISCONNECT_WALLET":
       return {...state, connected: false};
     default:

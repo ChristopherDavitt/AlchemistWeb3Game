@@ -54,6 +54,7 @@ export const App = () => {
                         setConnButtonText(result[0].slice(0,6)+ '...');
                         setConnected(true);
                         dispatch({type: 'CONNECT_WALLET'});
+                        dispatch({type: 'UPDATE_ADDRESS', payload: result[0]});
                         getUserBalance(result[0]);
                         console.log('Account Updated')
                     })
@@ -61,6 +62,7 @@ export const App = () => {
             } else {
                 setConnected(false);
                 dispatch({type: 'DISCONNECT_WALLET'});
+                dispatch({type: 'UPDATE_ADDRESS', payload: '0x0000000000000000000000000000000000000000'});
                 setDefaultAccount('');
                 setUserBalance(0.0);
                 dispatch({type: 'UPDATE_ITEMS', payload: {} });
@@ -69,6 +71,7 @@ export const App = () => {
         } else {
             setConnected(false);
             dispatch({type: 'DISCONNECT_WALLET'});
+            dispatch({type: 'UPDATE_ADDRESS', payload: '0x0000000000000000000000000000000000000000'});
             setDefaultAccount('');
             setUserBalance(0.0);
             dispatch({type: 'UPDATE_ITEMS', payload: {} });
@@ -96,11 +99,11 @@ export const App = () => {
             const berryBalance = await berryContract.balanceOf(address);
             const grapeBalance = await grapeContract.balanceOf(address);
             const fungusBalance = await fungusContract.balanceOf(address);
-            const itemObject = {
-                berry: parseInt(berryBalance._hex, 16),
-                grape: parseInt(grapeBalance._hex, 16),
-                fungus: parseInt(fungusBalance._hex, 16),
-            }
+            const itemObject = [
+                parseInt(berryBalance._hex, 16),
+                parseInt(grapeBalance._hex, 16),
+                parseInt(fungusBalance._hex, 16),
+            ]
             dispatch({type: 'UPDATE_ITEMS', payload: itemObject})
         } catch (error) {
             console.log('Gettings Items' + error)
@@ -110,11 +113,11 @@ export const App = () => {
             const creature2Balance = await creature2Contract.balanceOf(address);
             const creature3Balance = await creature3Contract.balanceOf(address);
             console.log('Creature 1 Balance' + creature1Balance)
-            const creatureObject = {
-                Boog: parseInt(creature1Balance._hex, 16),
-                Asriel: parseInt(creature2Balance._hex, 16),
-                Garchud: parseInt(creature3Balance._hex, 16),
-            }
+            const creatureObject = [
+                parseInt(creature1Balance._hex, 16),
+                parseInt(creature2Balance._hex, 16),
+                parseInt(creature3Balance._hex, 16),
+            ]
             dispatch({type: 'UPDATE_CREATURES', payload: creatureObject})
         } catch (error) {
             console.log('Gettings Creatures' + error)
@@ -124,20 +127,22 @@ export const App = () => {
             const potion2Balance = await potion2Contract.balanceOf(address);
             const potion3Balance = await potion3Contract.balanceOf(address);
             console.log('Potion 1 Balance' + potion1Balance)
-            const potionObject = {
-                potion1: parseInt(potion1Balance._hex, 16),
-                potion2: parseInt(potion2Balance._hex, 16),
-                potion3: parseInt(potion3Balance._hex, 16),
-            }
+            const potionObject = [
+                parseInt(potion1Balance._hex, 16),
+                parseInt(potion2Balance._hex, 16),
+                parseInt(potion3Balance._hex, 16),
+            ]
             dispatch({type: 'UPDATE_POTIONS', payload: potionObject})
         } catch (error) {
             console.log('Gettings Potions ' + error)
         }
         try {
             const nftStakingBalance = await nftStakingContract.getMapping(address);
-            console.log('GetMapping of Staked Stuff: ' + nftStakingBalance)
+            const newArray = [];
+            nftStakingBalance.forEach((e) => newArray.push(parseInt(e._hex, 16)))
+            console.log(newArray)
             const nftStakedObject = {
-                forest: parseInt(nftStakingBalance._hex, 16),
+                forest: newArray,
             }
             dispatch({type: 'NFTS_STAKED', payload: nftStakedObject})
         } catch (error) {
