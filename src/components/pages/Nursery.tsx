@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { creature1Address } from '../assets/contractAddresses/contractAddresses';
 import { useAppSelector } from '../store/hooks';
@@ -16,7 +16,80 @@ export const Nursery =()=> {
         "Icegol", "Lyr", "Engui", "Pubear", "Snuphex", "Walrax", "Moog", "Sussky"   // Tundra
     ]
 
+    const descriptionDict = [
+        "Hoppy creature that likes to eat small fruits. Found in Forest.",
+        "Somewhat Like a bunny, but much smaller, and likes to spend time underground in the root systems of trees. Found in Forest",
+        "Flying creature that has strong wings, and an even stronger beak. Spends time high up in trees. Found in Forest"
+    ]
+
+    const [width, setWindowWidth] = useState(0)
+    const [mobile, setMobile] = useState(false)
+
     const count = useAppSelector((state)=> state.creatures)
+
+    const [name, setName] = useState<string>('???')
+    const [description, setDescription] = useState<string>('Unknown')
+    const [idView, setIdView] = useState<string>('#0')
+    const [idNumber, setIdNumber] = useState<string>('0')
+    const [hiddenArray, setHiddenArray] = useState<boolean[]>([])
+    const [creatures, setCreatures] = useState(false)
+    
+    // Image should correlate to the ipfs ID number
+    const [image, setImage] = useState<string>('')
+
+    useEffect(() => {
+        const boolArray = []
+        for (let i=0; i< count.length; i++) {
+            if (count[i] > 0){
+                boolArray.push(true)
+            } else {
+                boolArray.push(false)
+            }
+        }
+        console.log('bool array rerendered')
+        setHiddenArray(boolArray);
+        updateDimensions();
+
+        window.addEventListener("resize", updateDimensions);
+        return () => 
+            window.removeEventListener("resize",updateDimensions);
+        }, [])
+
+    const updateDimensions = () => {
+        const width = window.innerWidth
+        if (width < 767) {
+            setMobile(true)
+        } else {
+            setMobile(false)
+        }
+        setWindowWidth(width)
+        console.log('editing dimendions')
+    }
+
+    const handleCreatureState = (index: number) => {
+        
+        if (count[index] > 0) {
+            setName(creatureDict[index])
+            setIdView(`#${index+1}`)
+            setDescription(descriptionDict[index])
+            setIdNumber(String(index));
+        } else {
+            setName('???');
+            setIdView('#0');
+            setDescription('Unknown');
+            setIdNumber(String(index));
+        }
+
+    }
+
+    const findRegexMatch = (str: string) => {
+        const reg = /\d{1,2}/;
+        return str.match(reg)
+    }
+
+    const toggleShowCreatures = () => {  
+        setCreatures(!creatures)
+    }
 
     return (
         <div style={{
@@ -25,29 +98,37 @@ export const Nursery =()=> {
             alignItems: 'center',
             }}>
             
-            <h1 style={{color: 'white', textAlign: 'center'}}>Welcome to the Nursery</h1>
-            <div style={{
+            <h1 style={{color: 'white', textAlign: 'center'}}>{!mobile && 'Welcome to the '} Nursery</h1>
+            <div style={!mobile ? {
                 display: 'grid',
                 gridTemplateColumns: '1fr 3fr',
                 gap: '0.5rem'
-                }}>
-                <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
+                } : {display: 'grid'}}>
+                    
+                {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
                     {count.map((value: number, index: number) => 
                     // On click here, change state variables to pass through into the creatureBio
-                        <div style={{display: 'flex', color: 'white', justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
-                            <h6>{creatureDict[index]} </h6>
+                        <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
+                            {!hiddenArray[index] ? <h6>???</h6> : <h6>{creatureDict[index]}</h6> }
                             <h6>#{index + 1}</h6>
                         </div>
                     )}
-                </div>
+                </div> : null}
                 
-                <div className='creature-bio' style={{border: 'solid 2px white', height: '400px', display: 'grid', justifyItems: 'center',  }} >
-                        
-                    <h4>Ghiblun</h4>
+
+                <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto', width: '500px' ,height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
+  
+                    {/* ipfs://fdfahvur/{id}.json */}
+                    {!mobile ?  <h4>{name}</h4> : <select onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
+                        {count.map((value: number, index: number) => 
+                            <option key={index} value={!hiddenArray[index] ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
+                                {!hiddenArray[index] ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
+                        )}
+                    </select>  }
+
                     <img src='https://via.placeholder.com/150' alt='creature-image' />
-                    
-                    <div style={{width: '500px'}}>
-                        <p style={{fontSize: '12px'}}>Description: This is a description of the creature </p>
+                    <div style={{padding: '10px'}}>
+                        <p style={{fontSize: '12px' }}>Description: {description} </p>
                     </div>
                 </div>
                 

@@ -37,6 +37,8 @@ export default function House() {
         }}>
             { potions && <PopUp handleClose={handlePotionToggle} content={<PotionInventory />} /> }
             { items && <PopUp handleClose={handleItemToggle} content={<ItemInventory />} /> }
+
+            
             <div style={{
                 position: 'fixed',
                 left: 'calc(50% - 575px)',

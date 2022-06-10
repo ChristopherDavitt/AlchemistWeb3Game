@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import {PotionBrew} from '../popups/PotionBrew';
 import { potion3Address, potion1Address, potion2Address } from '../assets/contractAddresses/contractAddresses';
+import Popup from '../popups/PopUp';
 
 export const AlchemyStation = () => {
     const potionCount = useAppSelector((state) => state.potions)
@@ -15,6 +16,8 @@ export const AlchemyStation = () => {
     const [potionAddress, setPotionAddress] = useState<string>()
     const [name, setName] = useState<string>()
     const [itemNameProps, setItemNameProps] = useState<string[]>()
+    const [id, setId] = useState<number>()
+    const [itemIds, setItemIds] = useState<number[]>()
 
     const potionAddresses = [
         potion1Address,
@@ -56,12 +59,14 @@ export const AlchemyStation = () => {
                 itemNames.push(itemNameDict[potionDict[index][i]])
             }
         }
+        setItemIds(potionDict[index])
         setSeletedPotionIngredients(boolArray)
         setBrewable(brewable)
         setCosts(costArray)
         setPotionAddress(potionAddresses[index])
         setName(potionNameDict[index])
         setItemNameProps(itemNames)
+        setId(index+1)
         setPopUp(true)
     }
 
@@ -69,22 +74,9 @@ export const AlchemyStation = () => {
 
     return (
         <div style={{display: 'grid', justifyItems: 'center', alignItems: 'center' }}>
-            { popUp ? <><button style={{position: 'fixed',
-                                        border: 'solid 2px black',
-                                        backgroundColor: 'black',
-                                        color: 'white',
-                                        cursor: 'pointer',
-                                        top: '70px',
-                                        left: 'calc(100% - 65px)',
-                                        fontSize: '30px',
-                                        zIndex: '1000'}} onClick={handlePopUpClose}>X</button><PotionBrew 
-                                                                                                boolArray={selectedPotionIngredients}
-                                                                                                contractAddress={potionAddress}
-                                                                                                costArray={costs}
-                                                                                                name={name} 
-                                                                                                brewable={potionBrewable}
-                                                                                                itemName={itemNameProps}
-                                                                                                 /></> : null }
+            { popUp && <Popup handleClose={handlePopUpClose} content={<PotionBrew boolArray={selectedPotionIngredients} 
+                                         contractAddress={potionAddress} costArray={costs} id={id} itemIds={itemIds}
+                                         name={name} brewable={potionBrewable} itemName={itemNameProps} />}/> }
             <h1 style={{color: 'white', textAlign: 'center'}}>Recipe Book</h1>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                 {potionCount.map((value: number, index: number) => 

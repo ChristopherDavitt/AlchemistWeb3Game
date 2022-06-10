@@ -20,7 +20,7 @@ export default class Home extends Component {
           justifyContent: 'center',
           display:'grid',
           position: 'absolute',
-          top: '100px',
+          top: 'calc(50% - 200px)',
           left: 'calc(50% - 205px)'
       }} />
         <div style={{
@@ -29,8 +29,8 @@ export default class Home extends Component {
             alignContent: "flex-start",
             gap: '0.5rem',
             position: 'absolute',
-            top: '380px',
-            left: 'calc(50%)'
+            top: 'calc(50% + 50px)',
+            left: 'calc(50% + 10px)'
             
         }}>
           <Link to="/minter" className='auth'>
