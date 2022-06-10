@@ -151,10 +151,15 @@ export const App = () => {
         try {
             const nftBalance = await alchemistNFTContract.balanceOf(address);
             console.log('Getting Available NFTs: ' + nftBalance)
-            const nftbalanceObject = {
-                nfts: parseInt(nftBalance._hex, 16),
+            
+            const tokenIdArray = []
+            for (let i=0; i<parseInt(nftBalance._hex, 16); i++) {
+                const tokenId = await alchemistNFTContract.tokenOfOwnerByIndex(address, i)
+                tokenIdArray.push(parseInt(tokenId._hex, 16))
             }
-            dispatch({type: 'NFTS_AVAIL', payload: nftbalanceObject})
+
+            console.log(tokenIdArray)
+            dispatch({type: 'NFTS_AVAIL', payload: tokenIdArray})
         } catch (error) {
             console.log('Gettings NFTs ' + error)
         }
@@ -168,7 +173,7 @@ export const App = () => {
 
     return (
         
-        <div style={{display: 'flex', justifyContent: 'right', padding: '0.2em'}}>
+        <div style={{display: 'flex', justifyContent: 'right', padding: '0.2em'}} >
             <button style={{
                 width: '140px',
                 height: '40px',

@@ -15,7 +15,7 @@ import {Ocean} from './components/map/Ocean';
 import {Swamp} from './components/map/Swamp';
 import {Tundra} from './components/map/Tundra';
 import { Caves } from './components/map/Caves';
-import { House } from './components/pages/House';
+import House from './components/pages/House';
 import { App } from './App';
 import { Nursery } from './components/pages/Nursery';
 import { AlchemyStation } from './components/houseStuff/AlchemyStation';

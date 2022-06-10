@@ -5,8 +5,9 @@ import homeImage from '../assets/images/House.png'
 import { AlchemyStation }from '../houseStuff/AlchemyStation'
 import { ItemInventory } from '../houseStuff/ItemInventory'
 import { PotionInventory } from '../houseStuff/PotionInventory'
+import PopUp from '../popups/PopUp';
 
-export const House = () => {
+export default function House() {
     
     const [potions, setPotions] = useState(false)
     const [items, setItems] = useState(false)
@@ -34,24 +35,8 @@ export const House = () => {
             width: '100vw',
             height: 'calc(100vh - 70px)'
         }}>
-            { potions ? <><button style={{position: 'fixed',
-                                        border: 'solid 2px black',
-                                        backgroundColor: 'black',
-                                        color: 'white',
-                                        cursor: 'pointer',
-                                        top: '70px',
-                                        left: 'calc(100% - 65px)',
-                                        fontSize: '30px',
-                                        zIndex: '1000'}} onClick={handlePotionToggle}>X</button><PotionInventory /></> : null }
-            { items ? <><button style={{position: 'fixed',
-                                        border: 'solid 2px black',
-                                        backgroundColor: 'black',
-                                        color: 'white',
-                                        cursor: 'pointer',
-                                        top: '70px',
-                                        left: 'calc(100% - 65px)',
-                                        fontSize: '30px',
-                                        zIndex: '1000'}} onClick={handleItemToggle}>X</button><ItemInventory /></> : null }
+            { potions && <PopUp handleClose={handlePotionToggle} content={<PotionInventory />} /> }
+            { items && <PopUp handleClose={handleItemToggle} content={<ItemInventory />} /> }
             <div style={{
                 position: 'fixed',
                 left: 'calc(50% - 575px)',
@@ -74,7 +59,7 @@ export const House = () => {
                 <h4 onClick={handleItemToggle} className='map-h4'>Item Inventory</h4>
             </div>
             <div style={{
-                position: 'fixed',
+                position: 'absolute',
                 left: 'calc(50% - 205px)',
                 top: 'calc(50% - 40px)'
             }} className='house-div'>

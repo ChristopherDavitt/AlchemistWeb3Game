@@ -4,7 +4,7 @@ const reducer = (state = { creatures: [],
     items: [],
     potions: [], 
     nftStaked: {forest: [] },
-    nfts: 0, 
+    nfts: [], 
     connected: false,
     address: '0x0000000000000000000000000000000000000000' }, action:any) => {
   switch (action.type) {
