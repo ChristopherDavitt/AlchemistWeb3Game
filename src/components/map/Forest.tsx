@@ -1,16 +1,21 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Countdown from 'react-countdown';
+
 import { useAppSelector } from '../store/hooks';
 import { stakingABI, alchemistABI } from '../assets/abis/tokenABI';
 import { nftStakingAddress, AlchemistNFTAddress } from '../assets/contractAddresses/contractAddresses';
 import { QuestPopUp } from '../popups/QuestPopUp'
 import Popup from '../popups/PopUp';
+import { count } from 'console';
+
+
 
 export const Forest = () => {
 
   const [addingPotion, setAddingPotion] = useState(false)
   const [stakingNFT, setStakingNFT] = useState(false)
-  const [tokenIdArray, setTokenIdArray] = useState<any[]>([])
+  const [tokenIdArray, setTokenIdArray] = useState<number[]>([])
   const [unstakeArray, setUnstakeArray] = useState<boolean[]>([])
   const [questBool, setQuest] = useState(false)
 
@@ -24,17 +29,29 @@ export const Forest = () => {
   useEffect(() => {
     console.log('Use Effect Called')
     getTimeStaked();
-    // getPotionStaked();
   }, [nftCount])
 
+  const handleTimeChange = (val:number) => {
+    setTokenIdArray(prevState => [...prevState, val]);
+  }
+  const handleBoolChange = (val:boolean) => {
+    setUnstakeArray(prevState => [...prevState, val]);
+  }
+
+  const handleStateChange = (timeArray: number[], boolArray: boolean[]) => {
+    setTokenIdArray(timeArray);
+    setUnstakeArray(boolArray);
+  }
+
   const getTimeStaked = async () => {
+
+    // State Arrays
+    var timeArray: number[] = []
+    var boolArray: boolean[] = []
+
     const date = new Date()
     const time = Math.round(date.getTime() / 1000)
     console.log('Time since epoch ' + time)
-
-    // to be used for state Changes
-    const tokenTimeArray:any[] = [];
-    const unstakeBoolArray: any[] = [];
 
     const questTime = 60
     const ethers = require('ethers')
@@ -43,18 +60,20 @@ export const Forest = () => {
     const stakingContract = new ethers.Contract(nftStakingAddress, stakingABI, provider)
     for (var i = 0; i < nftCount.length; i++) {
       const timeLeft = await stakingContract.tokenStakedAt(nftCount[i])
-      console.log("Block.timestamp " + parseInt(timeLeft._hex, 16))
-      if (questTime - time - parseInt(timeLeft._hex, 16) < 0) {
-        tokenTimeArray.push('Done')
-        unstakeBoolArray.push(true)
+      console.log("Block.timestamp " + parseInt(timeLeft._hex, 16));
+      if (parseInt(timeLeft._hex, 16) + questTime < time) {
+        boolArray.push(true)
+        timeArray.push(0)
+
       } else {
-        tokenTimeArray.push(String(time - parseInt(timeLeft._hex, 16) + questTime))
-        unstakeBoolArray.push(false)
+        timeArray.push(questTime - (time - parseInt(timeLeft._hex, 16)));
+        boolArray.push(false)  
       }
     }
-    setTokenIdArray(tokenTimeArray)
-
+    handleStateChange(timeArray, boolArray)
   }
+
+
 
   // const getPotionStaked = async () => {
   //   const ethers = require('ethers')
@@ -103,6 +122,24 @@ export const Forest = () => {
       alert("Already Unstaked, or Not Done With Quest")
     }
   }
+    // Random component
+  const Completionist = () => <span>Done!</span>;
+
+  // Renderer callback with condition
+  const renderer = ({ hours, minutes, seconds, completed }: {
+    hours: number,
+    minutes: number, 
+    seconds: number,
+    completed: any
+  }) => {
+    if (completed) {
+      // Render a completed state
+      return <Completionist />;
+    } else {
+      // Render a countdown
+      return <span>{hours}:{minutes}:{seconds}</span>;
+    }
+  };
 
   const handleQuestClose = () => {
     setQuest(false)
@@ -112,17 +149,9 @@ export const Forest = () => {
     return (
       <>
         {questBool && <Popup content={<QuestPopUp nftArray={nftArray} contractAddress={nftStakingAddress} />} handleClose={handleQuestClose} />}   
-        <div style={{
-          display: 'grid',
-          justifyItems: 'center',
-          alignItems: 'center',
-          }}>
+        <div style={{display: 'grid',justifyItems: 'center',alignItems: 'center', }}>
             <h1 style={{color: 'white'}}>Explore the Forest</h1>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: '1rem'
-            }}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem'}}>
                 <div>
                   <div style={{display: 'flex', gap: '2rem'}}>
                     <button onClick={() => setQuest(true)}>Go On Quest</button>
@@ -135,14 +164,17 @@ export const Forest = () => {
                         <p>Potion</p>
                         <p>Quest Status</p>
                     </div>
-                    {nftCount.map((tokenId: number, index: number) => 
-                      <div key={tokenId} style={{display: 'grid', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
-                        <p>#{tokenId}</p>
-                        <p>{tokenIdArray[index]}</p>
-                        <p></p>
+                    {tokenIdArray.map((tokenTime: number, index: number) => 
+                      <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
+                        <p><span style={{fontSize: '0px'}}>{tokenIdArray[index]}</span>#{nftCount[index]}</p>
+                        {!unstakeArray[index] ? 
+                         <Countdown
+                          date={Date.now() + (tokenTime * 1000)}
+                          renderer={renderer}/> : <p>Done!</p>}            
+                        <p>potion</p>
                         
                         {/* {!potionIdArray[index] ? <button onClick={addPotion(tokenId, potionIdArray[index])} >+</button> : <h6>{potionIdArray[index]}</h6>} */}
-                        {unstakeArray ? <button onClick={() => unstake(tokenId)}>Complete Quest</button> : <h6>Not Done With Quest</h6> }
+                        {!unstakeArray[index] ? <h6>Not Done With Quest</h6> : <button onClick={() => unstake(nftCount[index])}>Complete Quest</button>  }
                       </div>
                     )}
                   </div>
