@@ -11,17 +11,27 @@ export default function House() {
     
     const [potions, setPotions] = useState(false)
     const [items, setItems] = useState(false)
+    const [alchemy, setAlchemy] = useState(false)
 
     const handleItemToggle = () => {
         const bool = items
         setPotions(false)
+        setAlchemy(false)
         setItems(!bool)
     }
 
     const handlePotionToggle = () => {
         const bool = potions
         setItems(false)
+        setAlchemy(false)
         setPotions(!bool)
+    }
+
+    const handleAlchemyToggle = () => {
+        const bool = alchemy
+        setItems(false)
+        setPotions(false)
+        setAlchemy(!bool)
     }
 
 
@@ -37,14 +47,14 @@ export default function House() {
         }}>
             { potions && <PopUp handleClose={handlePotionToggle} content={<PotionInventory />} /> }
             { items && <PopUp handleClose={handleItemToggle} content={<ItemInventory />} /> }
-
+            { alchemy && <PopUp handleClose={handleAlchemyToggle} content={<AlchemyStation />} /> }
             
             <div style={{
                 position: 'fixed',
                 left: 'calc(50% - 575px)',
                 top: 'calc(50% + 8px)'
             }} className='house-div'>
-                <Link to="/app/house/alchemy-table" className='auth'><h4 className='map-h4'>Alchemy Table</h4></Link>
+                <h4 onClick={handleAlchemyToggle} className='map-h4'>Alchemy Table</h4>
             </div>
             <div style={{
                 position: 'fixed',

@@ -68,7 +68,7 @@ const updateDimensions = () => {
                 <img src={potionPic} alt="potion-pic" />
                 <p><sub><sub><sub>{potion}</sub></sub></sub></p>
               </div>
-              <p style={{fontSize:'12px'}}> <span></span>{potionDict[index]}</p>
+              <p style={{fontSize:'12px'}}>{potionDict[index]}</p>
             </div>
           )}
         </div>

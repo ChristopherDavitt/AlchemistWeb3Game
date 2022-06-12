@@ -73,20 +73,38 @@ export const AlchemyStation = () => {
     // For the potion pop-up, we need ingredient names, boolArray, costs, and brewable attribute
 
     return (
-        <div style={{display: 'grid', justifyItems: 'center', alignItems: 'center' }}>
+        <div style={{ width: '100%', height: '100%', backgroundColor: 'black',}}>
             { popUp && <Popup handleClose={handlePopUpClose} content={<PotionBrew boolArray={selectedPotionIngredients} 
                                          contractAddress={potionAddress} costArray={costs} id={id} itemIds={itemIds}
                                          name={name} brewable={potionBrewable} itemName={itemNameProps} />}/> }
+
             <h1 style={{color: 'white', textAlign: 'center'}}>Recipe Book</h1>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
+                         alignItems: 'center', justifyItems: 'left', maxWidth: '500px', margin: ' 10px auto'}}>
+                <p style={{fontSize:'12px'}}>Forest</p>
+                <input id='forest' type="checkbox" />
+                <p style={{fontSize:'12px'}}>Ocean</p>
+                <input id='ocean' type="checkbox" />
+                <p style={{fontSize:'12px'}}>Caves</p>
+                <input id='caves' type="checkbox" />
+                <p style={{fontSize:'12px'}}>Mountains</p>
+                <input id='mountain' type="checkbox" />
+                <p style={{fontSize:'12px'}}>Swamp</p>
+                <input id='swamp' type="checkbox" />
+                <p style={{fontSize:'12px'}}>Tundra</p>
+                <input id='tundra' type="checkbox" />
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', maxWidth: '520px', border: 'double 5px white', 
+                        paddingLeft: '0.5rem', justifyContent: 'center', alignItems: 'center', margin: '1rem auto'}}>
                 {potionCount.map((value: number, index: number) => 
-                    <div onClick={() => selectPotion(index)} key={index} style={{display: 'flex', cursor: 'pointer'}}>
-                        <h6>{potionNameDict[index]}</h6>
+                    <div onClick={() => selectPotion(index)} key={index} style={{display: 'flex', 
+                                                                                alignItems: 'center', 
+                                                                                cursor: 'pointer',
+                                                                                 justifyContent: 'left'}}>
+                        <p style={{fontSize: '12px'}}>#{index + 1} {potionNameDict[index]}</p>
                     </div>
                 )}
             </div>
-
-            <Link to={'/app/house'} className='auth'><h3 className='quest-map'>Back to House {'-->'}</h3></Link>
         </div>
     )
 }

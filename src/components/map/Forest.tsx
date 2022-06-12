@@ -4,6 +4,7 @@ import { useAppSelector } from '../store/hooks';
 import { stakingABI, alchemistABI } from '../assets/abis/tokenABI';
 import { nftStakingAddress, AlchemistNFTAddress } from '../assets/contractAddresses/contractAddresses';
 import { QuestPopUp } from '../popups/QuestPopUp'
+import Popup from '../popups/PopUp';
 
 export const Forest = () => {
 
@@ -103,28 +104,19 @@ export const Forest = () => {
     }
   }
 
+  const handleQuestClose = () => {
+    setQuest(false)
+  }
+
 
     return (
       <>
-        {questBool ? <><QuestPopUp nftArray={nftArray} contractAddress={nftStakingAddress} />
-                      <button style={{position: 'fixed',
-                                      border: 'solid 2px black',
-                                      backgroundColor: 'black',
-                                      color: 'white',
-                                      cursor: 'pointer',
-                                      top: '70px',
-                                      left: 'calc(100% - 65px)',
-                                      fontSize: '30px',
-                                      zIndex: '1000'}} onClick={() => setQuest(false)}>X</button></> : null}   
+        {questBool && <Popup content={<QuestPopUp nftArray={nftArray} contractAddress={nftStakingAddress} />} handleClose={handleQuestClose} />}   
         <div style={{
           display: 'grid',
           justifyItems: 'center',
           alignItems: 'center',
           }}>
-          {/* Background image of a mountain */}
-          {/* if on quest Button not clickable */}
-          {/* else */}
-          
             <h1 style={{color: 'white'}}>Explore the Forest</h1>
             <div style={{
               display: 'grid',

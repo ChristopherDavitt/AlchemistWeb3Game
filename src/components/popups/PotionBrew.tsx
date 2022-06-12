@@ -28,19 +28,20 @@ export const PotionBrew = (props: any) =>  {
 
     return (
         <div>
-            <div className='creature-bio' style={{justifyItems: 'center', display: 'grid',
-            width: '360px', height: '400px', justifyContent: 'center', padding: '1rem', margin: 'auto' }} >
+            <div style={{justifyItems: 'center', display: 'grid',border: 'double 10px white', padding: '2rem 0',
+            maxWidth: '400px', height: '400px', justifyContent: 'center', margin: 'auto' }} >
                         
-                <p>#{props.id} {props.name}</p>
-                <img src='https://via.placeholder.com/150' alt='potion-image' />
-                <p>Ingredients</p>
-                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem'}}>
+                <p style={{textAlign: 'center'}}>#{props.id} {props.name}</p>
+                <img style={{border: 'double 10px white'}} src='https://via.placeholder.com/150' alt='potion-image' />
+                <p style={{textDecorationLine: 'underline'}}>Ingredients</p>
+                <div style={{display: 'grid', gridTemplateColumns: '1fr'}}>
                     {mapArray.map((value: boolean, index: number) => 
                         <p style={{fontSize: '10px'}} key={index} color={!value ? 'grey' : 'white'} >
-                            #{props.itemIds[index] + 1} {props.itemName[index]}: {props.costArray[index]}</p>
+                            #{props.itemIds[index] + 1} {props.itemName[index]}: ( {props.costArray[index]} )</p>
                     )}
                 </div>
-                {brewable ? <button onClick={()=>brew()}>Brew Potion</button> : <button disabled>Cannot Brew</button>}
+                <br></br>
+                {brewable ? <button onClick={() => brew()}>Brew Potion</button> : <button disabled>Cannot Brew</button>}
             </div>
         </div>
     )

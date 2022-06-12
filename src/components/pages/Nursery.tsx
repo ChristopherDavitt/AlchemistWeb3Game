@@ -96,14 +96,16 @@ export const Nursery =()=> {
             display: 'grid',
             justifyContent: 'center',
             alignItems: 'center',
+            width: '100%'
             }}>
             
             <h1 style={{color: 'white', textAlign: 'center'}}>{!mobile && 'Welcome to the '} Nursery</h1>
             <div style={!mobile ? {
                 display: 'grid',
                 gridTemplateColumns: '1fr 3fr',
-                gap: '0.5rem'
-                } : {display: 'grid'}}>
+                gap: '0.5rem',
+                width: '700px'
+                } : {display: 'grid',width: '100%'}}>
                     
                 {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
                     {count.map((value: number, index: number) => 
@@ -116,10 +118,13 @@ export const Nursery =()=> {
                 </div> : null}
                 
 
-                <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto', width: '500px' ,height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
+                <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto',
+                 width: `${mobile ? '350px' : '100%'}`, minWidth: '350px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
   
                     {/* ipfs://fdfahvur/{id}.json */}
-                    {!mobile ?  <h4>{name}</h4> : <select onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
+                    {!mobile ?  <h4>{name}</h4> : <select style={{height: '50px',
+                    color: 'white', backgroundColor: 'black', margin: 'auto', width: '200px'}} 
+                    onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
                         {count.map((value: number, index: number) => 
                             <option key={index} value={!hiddenArray[index] ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
                                 {!hiddenArray[index] ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
@@ -128,6 +133,8 @@ export const Nursery =()=> {
 
                     <img src='https://via.placeholder.com/150' alt='creature-image' />
                     <div style={{padding: '10px'}}>
+                        <p style={{fontSize: '12px' }}>Found:</p>
+                        <br />
                         <p style={{fontSize: '12px' }}>Description: {description} </p>
                     </div>
                 </div>
