@@ -1,10 +1,16 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import mapImage from '../assets/images/Map.png';
+import { useAppSelector } from '../store/hooks';
 
-export default class Map extends Component {
-  render(){
+export const Map = () => {
+ 
+
+    const connected = useAppSelector((state) => state.connected)
+
     return (
+      <>
+      {connected ? 
       <div style={{
         backgroundImage: `url(${mapImage})`,
         backgroundRepeat: 'no-repeat',
@@ -81,7 +87,10 @@ export default class Map extends Component {
               <Link to="/app/nursery" className='auth'><h2 className='map-h2'>Nursery</h2></Link>
           </div>
         </div>
-      </div>
+      </div>: <div style={{width: '100%', height: '80vh', display: 'grid', 
+                                    justifyContent: 'center', alignItems: 'center'}}>
+                        <p>connect Wallet</p>
+                    </div> }
+        </>
     )
-  }
 }

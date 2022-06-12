@@ -1,4 +1,5 @@
 import React from "react";
+import txnWait from '../assets/images/txnWait.gif'
 
 const Transaction = (props:any) => {
 
@@ -18,19 +19,22 @@ const Transaction = (props:any) => {
         maxWidth: '400px',
         backgroundColor: 'rgb(0, 0, 0)',
         border: 'solid 10px rgb(15, 15, 15)',
-        marginTop: '50px',
+        marginTop: '20vh',
         marginBottom: 'auto',
         marginLeft: 'auto',
         marginRight: 'auto',
         padding: '10px',
         overflowX: 'hidden',
         overflowY: 'auto',
+        display: 'grid',
+        justifyItems: 'center'
     }
 
   return (
     <div style={popUpStyle}>
       <div style={boxStyle}>
-        {props.content}
+        <img src={txnWait} alt="txn" />
+        <p>{props.message}</p>
       </div>
     </div>
   );

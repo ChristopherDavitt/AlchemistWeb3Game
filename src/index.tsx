@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 
-import Map from './components/pages/Map';
+import {Map} from './components/pages/Map';
 import Home from './components/landingPage/Home';
 import {Mountains} from './components/map/Mountains';
 import {Forest} from './components/map/Forest';

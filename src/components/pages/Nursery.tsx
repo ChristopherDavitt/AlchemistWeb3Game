@@ -46,14 +46,13 @@ export const Nursery =()=> {
                 boolArray.push(false)
             }
         }
-        console.log('bool array rerendered')
         setHiddenArray(boolArray);
         updateDimensions();
 
         window.addEventListener("resize", updateDimensions);
         return () => 
             window.removeEventListener("resize",updateDimensions);
-        }, [])
+    }, [count])
 
     const updateDimensions = () => {
         const width = window.innerWidth
@@ -63,7 +62,6 @@ export const Nursery =()=> {
             setMobile(false)
         }
         setWindowWidth(width)
-        console.log('editing dimendions')
     }
 
     const handleCreatureState = (index: number) => {
@@ -87,10 +85,6 @@ export const Nursery =()=> {
         return str.match(reg)
     }
 
-    const toggleShowCreatures = () => {  
-        setCreatures(!creatures)
-    }
-
     return (
         <div style={{
             display: 'grid',
@@ -108,10 +102,10 @@ export const Nursery =()=> {
                 } : {display: 'grid',width: '100%'}}>
                     
                 {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
-                    {count.map((value: number, index: number) => 
+                    {hiddenArray.map((value: boolean, index: number) => 
                     // On click here, change state variables to pass through into the creatureBio
                         <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
-                            {!hiddenArray[index] ? <h6>???</h6> : <h6>{creatureDict[index]}</h6> }
+                            {!value ? <h6>???</h6> : <h6>{creatureDict[index]}</h6> }
                             <h6>#{index + 1}</h6>
                         </div>
                     )}
@@ -125,16 +119,15 @@ export const Nursery =()=> {
                     {!mobile ?  <h4>{name}</h4> : <select style={{height: '50px',
                     color: 'white', backgroundColor: 'black', margin: 'auto', width: '200px'}} 
                     onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
-                        {count.map((value: number, index: number) => 
-                            <option key={index} value={!hiddenArray[index] ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
-                                {!hiddenArray[index] ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
+                        {hiddenArray.map((value: boolean, index: number) => 
+                            <option key={index} value={!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
+                                {value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
                         )}
                     </select>  }
 
                     <img src='https://via.placeholder.com/150' alt='creature-image' />
                     <div style={{padding: '10px'}}>
-                        <p style={{fontSize: '12px' }}>Found:</p>
-                        <br />
+                        <p style={{fontSize: '12px' }}>Found:</p><br />
                         <p style={{fontSize: '12px' }}>Description: {description} </p>
                     </div>
                 </div>

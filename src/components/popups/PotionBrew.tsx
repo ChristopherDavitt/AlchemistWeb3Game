@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../store/hooks';
 import { potionBrewABI } from '../assets/abis/tokenABI';
+import Transaction from './Transaction';
 
 export const PotionBrew = (props: any) =>  {
 
-    const [brewingPotion, setBrewingPotion] = useState(false)
+    const [transacting, setTransacting] = useState(false)
+    const [updated, setUpdated] = useState(false) 
 
     const brewable: boolean = props.brewable
-    const mapArray: any[] = props.boolArray 
+    const mapArray: any[] = props.boolArray
+    
+    const update = () => {
+        setUpdated(true)
+        setTimeout(() => {
+            setUpdated(false)
+            setTransacting(false)
+        }, 1000)
+    }
 
     const brew = async () => {
         const ethers = require('ethers')
@@ -16,18 +26,20 @@ export const PotionBrew = (props: any) =>  {
         const signer = provider.getSigner()
         const stakingContract = new ethers.Contract(props.contractAddress, potionBrewABI, signer)
         try {
-          setBrewingPotion(true)
+            setTransacting(true)
           const tx = await stakingContract.createPotion() 
           await tx.wait()
           console.log('Updated')
-          setBrewingPotion(false) 
+          update() 
         } catch (error) {
-          alert("Not Enough Resources")
+          setTransacting(false) 
+          alert("TXN FAILED!!! ... or rejected")
         }
       }
 
     return (
         <div>
+            {transacting && <Transaction message={!updated ? 'Brewing Potion' : 'POTION ADDED!!!'} />}
             <div style={{justifyItems: 'center', display: 'grid',border: 'double 10px white', padding: '2rem 0',
             maxWidth: '400px', height: '400px', justifyContent: 'center', margin: 'auto' }} >
                         

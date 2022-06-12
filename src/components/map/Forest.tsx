@@ -23,7 +23,7 @@ export const Forest = () => {
   const potionCount = useAppSelector((state) => state.potions)
   const address = useAppSelector((state) => state.address)
   const nftArray = useAppSelector((state) => state.nfts)
-
+  const connected = useAppSelector((state) => state.connected)
   var potionIdArray: any[] = [];
   
   useEffect(() => {
@@ -145,46 +145,59 @@ export const Forest = () => {
     setQuest(false)
   }
 
+  const changeBoolArray = (index:number) => {
+    setUnstakeArray(prevState => [...prevState, unstakeArray[index] = true])
+  }
 
     return (
-      <>
-        {questBool && <Popup content={<QuestPopUp nftArray={nftArray} contractAddress={nftStakingAddress} />} handleClose={handleQuestClose} />}   
-        <div style={{display: 'grid',justifyItems: 'center',alignItems: 'center', }}>
-            <h1 style={{color: 'white'}}>Explore the Forest</h1>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem'}}>
-                <div>
-                  <div style={{display: 'flex', gap: '2rem'}}>
-                    <button onClick={() => setQuest(true)}>Go On Quest</button>
-                    <h4 style={{color:'white'}}>NFT Staked: {nftCount.length}</h4>
-                  </div>
-                  <div style={{display: 'grid'}}>
-                    <div style={{display: 'grid', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
-                        <p>ID</p>
-                        <p>Time Left</p>
-                        <p>Potion</p>
-                        <p>Quest Status</p>
+      
+       <>
+        {connected ?
+        <>
+          {questBool && <Popup content={<QuestPopUp nftArray={nftArray} contractAddress={nftStakingAddress} />} handleClose={handleQuestClose} />}   
+          <div style={{display: 'grid',justifyItems: 'center',alignItems: 'center', }}>
+              <h1 style={{color: 'white'}}>Explore the Forest</h1>
+              <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem'}}>
+                  <div>
+                    <div style={{display: 'flex', gap: '2rem'}}>
+                      <button onClick={() => setQuest(true)}>Go On Quest</button>
+                      <h4 style={{color:'white'}}>NFT Staked: {nftCount.length}</h4>
                     </div>
-                    {tokenIdArray.map((tokenTime: number, index: number) => 
-                      <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
-                        <p><span style={{fontSize: '0px'}}>{tokenIdArray[index]}</span>#{nftCount[index]}</p>
-                        {!unstakeArray[index] ? 
-                         <Countdown
-                          date={Date.now() + (tokenTime * 1000)}
-                          renderer={renderer}/> : <p>Done!</p>}            
-                        <p>potion</p>
-                        
-                        {/* {!potionIdArray[index] ? <button onClick={addPotion(tokenId, potionIdArray[index])} >+</button> : <h6>{potionIdArray[index]}</h6>} */}
-                        {!unstakeArray[index] ? <h6>Not Done With Quest</h6> : <button onClick={() => unstake(nftCount[index])}>Complete Quest</button>  }
+                    <div style={{display: 'grid'}}>
+                      <div style={{display: 'grid', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
+                          <p>ID</p>
+                          <p>Time Left</p>
+                          <p>Potion</p>
+                          <p>Quest Status</p>
                       </div>
-                    )}
+                      {tokenIdArray.map((tokenTime: number, index: number) => 
+                        <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
+                          <p><span style={{fontSize: '0px'}}>{tokenIdArray[index]}</span>#{nftCount[index]}</p>
+                          {!unstakeArray[index] 
+                            ? <Countdown
+                              date={Date.now() + (tokenTime * 1000)}
+                              renderer={renderer} 
+                              onComplete={() => changeBoolArray(index)} /> 
+                          
+                            : <p>Done!</p>} 
+                            
+                            
+                                    
+                          <p>potion</p>
+                          
+                          {/* {!potionIdArray[index] ? <button onClick={addPotion(tokenId, potionIdArray[index])} >+</button> : <h6>{potionIdArray[index]}</h6>} */}
+                          {!unstakeArray[index] ? <h6>Not Done With Quest</h6> : <button onClick={() => unstake(nftCount[index])}>Complete Quest</button>  }
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-              {/* onClick={() => quest(tokenId) */}
-            </div>
-            <br></br>
-            <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
-        </div>
+                {/* onClick={() => quest(tokenId) */}
+              </div>
+              <br></br>
+              <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
+          </div>
+        </> : <div style={{width: '100%', height: '80vh', display: 'grid', justifyContent: 'center', alignItems: 'center'}}><p>connect Wallet</p></div> }
       </>
     )
 }

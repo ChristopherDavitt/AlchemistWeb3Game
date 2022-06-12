@@ -5,6 +5,7 @@ import {PotionBrew} from '../popups/PotionBrew';
 import { potion3Address, potion1Address, potion2Address } from '../assets/contractAddresses/contractAddresses';
 import Popup from '../popups/PopUp';
 
+
 export const AlchemyStation = () => {
     const potionCount = useAppSelector((state) => state.potions)
     const itemCount = useAppSelector((state) => state.items)
@@ -18,6 +19,7 @@ export const AlchemyStation = () => {
     const [itemNameProps, setItemNameProps] = useState<string[]>()
     const [id, setId] = useState<number>()
     const [itemIds, setItemIds] = useState<number[]>()
+    const [txn, setTxn] = useState(false)
 
     const potionAddresses = [
         potion1Address,
