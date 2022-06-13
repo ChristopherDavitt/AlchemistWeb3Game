@@ -2,9 +2,9 @@ import React, { Component, useState } from 'react'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import homeImage from '../assets/images/House.png'
-import { AlchemyStation }from '../houseStuff/AlchemyStation'
-import { ItemInventory } from '../houseStuff/ItemInventory'
-import { PotionInventory } from '../houseStuff/PotionInventory'
+import { AlchemyStation }from './AlchemyStation'
+import { ItemInventory } from '../popups/ItemInventory'
+import { PotionInventory } from '../popups/PotionInventory'
 import PopUp from '../popups/PopUp';
 
 export default function House() {

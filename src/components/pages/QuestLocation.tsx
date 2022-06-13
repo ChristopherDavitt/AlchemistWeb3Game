@@ -11,15 +11,40 @@ import { count } from 'console';
 
 
 
-export const Forest = () => {
+export const QuestLocation = (props:any) => {
 
   const [addingPotion, setAddingPotion] = useState(false)
   const [stakingNFT, setStakingNFT] = useState(false)
-  const [tokenIdArray, setTokenIdArray] = useState<number[]>([])
+  const [timeStaked, setTimeStaked] = useState<number[]>([])
   const [unstakeArray, setUnstakeArray] = useState<boolean[]>([])
   const [questBool, setQuest] = useState(false)
+  const [tokenIds, setTokenIds] = useState<number[]>([])
 
-  const nftCount = useAppSelector((state) => state.nftStaked.forest)
+
+  const nftCount = useAppSelector((state) => state.nftStaked)
+
+  useEffect(() => {
+    if (props.loc == 'forest'){
+      setTokenIds(nftCount.forest)
+      getTimeStaked(nftCount.forest, nftStakingAddress);
+    } else if (props.loc == 'mountains') {
+      setTokenIds(nftCount.mountains)
+      getTimeStaked(nftCount.mountains, nftStakingAddress);
+    } else if (props.loc == 'caves') {
+      setTokenIds(nftCount.caves)
+      getTimeStaked(nftCount.caves, nftStakingAddress);
+    } else if (props.loc == 'ocean') {
+      setTokenIds(nftCount.ocean)
+      getTimeStaked(nftCount.ocean, nftStakingAddress);
+    }else if (props.loc == 'tundra') {
+      setTokenIds(nftCount.tundra)
+      getTimeStaked(nftCount.tundra, nftStakingAddress);
+    } else if (props.loc == 'swamp') {
+      setTokenIds(nftCount.swamp)
+      getTimeStaked(nftCount.swamp, nftStakingAddress);
+    }
+    
+  }, [])
   const potionCount = useAppSelector((state) => state.potions)
   const address = useAppSelector((state) => state.address)
   const nftArray = useAppSelector((state) => state.nfts)
@@ -28,22 +53,22 @@ export const Forest = () => {
   
   useEffect(() => {
     console.log('Use Effect Called')
-    getTimeStaked();
+    
   }, [nftCount])
 
   const handleTimeChange = (val:number) => {
-    setTokenIdArray(prevState => [...prevState, val]);
+    setTimeStaked(prevState => [...prevState, val]);
   }
   const handleBoolChange = (val:boolean) => {
     setUnstakeArray(prevState => [...prevState, val]);
   }
 
   const handleStateChange = (timeArray: number[], boolArray: boolean[]) => {
-    setTokenIdArray(timeArray);
+    setTimeStaked(timeArray);
     setUnstakeArray(boolArray);
   }
 
-  const getTimeStaked = async () => {
+  const getTimeStaked = async (nfts:number[], stakingAddress: any) => {
 
     // State Arrays
     var timeArray: number[] = []
@@ -57,9 +82,9 @@ export const Forest = () => {
     const ethers = require('ethers')
     const network = 'rinkeby'
     const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const stakingContract = new ethers.Contract(nftStakingAddress, stakingABI, provider)
-    for (var i = 0; i < nftCount.length; i++) {
-      const timeLeft = await stakingContract.tokenStakedAt(nftCount[i])
+    const stakingContract = new ethers.Contract(stakingAddress, stakingABI, provider)
+    for (var i = 0; i < nfts.length; i++) {
+      const timeLeft = await stakingContract.tokenStakedAt(nfts[i])
       console.log("Block.timestamp " + parseInt(timeLeft._hex, 16));
       if (parseInt(timeLeft._hex, 16) + questTime < time) {
         boolArray.push(true)
@@ -161,7 +186,7 @@ export const Forest = () => {
                   <div>
                     <div style={{display: 'flex', gap: '2rem'}}>
                       <button onClick={() => setQuest(true)}>Go On Quest</button>
-                      <h4 style={{color:'white'}}>NFT Staked: {nftCount.length}</h4>
+                      <h4 style={{color:'white'}}>NFT Staked: {tokenIds.length}</h4>
                     </div>
                     <div style={{display: 'grid'}}>
                       <div style={{display: 'grid', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
@@ -170,9 +195,9 @@ export const Forest = () => {
                           <p>Potion</p>
                           <p>Quest Status</p>
                       </div>
-                      {tokenIdArray.map((tokenTime: number, index: number) => 
+                      {timeStaked.map((tokenTime: number, index: number) => 
                         <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
-                          <p><span style={{fontSize: '0px'}}>{tokenIdArray[index]}</span>#{nftCount[index]}</p>
+                          <p><span style={{fontSize: '0px'}}>{timeStaked[index]}</span>#{tokenIds[index]}</p>
                           {!unstakeArray[index] 
                             ? <Countdown
                               date={Date.now() + (tokenTime * 1000)}
@@ -186,7 +211,7 @@ export const Forest = () => {
                           <p>potion</p>
                           
                           {/* {!potionIdArray[index] ? <button onClick={addPotion(tokenId, potionIdArray[index])} >+</button> : <h6>{potionIdArray[index]}</h6>} */}
-                          {!unstakeArray[index] ? <h6>Not Done With Quest</h6> : <button onClick={() => unstake(nftCount[index])}>Complete Quest</button>  }
+                          {!unstakeArray[index] ? <h6>Not Done With Quest</h6> : <button onClick={() => unstake(tokenIds[index])}>Complete Quest</button>  }
                         </div>
                       )}
                     </div>

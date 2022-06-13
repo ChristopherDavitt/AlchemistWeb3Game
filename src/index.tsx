@@ -8,17 +8,12 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 
 import {Map} from './components/pages/Map';
-import Home from './components/landingPage/Home';
-import {Mountains} from './components/map/Mountains';
-import {Forest} from './components/map/Forest';
-import {Ocean} from './components/map/Ocean';
-import {Swamp} from './components/map/Swamp';
-import {Tundra} from './components/map/Tundra';
-import { Caves } from './components/map/Caves';
+import Home from './components/pages/Home';
+import {QuestLocation} from './components/pages/QuestLocation';
 import House from './components/pages/House';
 import { App } from './App';
 import { Nursery } from './components/pages/Nursery';
-import { AlchemyStation } from './components/houseStuff/AlchemyStation';
+import { AlchemyStation } from './components/pages/AlchemyStation';
 import { Minter } from './components/pages/Minter';
 
 const root = ReactDOM.createRoot(
@@ -34,12 +29,12 @@ root.render(
           <Route path='/' element={<Home />} />
           <Route path='/minter' element={<Minter />} />
           <Route path='/app' element={<Map />} />
-          <Route path='/app/mountains' element={<Mountains />} />
-          <Route path='/app/ocean' element={<Ocean />} />
-          <Route path='/app/tundra' element={<Tundra />} />
-          <Route path='/app/swamp' element={<Swamp />} />
-          <Route path='/app/forest' element={<Forest />} />
-          <Route path='/app/caves' element={<Caves />} />
+          <Route path='/app/mountains' element={<QuestLocation loc='mountains'  />} />
+          <Route path='/app/ocean' element={<QuestLocation loc='ocean'  />} />
+          <Route path='/app/tundra' element={<QuestLocation loc='tundra'  />} />
+          <Route path='/app/swamp' element={<QuestLocation loc='swamp'  />} />
+          <Route path='/app/forest' element={<QuestLocation loc='forest' />} />
+          <Route path='/app/caves' element={<QuestLocation loc='caves'  />} />
           <Route path='/app/house' element={<House />} />
           <Route path='/app/nursery' element={<Nursery />} />
           <Route path='/app/house/alchemy-table' element={<AlchemyStation />} />
