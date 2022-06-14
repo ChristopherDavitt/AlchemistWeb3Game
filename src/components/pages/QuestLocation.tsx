@@ -7,16 +7,13 @@ import { stakingABI, alchemistABI } from '../assets/abis/tokenABI';
 import { nftStakingAddress, AlchemistNFTAddress } from '../assets/contractAddresses/contractAddresses';
 import { QuestPopUp } from '../popups/QuestPopUp'
 import Popup from '../popups/PopUp';
-import { count } from 'console';
 import { getApproved, getItems, getNFTS, getNftsStakedForest } from '../assets/helpers/getTokens/getTokens';
 import Transaction from '../popups/Transaction';
-
+import loadingGif from '../assets/images/LoadingGif.gif';
 
 
 export const QuestLocation = (props:any) => {
 
-  const [addingPotion, setAddingPotion] = useState(false)
-  const [stakingNFT, setStakingNFT] = useState(false)
   const [timeStaked, setTimeStaked] = useState<number[]>([])
   const [unstakeArray, setUnstakeArray] = useState<boolean[]>([])
   const [questBool, setQuest] = useState(false)
@@ -31,8 +28,7 @@ export const QuestLocation = (props:any) => {
   const address = useAppSelector((state) => state.address)
   const nftArray = useAppSelector((state) => state.nfts)
   const connected = useAppSelector((state) => state.connected)
-
-  var potionIdArray: any[] = [];
+  const loading = useAppSelector((state) => state.loading)
 
   const dispatch = useAppDispatch()
 
@@ -64,13 +60,6 @@ export const QuestLocation = (props:any) => {
     console.log('Use Effect Called')
     
   }, [nftCount])
-
-  const handleTimeChange = (val:number) => {
-    setTimeStaked(prevState => [...prevState, val]);
-  }
-  const handleBoolChange = (val:boolean) => {
-    setUnstakeArray(prevState => [...prevState, val]);
-  }
 
   const handleStateChange = (timeArray: number[], boolArray: boolean[]) => {
     setTimeStaked(timeArray);
@@ -138,6 +127,7 @@ export const QuestLocation = (props:any) => {
   // }
   const update = async () => {
     setUpdated(true)
+    
     const staked = await getNftsStakedForest(address)
     dispatch({type: 'NFTS_STAKED_FOREST', payload: staked})
 
@@ -146,6 +136,7 @@ export const QuestLocation = (props:any) => {
 
     const items = await getItems(address);
     dispatch({type: 'UPDATE_ITEMS', payload: items})
+
     console.log('Updated!')
     setTimeout(() => {
         setUpdated(false)
@@ -224,20 +215,22 @@ export const QuestLocation = (props:any) => {
       
        <>
         {connected ?
-        <>
+        <div style={{width: '100vw', height: '97vh'}}>
           {transacting && <Transaction message={!updated ? 'Returning From Quest' : 'ITEMS FOUND!!!'} />}
           {questBool && <Popup  handleClose={handleQuestClose} 
                                 content={<QuestPopUp 
                                           handleClose={handleQuestClose} 
                                           nftArray={nftArray}
                                           contractAddress={nftStakingAddress} />}  />}   
-          <div style={{display: 'grid',justifyItems: 'center',alignItems: 'center', }}>
+          <div style={{display: 'grid',justifyItems: 'center', maxWidth: '1130px',
+                  alignItems: 'center', border: 'double 5px white', margin: 'auto',
+                  position: 'sticky', top: 'calc(50% - 270px)', maxHeight: '600px' }}>
               <h1 style={{color: 'white'}}>Explore the Forest</h1>
               <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem'}}>
                   <div>
-                    <div style={{display: 'flex', gap: '2rem'}}>
-                      {approved ? <button onClick={() => setQuest(true)}>Go On Quest</button> : 
-                      <button onClick={()=> approveAddress()}>Approve Quest</button>  }
+                    <div style={{display: 'flex', gap: '2rem', alignItems: 'center'}}>
+                      {approved ? <button style={{width:'150px', height:'40px'}} onClick={() => setQuest(true)}>Go On Quest</button> : 
+                      <button style={{width:'150px', height:'40px'}} onClick={()=> approveAddress()}>Approve Quest</button>  }
                       <h4 style={{color:'white'}}>NFT Staked: {tokenIds.length}</h4>
                     </div>
                     <div style={{display: 'grid'}}>
@@ -274,7 +267,14 @@ export const QuestLocation = (props:any) => {
               <br></br>
               <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
           </div>
-        </> : <div style={{width: '100%', height: '80vh', display: 'grid', justifyContent: 'center', alignItems: 'center'}}><p>connect Wallet</p></div> }
+        </div> : loading ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyItems: 'center',alignContent: 'center', margin: 0}}>
+                <p>Loading ...</p>
+                <img src={loadingGif} alt="loading-gif" />
+            </div> : !connected ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyContent: 'center', alignItems: 'center'}}>
+                <p>connect Wallet</p>
+            </div>  : <p>Refresh Page</p>}
       </>
     )
 }

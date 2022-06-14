@@ -1,4 +1,5 @@
 import { legacy_createStore } from "redux";
+import { isDoStatement } from "typescript";
 
 const defaultState = { 
   creatures: [],
@@ -16,6 +17,7 @@ const defaultState = {
   nfts: [], 
   approved: [],
   connected: false,
+  loading: false,
   address: '0x0000000000000000000000000000000000000000'
 }
 
@@ -79,6 +81,10 @@ const reducer = (state = defaultState, action: any) => {
       return {...state, address: action.payload};
     case "DISCONNECT_WALLET":
       return defaultState;
+    case "LOADING":
+      return {...state, loading: true}
+    case "FINISH_LOADING":
+      return {...state, loading: false}
     default:
       return state;
   }

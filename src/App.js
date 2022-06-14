@@ -86,9 +86,9 @@ export const App = () => {
         dispatch({type: 'NFTS_STAKED_FOREST', payload: forestStaked})
         const approvals = await getApproved(address);
         dispatch({type: 'UPDATE_APPROVALS', payload: approvals})
-        dispatch({type: 'CONNECT_WALLET'});
         dispatch({type: 'FINISH_LOADING'});
-        console.log('Account Updated')
+        dispatch({type: 'CONNECT_WALLET'});
+        console.log('Account Updated!')
     }
   
 
@@ -98,9 +98,13 @@ export const App = () => {
 
     return (
         
-        <div style={{display: 'flex', justifyContent: 'space-between', padding: '0.2em'}} >
-            <Link style={{justifyContent: 'center', display:'grid', textDecoration: 'none'}} to={'/'}><button>Start Menu</button></Link>
-            <button style={{width:'150px', height:'40px'}} onClick={connectWalletHandler}>
+        <div style={{display: 'flex', justifyContent: 'space-between', margin: 'auto', padding: '0.2em', maxWidth: '1150px',
+                    position: 'sticky', top: 'calc(50% - 325px)' }} >
+            <Link style={{justifyContent: 'center', display:'grid', textDecoration: 'none'}} to={'/'}>
+                <button style={{width:'150px', height:'40px', cursor: 'pointer'}}>Start Menu</button>
+            </Link>
+            <button style={{width:'150px', height:'40px', cursor: 'pointer'}} 
+                    onClick={connectWalletHandler}>
                 {connButtonText}
             </button>
         </div>

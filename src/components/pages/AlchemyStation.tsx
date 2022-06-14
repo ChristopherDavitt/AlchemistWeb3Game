@@ -5,10 +5,14 @@ import {PotionBrew} from '../popups/PotionBrew';
 import { potion3Address, potion1Address, potion2Address } from '../assets/contractAddresses/contractAddresses';
 import Popup from '../popups/PopUp';
 
+import loadingGif from '../assets/images/LoadingGif.gif'
 
 export const AlchemyStation = () => {
     const potionCount = useAppSelector((state) => state.potions)
     const itemCount = useAppSelector((state) => state.items)
+    const connected = useAppSelector((state) => state.connected)
+    const loading = useAppSelector((state) => state.loading)
+
 
     const [selectedPotionIngredients, setSeletedPotionIngredients] = useState<boolean[]>()
     const [potionBrewable, setBrewable] = useState<boolean>()
@@ -75,7 +79,8 @@ export const AlchemyStation = () => {
     // For the potion pop-up, we need ingredient names, boolArray, costs, and brewable attribute
 
     return (
-        <div style={{ width: '100%', height: '100%', backgroundColor: 'black',}}>
+        <>
+        {connected ? <div style={{ width: '100%', height: '100%', backgroundColor: 'black',}}>
             { popUp && <Popup handleClose={handlePopUpClose} content={<PotionBrew boolArray={selectedPotionIngredients} 
                                          contractAddress={potionAddress} costArray={costs} id={id} itemIds={itemIds}
                                          name={name} brewable={potionBrewable} itemName={itemNameProps} 
@@ -108,6 +113,14 @@ export const AlchemyStation = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </div> : loading ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyItems: 'center',alignContent: 'center', margin: 0}}>
+                <p>Loading ...</p>
+                <img src={loadingGif} alt="loading-gif" />
+            </div> : !connected ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyContent: 'center', alignItems: 'center'}}>
+                <p>connect Wallet</p>
+            </div>  : <p>Refresh Page</p>}
+        </>
     )
 }

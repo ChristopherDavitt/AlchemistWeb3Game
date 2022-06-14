@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, Route } from 'react-router-dom';
-import mapImage from '../assets/images/Map.png';
 import { useAppSelector } from '../store/hooks';
+
+import mapImage from '../assets/images/Map.png';
+import loadingGif from '../assets/images/LoadingGif.gif'
 
 export const Map = () => {
  
-
+    const loading = useAppSelector((state) => state.loading)
     const connected = useAppSelector((state) => state.connected)
 
     return (
@@ -87,10 +89,14 @@ export const Map = () => {
               <Link to="/app/nursery" className='auth'><h2 className='map-h2'>Nursery</h2></Link>
           </div>
         </div>
-      </div>: <div style={{width: '100%', height: '80vh', display: 'grid', 
-                                    justifyContent: 'center', alignItems: 'center'}}>
-                        <p>connect Wallet</p>
-                    </div> }
+      </div> : loading ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyItems: 'center',alignContent: 'center', margin: 0}}>
+                <p>Loading ...</p>
+                <img src={loadingGif} alt="loading-gif" />
+            </div> : !connected ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyContent: 'center', alignItems: 'center'}}>
+                <p>connect Wallet</p>
+            </div>  : <p>Refresh Page</p>}
         </>
     )
 }

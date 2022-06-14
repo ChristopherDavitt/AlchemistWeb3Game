@@ -86,55 +86,61 @@ export const Nursery =()=> {
     }
 
     return (
-        <div style={{
-            display: 'grid',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%'
-            }}>
-            
-            <h1 style={{color: 'white', textAlign: 'center'}}>{!mobile && 'Welcome to the '} Nursery</h1>
-            <div style={!mobile ? {
+        <div style={{width: '100vw', height: '97vh'}} >
+            <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 3fr',
-                gap: '0.5rem',
-                width: '700px'
-                } : {display: 'grid',width: '100%'}}>
-                    
-                {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
-                    {hiddenArray.map((value: boolean, index: number) => 
-                    // On click here, change state variables to pass through into the creatureBio
-                        <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
-                            {!value ? <h6>???</h6> : <h6>{creatureDict[index]}</h6> }
-                            <h6>#{index + 1}</h6>
-                        </div>
-                    )}
-                </div> : null}
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                position: 'sticky',
+                margin: 'auto',
+                top: 'calc(50% - 270px)', 
+                maxHeight: '600px'
+                }}>
                 
-
-                <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto',
-                 width: `${mobile ? '350px' : '100%'}`, minWidth: '350px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
-  
-                    {/* ipfs://fdfahvur/{id}.json */}
-                    {!mobile ?  <h4>{name}</h4> : <select style={{height: '50px',
-                    color: 'white', backgroundColor: 'black', margin: 'auto', width: '200px'}} 
-                    onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
+                <h1 style={{color: 'white', textAlign: 'center'}}>{!mobile && 'Welcome to the '} Nursery</h1>
+                <div style={!mobile ? {
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr',
+                    gap: '0.5rem',
+                    width: '700px'
+                    } : {display: 'grid',width: '100%'}}>
+                        
+                    {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
                         {hiddenArray.map((value: boolean, index: number) => 
-                            <option key={index} value={!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
-                                {!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
+                        // On click here, change state variables to pass through into the creatureBio
+                            <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
+                                {!value ? <h6>???</h6> : <h6>{creatureDict[index]}</h6> }
+                                <h6>#{index + 1}</h6>
+                            </div>
                         )}
-                    </select>  }
+                    </div> : null}
+                    
 
-                    <img src='https://via.placeholder.com/150' alt='creature-image' />
-                    <div style={{padding: '10px'}}>
-                        <p style={{fontSize: '12px' }}>Found:</p><br />
-                        <p style={{fontSize: '12px' }}>Description: {description} </p>
+                    <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto',
+                    width: `${mobile ? '350px' : '100%'}`, minWidth: '350px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
+    
+                        {/* ipfs://fdfahvur/{id}.json */}
+                        {!mobile ?  <h4>{name}</h4> : <select style={{height: '50px',
+                        color: 'white', backgroundColor: 'black', margin: 'auto', width: '200px'}} 
+                        onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
+                            {hiddenArray.map((value: boolean, index: number) => 
+                                <option key={index} value={!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
+                                    {!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
+                            )}
+                        </select>  }
+
+                        <img src='https://via.placeholder.com/150' alt='creature-image' />
+                        <div style={{padding: '10px'}}>
+                            <p style={{fontSize: '12px' }}>Found:</p><br />
+                            <p style={{fontSize: '12px' }}>Description: {description} </p>
+                        </div>
                     </div>
+                    
                 </div>
-                
+                <br></br>
+                <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
             </div>
-            <br></br>
-            <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
         </div>
     )
 }

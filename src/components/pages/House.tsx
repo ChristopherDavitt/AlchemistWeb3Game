@@ -1,11 +1,14 @@
 import React, { Component, useState } from 'react'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import { useAppSelector } from '../store/hooks';
-import homeImage from '../assets/images/House.png'
 import { AlchemyStation }from './AlchemyStation'
 import { ItemInventory } from '../popups/ItemInventory'
 import { PotionInventory } from '../popups/PotionInventory'
 import PopUp from '../popups/PopUp';
+
+import homeImage from '../assets/images/House.png'
+import loadingGif from '../assets/images/LoadingGif.gif';
 
 export default function House() {
     
@@ -13,8 +16,8 @@ export default function House() {
     const [items, setItems] = useState(false)
     const [alchemy, setAlchemy] = useState(false)
 
+    const loading = useAppSelector((state) => state.loading)
     const connected = useAppSelector((state) => state.connected)
-    const state = useAppSelector((state) => state)
 
     const handleItemToggle = () => {
         const bool = items
@@ -79,10 +82,14 @@ export default function House() {
                     <Link to="/app" className='auth'><h4 className='map-h4'>Map</h4></Link>
                 </div>
             </div> 
-            :<div style={{width: '100%', height: '80vh', display: 'grid', 
+            : loading ? <div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyItems: 'center',alignContent: 'center', margin: 0}}>
+                <p>Loading ...</p>
+                <img src={loadingGif} alt="loading-gif" />
+            </div> : !connected ? <div style={{width: '100%', height: '80vh', display: 'grid', 
                         justifyContent: 'center', alignItems: 'center'}}>
                 <p>connect Wallet</p>
-            </div> }
+            </div>  : <p>Refresh Page</p>}
         </>
     )
 }

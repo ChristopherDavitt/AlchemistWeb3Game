@@ -52,7 +52,8 @@ export const QuestPopUp = (props: any) =>  {
             backgroundColor: 'black',
             zIndex: '900',
             margin: 'auto',
-            overflowY: 'auto'}} >
+            overflowY: 'auto',
+            }} >
             {transacting && <Transaction message={!updated ? 'Brewing Potion' : 'POTION ADDED!!!'} />}
             <p>Alchemists Available</p>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
