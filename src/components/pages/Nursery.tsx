@@ -121,7 +121,7 @@ export const Nursery =()=> {
                     onChange={(e) => handleCreatureState(Number(findRegexMatch(e.target.value)) - 1)} name='creatures'>
                         {hiddenArray.map((value: boolean, index: number) => 
                             <option key={index} value={!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] } >
-                                {value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
+                                {!value ? `#${index+1} ???`   : `#${index + 1} ` + creatureDict[index] }</option>
                         )}
                     </select>  }
 

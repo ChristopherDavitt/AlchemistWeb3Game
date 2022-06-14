@@ -126,3 +126,27 @@ export const getCreatures = async(address:any) => {
         return []
     }
 }
+
+export const getApproved = async(address:any) => {
+    const ethers = require('ethers')
+    const network = 'rinkeby'
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const nftContract = new ethers.Contract(AlchemistNFTAddress, alchemistABI, provider)
+    
+    const stakingAddresses = [
+        nftStakingAddress
+    ];
+    const boolArray: boolean[] = [];
+    // rest of staking contracts
+    try {
+        for (let i= 0; i<stakingAddresses.length; i++){
+            const approved = await nftContract.isApprovedForAll(address, stakingAddresses[i]);
+            console.log(approved)
+            boolArray.push(approved)
+        }
+        return boolArray
+    } catch (error) {
+        console.log('Gettings NFT Staked ' + error)
+        return []
+    }
+}

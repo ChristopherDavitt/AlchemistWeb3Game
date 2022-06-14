@@ -52,7 +52,7 @@ export const AlchemyStation = () => {
         const costArray = potionCosts[index]
         const itemNames:string[] = []
         for (let i=0; i< potionDict[index].length; i++) {
-            if (potionCosts[index][i] > potionCount[potionDict[index][i]]) {
+            if (potionCosts[index][i] > itemCount[potionDict[index][i]]) {
                 boolArray.push(false)
                 itemNames.push(itemNameDict[potionDict[index][i]])
                 brewable = false
@@ -78,7 +78,8 @@ export const AlchemyStation = () => {
         <div style={{ width: '100%', height: '100%', backgroundColor: 'black',}}>
             { popUp && <Popup handleClose={handlePopUpClose} content={<PotionBrew boolArray={selectedPotionIngredients} 
                                          contractAddress={potionAddress} costArray={costs} id={id} itemIds={itemIds}
-                                         name={name} brewable={potionBrewable} itemName={itemNameProps} />}/> }
+                                         name={name} brewable={potionBrewable} itemName={itemNameProps} 
+                                         handleClose={handlePopUpClose} />}/> }
 
             <h1 style={{color: 'white', textAlign: 'center'}}>Recipe Book</h1>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',

@@ -16,7 +16,7 @@ const Transaction = (props:any) => {
     const boxStyle: any = {
         position: 'relative',
         width: '50%',
-        maxWidth: '400px',
+        maxWidth: '300px',
         backgroundColor: 'rgb(0, 0, 0)',
         border: 'solid 10px rgb(15, 15, 15)',
         marginTop: '20vh',

@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { stakingABI } from '../assets/abis/tokenABI';
 import alchemistNFTImage from '../assets/images/WizardSprite.png'
+import { getItems, getNFTS, getNftsStakedForest } from '../assets/helpers/getTokens/getTokens';
+import Transaction from './Transaction';
 
 export const QuestPopUp = (props: any) =>  {
 
-    const [stakingNFT, setStakingNFT] = useState(false)
-    var selected: boolean[] = []
+    const [transacting, setTransacting] = useState(false)
+    const [updated, setUpdated] = useState(false) 
+    
+    const address = useAppSelector((state) => state.address)
 
-    useEffect(() => {
-      const selectedArray: boolean[] = [];
-      for (let i=0; i< props.nftArray.length; i++) {
-        selectedArray.push(false);
-      }
-      selected = selectedArray;
-      
-    }, [])
+    const dispatch = useAppDispatch()
+
+    const update = async () => {
+      setUpdated(true)
+      const staked = await getNftsStakedForest(address)
+      dispatch({type: 'NFTS_STAKED_FOREST', payload: staked})
+
+      const nftAvail = await getNFTS(address);
+      dispatch({type: 'NFTS_AVAIL', payload: nftAvail})
+      console.log('Updated!')  
+      setTimeout(() => {
+          setUpdated(false)
+          setTransacting(false)
+          props.handleClose();
+          
+      }, 1000)
+  }
 
     const quest = async (tokenId: number, index: number) => {
       const ethers = require('ethers')
@@ -24,14 +37,10 @@ export const QuestPopUp = (props: any) =>  {
       const signer = provider.getSigner()
       const stakingContract = new ethers.Contract(props.contractAddress, stakingABI, signer)
       try {
-        selected[index] = true
-        console.log(selected)
-        setStakingNFT(true)
+        setTransacting(true)
         const tx = await stakingContract.stake(tokenId) 
-        selected[index] = false
         await tx.wait()
-        console.log('Updated')
-        console.log(selected)
+        update();
       } catch (error) {
         console.log(error)
       }
@@ -39,19 +48,22 @@ export const QuestPopUp = (props: any) =>  {
 
     return (
         <div style={{display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            justifyItems: 'center',
             backgroundColor: 'black',
             zIndex: '900',
             margin: 'auto',
             overflowY: 'auto'}} >
-            <p>NFTs Available</p>
-            {props.nftArray.map((tokenId: number, index: number) => 
-              <div key={tokenId} style={{display: 'flex', alignItems: 'baseline',
-                backgroundColor: `${selected[index] ? 'rgb(15, 15, 15)' : 'black' }`  }} onClick={() => quest(tokenId, index)}>
-                <img style={{width: '100px'}} src={alchemistNFTImage}  alt='Alchemist-Image' />
-                <p>#{tokenId}</p>
-              </div>
-            )}
+            {transacting && <Transaction message={!updated ? 'Brewing Potion' : 'POTION ADDED!!!'} />}
+            <p>Alchemists Available</p>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
+              {props.nftArray.map((tokenId: number, index: number) => 
+                <div key={tokenId} style={{display: 'grid', justifyItems: 'center', cursor: 'pointer'}}
+                    onClick={() => quest(tokenId, index)}>
+                  <img style={{width: '100px'}} src={alchemistNFTImage}  alt='Alchemist-Image' />
+                  <p>#{tokenId}</p>
+                </div>
+              )}
+            </div>
         </div>
     )
 }

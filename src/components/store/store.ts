@@ -14,6 +14,7 @@ const defaultState = {
       swamp: []
     },
   nfts: [], 
+  approved: [],
   connected: false,
   address: '0x0000000000000000000000000000000000000000'
 }
@@ -70,6 +71,8 @@ const reducer = (state = defaultState, action: any) => {
       };
     case "NFTS_AVAIL":
       return {...state, nfts: action.payload};
+    case "UPDATE_APPROVALS":
+      return {...state, approved: action.payload}
     case "CONNECT_WALLET":
       return {...state, connected: true};
     case "UPDATE_ADDRESS":

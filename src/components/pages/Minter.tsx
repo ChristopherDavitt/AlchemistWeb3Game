@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { alchemistABI } from '../assets/abis/tokenABI';
 import { AlchemistNFTAddress } from '../assets/contractAddresses/contractAddresses';
+import { useAppSelector } from '../store/hooks';
+import nftImage from '../assets/images/AlchemistGameNFTAlternate.png'
+
 
 
 
@@ -10,6 +13,8 @@ export const Minter = () => {
     const [supply, setSupply] = useState<number>()
     const [count, setCount] = useState(1)
     const [minting, setMinting] = useState(false)
+
+    const connected = useAppSelector((state) => state.connected)
 
     const cost = 0.1
 
@@ -78,23 +83,40 @@ export const Minter = () => {
           }
     }
 
+    const withdrawFunds = async() => {
+        const ethers = require('ethers')
+        const network = 'rinkeby'
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const nftContract = new ethers.Contract(AlchemistNFTAddress, alchemistABI, signer)
+        try {
+            // Add potion to the tokenId mapping in the contract
+            setMinting(true)
+            const tx = await nftContract.withdraw() 
+            await tx.wait()
+            console.log('withdrew Funds!')
+            setMinting(false) 
+          } catch (error) {
+            alert("Error in txn")
+            console.log(error)
+          }
+    }
+
     return (
-        <div style={{padding: '1rem'}} className="Minter">
-            <h1 style={{justifyContent: 'center', display: 'grid'}} className='minter-h'>Start Your Adventure Here</h1>
+        <div style={{margin: 'auto'}} className="Minter">
+            <h1 style={{textAlign: 'center'}} className='minter-h'>Start Your Adventure</h1>
             <div style={{justifyContent: 'center', display: 'grid'}}>
-                <img src={'#'}></img>
-                <h2 className='minter-h'>Price: {cost} FTM</h2>
-                <h2 className='minter-h'>Supply: {supply}/10000</h2>
-                <h2 className='minter-h'>Mint Amount: {count} <span><button onClick={handleNegate}>-</button><button onClick={handlePlus} >+</button></span></h2>
+                <img style={{margin: 'auto', width: '300px'}} src={nftImage} alt='nftImage' ></img>
+                <p className='minter-h'>Price: {cost} FTM</p>
+                <p className='minter-h'>Supply: {supply}/10000</p>
+                <p className='minter-h'>Mint Amount: {count} <span><button onClick={handleNegate}>-</button><button onClick={handlePlus} >+</button></span></p>
             </div>
             <br></br>
             <div style={{justifyContent: 'center', display:'flex', alignItems: 'center'}}>
-                <button style={{width: '200px', height: '50px'}} onClick={() => mint(count)} >Mint</button>
-                <button style={{width: '200px', height: '50px'}} onClick={() => changeCost()} >Change Cost</button>
+                {connected ? <button style={{width: '200px', height: '50px'}} onClick={() => mint(count)} >Mint</button>
+                            : <button style={{width: '200px', height: '50px'}} disabled>Connect Wallet</button> }
+                {/* <button style={{width: '200px', height: '50px'}} onClick={() => withdrawFunds()} >Change Cost</button> */}
             </div>
-            <br></br>
-            <br></br>
-            <Link style={{justifyContent: 'center', display:'grid'}} to={'/'}>Back to Home</Link>
         </div>
     );
 }

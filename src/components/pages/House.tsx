@@ -15,8 +15,6 @@ export default function House() {
 
     const connected = useAppSelector((state) => state.connected)
     const state = useAppSelector((state) => state)
-    console.log(state)
-
 
     const handleItemToggle = () => {
         const bool = items
@@ -38,8 +36,6 @@ export default function House() {
         setPotions(false)
         setAlchemy(!bool)
     }
-
-
     
     return (
         <>
@@ -82,10 +78,11 @@ export default function House() {
                 }} className='house-div'>
                     <Link to="/app" className='auth'><h4 className='map-h4'>Map</h4></Link>
                 </div>
-            </div> : <div style={{width: '100%', height: '80vh', display: 'grid', 
-                                    justifyContent: 'center', alignItems: 'center'}}>
-                        <p>connect Wallet</p>
-                    </div> }
+            </div> 
+            :<div style={{width: '100%', height: '80vh', display: 'grid', 
+                        justifyContent: 'center', alignItems: 'center'}}>
+                <p>connect Wallet</p>
+            </div> }
         </>
     )
 }

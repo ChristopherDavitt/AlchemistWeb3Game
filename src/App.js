@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { ethers, providers, getDefaultProvider, EtherscanProvider } from 'ethers';
 
-import {getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions} from './components/assets/helpers/getTokens/getTokens'
+import {getApproved, getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions} from './components/assets/helpers/getTokens/getTokens'
 import { useAppDispatch, useAppSelector } from './components/store/hooks';
 import { store } from './components/store/store';
 import { networks } from './components/assets/helpers/networks';
+import { Link } from 'react-router-dom';
 
 export const App = () => {
     
@@ -40,7 +41,7 @@ export const App = () => {
     }
 
     const connectWalletHandler = () => {
-        if (connected === false){
+        if (!connected){
             if (window.ethereum) {
                 // Trigger network switch
                 if (window.ethereum.networkVersion != 4) {
@@ -82,8 +83,9 @@ export const App = () => {
         const nfts = await getNFTS(address);
         dispatch({type: 'NFTS_AVAIL', payload: nfts})
         const forestStaked = await getNftsStakedForest(address);
-        console.log(forestStaked)
         dispatch({type: 'NFTS_STAKED_FOREST', payload: forestStaked})
+        const approvals = await getApproved(address);
+        dispatch({type: 'UPDATE_APPROVALS', payload: approvals})
         dispatch({type: 'CONNECT_WALLET'});
         dispatch({type: 'FINISH_LOADING'});
         console.log('Account Updated')
@@ -96,14 +98,9 @@ export const App = () => {
 
     return (
         
-        <div style={{display: 'flex', justifyContent: 'right', padding: '0.2em'}} >
-            <button style={{
-                width: '140px',
-                height: '40px',
-                fontSize: '12px',
-                border: 'solid 3px black',
-                borderRadius: '10px'
-                }} onClick={connectWalletHandler}>
+        <div style={{display: 'flex', justifyContent: 'space-between', padding: '0.2em'}} >
+            <Link style={{justifyContent: 'center', display:'grid', textDecoration: 'none'}} to={'/'}><button>Start Menu</button></Link>
+            <button style={{width:'150px', height:'40px'}} onClick={connectWalletHandler}>
                 {connButtonText}
             </button>
         </div>
