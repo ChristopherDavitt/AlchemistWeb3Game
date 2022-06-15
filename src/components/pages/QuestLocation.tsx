@@ -215,7 +215,7 @@ export const QuestLocation = (props:any) => {
       
        <>
         {connected ?
-        <div style={{width: '100vw', height: '97vh'}}>
+        <div style={{width: '100vw', height: '90vh'}}>
           {transacting && <Transaction message={!updated ? 'Returning From Quest' : 'ITEMS FOUND!!!'} />}
           {questBool && <Popup  handleClose={handleQuestClose} 
                                 content={<QuestPopUp 
@@ -226,14 +226,14 @@ export const QuestLocation = (props:any) => {
                   alignItems: 'center', border: 'double 5px white', margin: 'auto',
                   position: 'sticky', top: 'calc(50% - 270px)', maxHeight: '600px' }}>
               <h1 style={{color: 'white'}}>Explore the Forest</h1>
-              <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem'}}>
+              <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem', height: '360px', overflowY: 'hidden'}}>
                   <div>
                     <div style={{display: 'flex', gap: '2rem', alignItems: 'center'}}>
                       {approved ? <button style={{width:'150px', height:'40px'}} onClick={() => setQuest(true)}>Go On Quest</button> : 
                       <button style={{width:'150px', height:'40px'}} onClick={()=> approveAddress()}>Approve Quest</button>  }
                       <h4 style={{color:'white'}}>NFT Staked: {tokenIds.length}</h4>
                     </div>
-                    <div style={{display: 'grid'}}>
+                    <div style={{display: 'grid', overflowY: 'auto', height: '300px'}}>
                       <div style={{display: 'grid', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
                           <p>ID</p>
                           <p>Time Left</p>

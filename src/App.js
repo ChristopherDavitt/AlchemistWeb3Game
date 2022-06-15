@@ -9,10 +9,8 @@ import { Link } from 'react-router-dom';
 
 export const App = () => {
     
-    const [errorMessage, setErrorMessage] = useState();
+    const [error, setError] = useState();
     const [connected, setConnected] = useState(false);
-    const [defaultAccount, setDefaultAccount] = useState(null);
-    const [userBalance, setUserBalance] = useState(0.0);
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
 
     const handleChainChange = () => {
@@ -22,8 +20,8 @@ export const App = () => {
     const dispatch = useAppDispatch();
     
     const handleNetworkSwitch = async (networkName) => {
-        setErrorMessage();
-        await changeNetwork({ networkName, setErrorMessage })
+        setError();
+        await changeNetwork({ networkName, setError })
     }
     
     const changeNetwork = async ({ networkName, setErrorMessage }) => {
@@ -36,7 +34,7 @@ export const App = () => {
                 }]
             })
         } catch (err) {
-            setErrorMessage(err.message);
+            setError(err.message);
         }
     }
 
@@ -49,9 +47,7 @@ export const App = () => {
                 } else {
                     window.ethereum.request({method: 'eth_requestAccounts'})
                     .then(result => {
-                        setDefaultAccount(result[0]);
                         setConnButtonText(result[0].slice(0,6)+ '...');
-                        setConnected(true);
                         getUserBalance(result[0]);
                         dispatch({type: 'LOADING'});
                         dispatch({type: 'UPDATE_ADDRESS', payload: result[0]});
@@ -59,15 +55,11 @@ export const App = () => {
                 } 
             } else {
                 setConnected(false);
-                setDefaultAccount('');
-                setUserBalance(0.0);
                 setConnButtonText('Connect Wallet'); 
                 dispatch({type: 'DISCONNECT_WALLET'});
             }
         } else {
             setConnected(false);
-            setDefaultAccount('');
-            setUserBalance(0.0);
             setConnButtonText('Connect Wallet'); 
             dispatch({type: 'DISCONNECT_WALLET'});
         }
