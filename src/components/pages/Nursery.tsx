@@ -9,10 +9,10 @@ export const Nursery =()=> {
         "Ghiblun", "Hoppunny", "Pluckinerr", "Flux", // Forest
         "Dirtruk", "Juepl", "Ghree", "Lundkrid", "Hazurk", // Forest
         "Gratur", "Phoog", "Skitt", "Swupix", "Caplin", "Crugley", // Swamp
-        "Ingk", "Tuk", "Stagbu", "Creighb", "Ghoyster", "Ghoster", "Bol",  // Ocean
-        "Turple", "Rainbo", "Blupper",                                    // Ocean
-        "Furbat", "Geopul", "Crawk", "Mander", "Plubite", "Troglogbite", "Atelig", // Cave
-        "Gohot", "Asgred", "Snuphex", "Cyl", "Hram", "Flutter",                     // Mtn
+        "Ingk", "Tuk", "Stagbu", "Creighb", "Ghoyster",   // Ocean
+        "Turple", "Rainbo", "Blupper", "Ghoster", "Bol",    // Ocean
+        "Furbat", "Geopul", "Crawk", "Mander", "Plubite", "Troglogbite", // Cave
+        "Gohot", "Asgred", "Snuphex", "Cyl", "Hram", "Flutter",  "Atelig" , // Mtn
         "Icegol", "Lyr", "Engui", "Pubear", "Snuphex", "Walrax", "Moog", "Sussky"   // Tundra
     ]
 
@@ -86,7 +86,7 @@ export const Nursery =()=> {
     }
 
     return (
-        <div style={{width: '100vw', height: '97vh'}} >
+        <div style={{width: '97vw', height: '92vh'}} >
             <div style={{
                 display: 'grid',
                 justifyContent: 'center',
@@ -98,7 +98,7 @@ export const Nursery =()=> {
                 maxHeight: '600px'
                 }}>
                 
-                <h1 style={{color: 'white', textAlign: 'center'}}>{!mobile && 'Welcome to the '} Nursery</h1>
+                <p style={{fontSize: '32px',color: 'white', textAlign: 'center'}}>{!mobile && 'Welcome to the '} Nursery</p>
                 <div style={!mobile ? {
                     display: 'grid',
                     gridTemplateColumns: '1fr 3fr',
@@ -109,9 +109,9 @@ export const Nursery =()=> {
                     {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
                         {hiddenArray.map((value: boolean, index: number) => 
                         // On click here, change state variables to pass through into the creatureBio
-                            <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
-                                {!value ? <h6>???</h6> : <h6>{creatureDict[index]}</h6> }
-                                <h6>#{index + 1}</h6>
+                            <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', alignItems: 'center',justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
+                                {!value ? <p style={{fontSize: '12px',}}>???</p> : <p style={{fontSize: '12px',}}>{creatureDict[index]}</p> }
+                                <p style={{fontSize: '12px'}}>#{index + 1}</p>
                             </div>
                         )}
                     </div> : null}

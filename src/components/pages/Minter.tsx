@@ -5,9 +5,6 @@ import { AlchemistNFTAddress } from '../assets/contractAddresses/contractAddress
 import { useAppSelector } from '../store/hooks';
 import nftImage from '../assets/images/AlchemistGameNFTAlternate.png'
 
-
-
-
 export const Minter = () => {
     
     const [supply, setSupply] = useState<number>()

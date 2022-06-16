@@ -51,6 +51,7 @@ export const App = () => {
                         getUserBalance(result[0]);
                         dispatch({type: 'LOADING'});
                         dispatch({type: 'UPDATE_ADDRESS', payload: result[0]});
+                        dispatch({type: 'CONNECT_WALLET'});
                     })
                 } 
             } else {
@@ -79,7 +80,6 @@ export const App = () => {
         const approvals = await getApproved(address);
         dispatch({type: 'UPDATE_APPROVALS', payload: approvals})
         dispatch({type: 'FINISH_LOADING'});
-        dispatch({type: 'CONNECT_WALLET'});
         console.log('Account Updated!')
     }
   

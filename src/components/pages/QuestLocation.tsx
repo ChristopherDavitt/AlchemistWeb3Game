@@ -223,7 +223,7 @@ export const QuestLocation = (props:any) => {
                                           nftArray={nftArray}
                                           contractAddress={nftStakingAddress} />}  />}   
           <div style={{display: 'grid',justifyItems: 'center', maxWidth: '1130px',
-                  alignItems: 'center', border: 'double 5px white', margin: 'auto',
+                  alignItems: 'center', border: 'solid 5px white',  borderRadius: '10px',margin: 'auto',
                   position: 'sticky', top: 'calc(50% - 270px)', maxHeight: '600px' }}>
               <h1 style={{color: 'white'}}>Explore the Forest</h1>
               <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem', height: '360px', overflowY: 'hidden'}}>
@@ -234,14 +234,13 @@ export const QuestLocation = (props:any) => {
                       <h4 style={{color:'white'}}>NFT Staked: {tokenIds.length}</h4>
                     </div>
                     <div style={{display: 'grid', overflowY: 'auto', height: '300px'}}>
-                      <div style={{display: 'grid', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
+                      <div style={{display: 'grid', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '0.5fr 1fr 1fr'}}>
                           <p>ID</p>
                           <p>Time Left</p>
                           <p>Potion</p>
-                          <p>Quest Status</p>
                       </div>
                       {timeStaked.map((tokenTime: number, index: number) => 
-                        <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '0.5fr 1fr 1fr 1fr'}}>
+                        <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '0.5fr 1fr 1fr'}}>
                           <p><span style={{fontSize: '0px'}}>{timeStaked[index]}</span>#{tokenIds[index]}</p>
                           {!unstakeArray[index] 
                             ? <Countdown
@@ -249,14 +248,14 @@ export const QuestLocation = (props:any) => {
                               renderer={renderer} 
                               onComplete={() => changeBoolArray(index)} /> 
                           
-                            : <p>Done!</p>} 
+                            : <button style={{width: '140px', height: '40px'}} onClick={() => unstake(tokenIds[index])}>Complete Quest</button>} 
                             
                             
                                     
                           <p>potion</p>
                           
                           {/* {!potionIdArray[index] ? <button onClick={addPotion(tokenId, potionIdArray[index])} >+</button> : <h6>{potionIdArray[index]}</h6>} */}
-                          {!unstakeArray[index] ? <h6>Not Done With Quest</h6> : <button onClick={() => unstake(tokenIds[index])}>Complete Quest</button>  }
+                          
                         </div>
                       )}
                     </div>

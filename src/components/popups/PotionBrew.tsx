@@ -45,7 +45,7 @@ export const PotionBrew = (props: any) =>  {
     return (
         <div>
             {transacting && <Transaction message={!updated ? 'Brewing Potion' : 'POTION ADDED!!!'} />}
-            <div style={{justifyItems: 'center', display: 'grid',border: 'double 10px white', padding: '2rem 0',
+            <div style={{justifyItems: 'center', display: 'grid',border: 'solid 2px white', borderRadius: '10px', padding: '2rem 0',
             maxWidth: '400px', height: '400px', justifyContent: 'center', margin: 'auto' }} >
                         
                 <p style={{textAlign: 'center'}}>#{props.id} {props.name}</p>

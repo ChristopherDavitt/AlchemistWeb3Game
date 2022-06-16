@@ -86,7 +86,7 @@ export const AlchemyStation = () => {
                                          name={name} brewable={potionBrewable} itemName={itemNameProps} 
                                          handleClose={handlePopUpClose} />}/> }
 
-            <h1 style={{color: 'white', textAlign: 'center'}}>Recipe Book</h1>
+            <h1 style={{margin: 0, textAlign: 'center'}}>Recipe Book</h1>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
                          alignItems: 'center', justifyItems: 'left', maxWidth: '500px', margin: ' 10px auto'}}>
                 <p style={{fontSize:'12px'}}>Forest</p>
@@ -102,7 +102,7 @@ export const AlchemyStation = () => {
                 <p style={{fontSize:'12px'}}>Tundra</p>
                 <input id='tundra' type="checkbox" />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', maxWidth: '520px', border: 'double 5px white', 
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', maxWidth: '520px', border: 'solid 3px white', borderRadius: '5px',  
                         paddingLeft: '0.5rem', justifyContent: 'center', alignItems: 'center', margin: '1rem auto'}}>
                 {potionCount.map((value: number, index: number) => 
                     <div onClick={() => selectPotion(index)} key={index} style={{display: 'flex', 

@@ -17,11 +17,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+.auth-button {
+  border: solid 5px rgb(46, 44, 48)
+}
 .auth-button:hover,
 .auth-button:focus{
   background-color: rgb(255, 240, 27);
   cursor: pointer;
+  border: solid 6px rgb(46, 44, 48)
 }
 
 .auth{
@@ -81,7 +84,8 @@ code {
   max-width: 670px;
   max-height: 570px;
   background-color: rgb(0, 0, 0);
-  border: double 10px rgb(202, 202, 202);
+  border: solid 5px rgb(202, 202, 202);
+  border-radius: 10px;
   margin-top: 50px;
   margin-bottom: auto;
   margin-left: auto;

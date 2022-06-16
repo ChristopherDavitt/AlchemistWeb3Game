@@ -27,22 +27,19 @@ export default class Home extends Component {
             }}>
               
               <Link to="/minter" className='auth'>
-                <button style={{width: '12em',height: '4.5em',
-                                  border: 'solid 7px rgb(46, 44, 48)',}} className='auth-button'>
+                <button style={{width: '12em',height: '4.5em'}} className='auth-button'>
                   Mint Your NFT
                 </button>
               </Link>
               
               <a href='https://github.com' className='auth'>
-                <button style={{width: '12em',height: '4.5em',
-                                  border: 'solid 7px rgb(46, 44, 48)',}} className='auth-button'>
+                <button style={{width: '12em', height: '4.5em'}} className='auth-button'>
                   Explore The Docs
                 </button>
               </a>
               
               <Link to="/app" className='auth'>
-                <button style={{width: '12em',height: '4.5em',
-                                  border: 'solid 7px rgb(46, 44, 48)',}} className='auth-button'>
+                <button style={{width: '12em', height: '4.5em'}} className='auth-button'>
                   Enter App
                 </button>
               </Link>
