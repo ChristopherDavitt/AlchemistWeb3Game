@@ -106,7 +106,7 @@ export const Nursery =()=> {
                     width: '700px'
                     } : {display: 'grid',width: '100%'}}>
                         
-                    {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', height: '400px'}}>
+                    {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', borderRadius: '7px', height: '400px'}}>
                         {hiddenArray.map((value: boolean, index: number) => 
                         // On click here, change state variables to pass through into the creatureBio
                             <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', alignItems: 'center',justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
@@ -117,7 +117,7 @@ export const Nursery =()=> {
                     </div> : null}
                     
 
-                    <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto',
+                    <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto', borderRadius: '7px',
                     width: `${mobile ? '350px' : '100%'}`, minWidth: '350px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
     
                         {/* ipfs://fdfahvur/{id}.json */}

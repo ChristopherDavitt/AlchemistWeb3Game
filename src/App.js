@@ -83,11 +83,9 @@ export const App = () => {
         console.log('Account Updated!')
     }
   
-
     window.ethereum.on('accountsChanged', connectWalletHandler)
     window.ethereum.on('chainChanged', handleChainChange)
     
-
     return (
         
         <div style={{display: 'flex', justifyContent: 'space-between', margin: 'auto', padding: '0.2em', maxWidth: '1150px',
