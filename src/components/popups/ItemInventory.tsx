@@ -28,11 +28,9 @@ export const ItemInventory = () => {
       console.log('editing dimendions')
   }
 
-  const itemDict = [
-    'Berry',
-    'Grape',
-    'Fungus',
-  ]
+  const itemDict = ['Bawnberry', 'Nickelstem', 'Valeria Pedals', 'Sugarbark', 'Caapi Root', 'Honey Fungus', 
+                    'Mugwort', 'Eel', 'Water Lillies', 'Bottle o Bugs', 'Sugar Soot',
+                    'Kelp', 'Jelly Jelly', 'Mackerel', 'Giant Tuna', 'Oyster Shells', 'OceanPearl']
 
   return (
     
@@ -69,6 +67,7 @@ export const ItemInventory = () => {
               <p style={{fontSize:'12px'}}>{itemDict[index]}</p>
             </div>
           )}
+          
         </div>
         
     </div>

@@ -4,6 +4,7 @@ import potionPic from '../assets/images/potionPic.png'
 
 export const PotionInventory = () => {
   const count = useAppSelector((state) => state.potions);
+  
 
   const [mobile, setMobile] = useState(false)
   const [windowWidth, setWindowWidth] = useState(0)
@@ -30,11 +31,8 @@ const updateDimensions = () => {
 
 
 
-  const potionDict = [
-    'Rejuvination',
-    'Flask of Potatoes',
-    'Philter of Fire',
-  ]
+  const potionDict = ['Ghibl Jam', 'Sweet Sea', 'Mycil Matte', 
+  'Hoppity Tonic', 'Fishy Philter', 'Electric Vial', 'Turt Tonic']
 
   return (
 

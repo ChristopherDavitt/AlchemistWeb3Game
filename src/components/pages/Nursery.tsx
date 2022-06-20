@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { creature1Address } from '../assets/contractAddresses/contractAddresses';
+import { creature1Address } from '../assets/helpers/contractAddresses';
 import { useAppSelector } from '../store/hooks';
 
 export const Nursery =()=> {
@@ -33,9 +33,9 @@ export const Nursery =()=> {
     const [idNumber, setIdNumber] = useState<string>('0')
     const [hiddenArray, setHiddenArray] = useState<boolean[]>([])
     const [creatures, setCreatures] = useState(false)
-    
-    // Image should correlate to the ipfs ID number
-    const [image, setImage] = useState<string>('')
+    const [location, setLocation] = useState<string>()
+
+    const locationDict = ['Forest', 'Forest', 'Forest']
 
     useEffect(() => {
         const boolArray = []
@@ -71,8 +71,10 @@ export const Nursery =()=> {
             setIdView(`#${index+1}`)
             setDescription(descriptionDict[index])
             setIdNumber(String(index + 1));
+            setLocation(locationDict[index]);
         } else {
             setName('???');
+            setLocation('Unknown');
             setIdView('#0');
             setDescription('Unknown');
             setIdNumber(String(0));
@@ -109,8 +111,15 @@ export const Nursery =()=> {
                     {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', borderRadius: '7px', height: '400px'}}>
                         {hiddenArray.map((value: boolean, index: number) => 
                         // On click here, change state variables to pass through into the creatureBio
-                            <div key={index} onClick={() => handleCreatureState(index)} style={{display: 'flex', color: 'white', alignItems: 'center',justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
-                                {!value ? <p style={{fontSize: '12px',}}>???</p> : <p style={{fontSize: '12px',}}>{creatureDict[index]}</p> }
+                            <div 
+                                key={index}
+                                onClick={() => handleCreatureState(index)} 
+                                style={{display: 'flex', cursor: 'pointer', color: 'white', alignItems: 'center',
+                                        justifyContent: 'space-between', border: 'solid 1px grey', padding: '0.5rem' }}>
+                                {!value 
+                                ? <p style={{ fontSize: '12px' }}>???</p> 
+                                : <p style={{ fontSize: '12px' }}>{creatureDict[index]}</p> 
+                                }
                                 <p style={{fontSize: '12px'}}>#{index + 1}</p>
                             </div>
                         )}
@@ -118,7 +127,7 @@ export const Nursery =()=> {
                     
 
                     <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto', borderRadius: '7px',
-                    width: `${mobile ? '350px' : '100%'}`, minWidth: '350px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
+                    width: `${mobile ? '350px' : '100%'}`, minWidth: '340px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
     
                         {/* ipfs://fdfahvur/{id}.json */}
                         {!mobile ?  <h4>{name}</h4> : <select style={{height: '50px',
@@ -130,9 +139,9 @@ export const Nursery =()=> {
                             )}
                         </select>  }
 
-                        <img src={'https://gateway.pinata.cloud/ipfs/QmZKSYKxV3ZYUaA4rXBS8273yQn6Hg6QmWyYXT1wCPfmeD/' + idNumber + '.png'} alt='creature-image' />
+                        <img style={{border: 'double 10px white'}} src={'https://gateway.pinata.cloud/ipfs/QmasfHMxUAemZBXShp96ZVXN67YqNZuZtFJ39V8bpgthxP/' + idNumber + '.png'} alt='creature-image' />
                         <div style={{padding: '10px'}}>
-                            <p style={{fontSize: '12px' }}>Found:</p><br />
+                            <p style={{fontSize: '12px' }}>Found: {location}</p><br />
                             <p style={{fontSize: '12px' }}>Description: {description} </p>
                         </div>
                     </div>

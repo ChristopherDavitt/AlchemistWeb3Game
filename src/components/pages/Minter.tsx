@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { alchemistABI } from '../assets/abis/tokenABI';
-import { AlchemistNFTAddress } from '../assets/contractAddresses/contractAddresses';
+import { alchemistABI } from '../assets/helpers/tokenABI';
+import { AlchemistNFTAddress } from '../assets/helpers/contractAddresses';
 import { useAppSelector } from '../store/hooks';
 import nftImage from '../assets/images/AlchemistGameNFTAlternate.png'
 
@@ -100,7 +100,7 @@ export const Minter = () => {
     }
 
     return (
-        <div style={{width: '100vw', height: '100vh'}}>
+        <div style={{width: '95vw', height: '89vh'}}>
             <div style={{margin: 'auto', position: 'sticky', top: 'calc(50% - 270px)'}} className="Minter">
                 <h1 style={{textAlign: 'center'}} className='minter-h'>Start Your Adventure</h1>
                 <div style={{justifyContent: 'center', display: 'grid'}}>

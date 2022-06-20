@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ethers, providers, getDefaultProvider, EtherscanProvider } from 'ethers';
 
-import {getApproved, getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions} from './components/assets/helpers/getTokens/getTokens'
+import {getApproved, getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions} from './components/assets/helpers/getTokens'
 import { useAppDispatch, useAppSelector } from './components/store/hooks';
 import { store } from './components/store/store';
 import { networks } from './components/assets/helpers/networks';
@@ -77,6 +77,10 @@ export const App = () => {
         dispatch({type: 'NFTS_AVAIL', payload: nfts})
         const forestStaked = await getNftsStakedForest(address);
         dispatch({type: 'NFTS_STAKED_FOREST', payload: forestStaked})
+        const oceanStaked = await getNftsStakedForest(address);
+        dispatch({type: 'NFTS_STAKED_OCEAN', payload: oceanStaked})
+        const swampStaked = await getNftsStakedForest(address);
+        dispatch({type: 'NFTS_STAKED_SWAMP', payload: swampStaked})
         const approvals = await getApproved(address);
         dispatch({type: 'UPDATE_APPROVALS', payload: approvals})
         dispatch({type: 'FINISH_LOADING'});

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { stakingABI } from '../assets/abis/tokenABI';
+import { stakingABI } from '../assets/helpers/tokenABI';
 import alchemistNFTImage from '../assets/images/WizardSprite.png'
-import { getItems, getNFTS, getNftsStakedForest } from '../assets/helpers/getTokens/getTokens';
+import { getItems, getNFTS, getNftsStakedForest } from '../assets/helpers/getTokens';
 import Transaction from './Transaction';
 
 export const QuestPopUp = (props: any) =>  {
@@ -54,12 +54,12 @@ export const QuestPopUp = (props: any) =>  {
             margin: 'auto',
             overflowY: 'auto',
             }} >
-            {transacting && <Transaction message={!updated ? 'Brewing Potion' : 'POTION ADDED!!!'} />}
+            {transacting && <Transaction message={!updated ? 'Going on Quest...' : 'See Ya Soon!'} />}
             <p>Alchemists Available</p>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
               {props.nftArray.map((tokenId: number, index: number) => 
                 <div key={tokenId} style={{display: 'grid', justifyItems: 'center', cursor: 'pointer'}}
-                    onClick={() => quest(tokenId, index)}>
+                     onClick={() => quest(tokenId, index)}>
                   <img style={{width: '100px'}} src={alchemistNFTImage}  alt='Alchemist-Image' />
                   <p>#{tokenId}</p>
                 </div>

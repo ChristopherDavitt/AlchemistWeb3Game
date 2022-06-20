@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { stakingABI, alchemistABI } from '../assets/abis/tokenABI';
-import { nftStakingAddress, AlchemistNFTAddress } from '../assets/contractAddresses/contractAddresses';
+import { stakingABI, alchemistABI } from '../assets/helpers/tokenABI';
+import { forestStaking, oceanStaking, swampStaking, AlchemistNFTAddress } from '../assets/helpers/contractAddresses';
 import { QuestPopUp } from '../popups/QuestPopUp'
 import Popup from '../popups/PopUp';
-import { getApproved, getItems, getNFTS, getNftsStakedForest } from '../assets/helpers/getTokens/getTokens';
+import { getApproved, getItems, getNFTS, getNftsStakedForest } from '../assets/helpers/getTokens';
 import Transaction from '../popups/Transaction';
 import loadingGif from '../assets/images/LoadingGif.gif';
 
 
-export const QuestLocation = (props:any) => {
+export const QuestLocation = (props: any ) => {
 
   const [timeStaked, setTimeStaked] = useState<number[]>([])
   const [unstakeArray, setUnstakeArray] = useState<boolean[]>([])
@@ -21,6 +21,7 @@ export const QuestLocation = (props:any) => {
   const [approved, setApproved] = useState(false);
   const [transacting, setTransacting] = useState(false)
   const [updated, setUpdated] = useState(false) 
+  const [stakingAddress, setStakingAddress] = useState('')
   
   const nftCount = useAppSelector((state) => state.nftStaked)
   const approvals = useAppSelector((state) => state.approved)
@@ -35,31 +36,27 @@ export const QuestLocation = (props:any) => {
   useEffect(() => {
     if (props.loc == 'forest'){
       setTokenIds(nftCount.forest)
-      getTimeStaked(nftCount.forest, nftStakingAddress);
+      getTimeStaked(nftCount.forest, props.stakingAddress);
       setApproved(approvals[0])
     } else if (props.loc == 'mountains') {
-      setTokenIds(nftCount.mountains)
-      getTimeStaked(nftCount.mountains, nftStakingAddress);
+      setTokenIds(nftCount.mountains);
+      getTimeStaked(nftCount.mountains, props.stakingAddress);
     } else if (props.loc == 'caves') {
-      setTokenIds(nftCount.caves)
-      getTimeStaked(nftCount.caves, nftStakingAddress);
+      setTokenIds(nftCount.caves);
+      getTimeStaked(nftCount.caves, props.stakingAddress);
     } else if (props.loc == 'ocean') {
-      setTokenIds(nftCount.ocean)
-      getTimeStaked(nftCount.ocean, nftStakingAddress);
+      setTokenIds(nftCount.ocean);
+      setApproved(approvals[2])
+      getTimeStaked(nftCount.ocean, props.stakingAddress);
     }else if (props.loc == 'tundra') {
-      setTokenIds(nftCount.tundra)
-      getTimeStaked(nftCount.tundra, nftStakingAddress);
+      setTokenIds(nftCount.tundra);
+      getTimeStaked(nftCount.tundra, props.stakingAddress);
     } else if (props.loc == 'swamp') {
-      setTokenIds(nftCount.swamp)
-      getTimeStaked(nftCount.swamp, nftStakingAddress);
+      setTokenIds(nftCount.swamp);
+      getTimeStaked(nftCount.swamp, props.stakingAddress);
+      setApproved(approvals[1])
     }
   }, [approvals, nftCount])
-  
-  
-  useEffect(() => {
-    console.log('Use Effect Called')
-    
-  }, [nftCount])
 
   const handleStateChange = (timeArray: number[], boolArray: boolean[]) => {
     setTimeStaked(timeArray);
@@ -128,8 +125,14 @@ export const QuestLocation = (props:any) => {
   const update = async () => {
     setUpdated(true)
     
+    setTimeout(() => {
+      setUpdated(false)
+      setTransacting(false)        
+    }, 1000)
+    
+    // FIX THIS
     const staked = await getNftsStakedForest(address)
-    dispatch({type: 'NFTS_STAKED_FOREST', payload: staked})
+    dispatch({type: props.type, payload: staked})
 
     const nftAvail = await getNFTS(address);
     dispatch({type: 'NFTS_AVAIL', payload: nftAvail})
@@ -138,10 +141,6 @@ export const QuestLocation = (props:any) => {
     dispatch({type: 'UPDATE_ITEMS', payload: items})
 
     console.log('Updated!')
-    setTimeout(() => {
-        setUpdated(false)
-        setTransacting(false)        
-    }, 1000)
   }
 
   const unstake = async (tokenId:any) => {
@@ -149,7 +148,7 @@ export const QuestLocation = (props:any) => {
     const network = 'rinkeby'
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
-    const stakingContract = new ethers.Contract(nftStakingAddress, stakingABI, signer)
+    const stakingContract = new ethers.Contract(props.stakingAddress, stakingABI, signer)
 
     // get tokenId
     try {
@@ -174,7 +173,7 @@ export const QuestLocation = (props:any) => {
     // get tokenId
     try {
       // Add potion to the tokenId mapping in the contract
-      const tx = await alchemistContract.setApprovalForAll(nftStakingAddress, true) 
+      const tx = await alchemistContract.setApprovalForAll(props.stakingAddress, true) 
       await tx.wait()
       const approved = await getApproved(address)
       dispatch({type: 'UPDATE_APPROVALS', payload: approved})
@@ -221,7 +220,7 @@ export const QuestLocation = (props:any) => {
                                 content={<QuestPopUp 
                                           handleClose={handleQuestClose} 
                                           nftArray={nftArray}
-                                          contractAddress={nftStakingAddress} />}  />}   
+                                          contractAddress={stakingAddress} />}  />}   
           <div style={{display: 'grid',justifyItems: 'center', maxWidth: '1130px',
                   alignItems: 'center', border: 'solid 5px white',  borderRadius: '10px',margin: 'auto',
                   position: 'sticky', top: 'calc(50% - 270px)', maxHeight: '600px' }}>
@@ -229,7 +228,7 @@ export const QuestLocation = (props:any) => {
               <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem', height: '360px', overflowY: 'hidden'}}>
                   <div>
                     <div style={{display: 'flex', gap: '2rem', alignItems: 'center'}}>
-                      {approved ? <button style={{width:'150px', height:'40px'}} onClick={() => setQuest(true)}>Go On Quest</button> : 
+                      {approved[props.approvedIndex] ? <button style={{width:'150px', height:'40px'}} onClick={() => setQuest(true)}>Go On Quest</button> : 
                       <button style={{width:'150px', height:'40px'}} onClick={()=> approveAddress()}>Approve Quest</button>  }
                       <h4 style={{color:'white'}}>NFT Staked: {tokenIds.length}</h4>
                     </div>

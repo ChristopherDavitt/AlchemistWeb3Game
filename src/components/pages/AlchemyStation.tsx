@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import {PotionBrew} from '../popups/PotionBrew';
-import { potion3Address, potion1Address, potion2Address } from '../assets/contractAddresses/contractAddresses';
+import { potions } from '../assets/helpers/contractAddresses';
 import Popup from '../popups/PopUp';
 
 import loadingGif from '../assets/images/LoadingGif.gif'
@@ -25,25 +25,21 @@ export const AlchemyStation = () => {
     const [itemIds, setItemIds] = useState<number[]>()
     const [txn, setTxn] = useState(false)
 
-    const potionAddresses = [
-        potion1Address,
-        potion2Address,
-        potion3Address
-    ]
+    const itemNameDict = ['Bawnberry', 'Nickelstem', 'Valeria Pedals', 'Sugarbark', 'Caapi Root',
+     'Honey Fungus', 'Mugwort', 'Eel', 'Water Lillies', 'Bottle o Bugs', 
+     'Sugar Soot', 'Kelp', 'Jelly Jelly', 'Mackerel', 'Giant Tuna', 
+     'Oyster Shells', 'OceanPearl']
 
-    const itemNameDict = [
-        'Berry', 'Grape', 'Fungus'
-    ]
-    const potionNameDict = [
-        'Rejuvination', 'Flask of Potatoes', 'Philter of Fire'
-    ]
+    const potionNameDict = ['Ghibl Jam', 'Sweet Sea', 'Mycil Matte', 
+    'Hoppity Tonic', 'Fishy Philter', 'Electric Vial', 'Turt Tonic']
+  
     // potion dict to contain the index of items in the state variable
     const potionDict = [
-        [0,1], [0,2], [1,2]
+        [0,3,5], [0, 14, 2], [4,5,6,10], [9,8], [15, 13], [12, 11, 1], [7, 16, 11]
     ]
 
     const potionCosts = [
-        [1,1], [1,1], [1,1]
+        [1,1,1], [1,1,1], [1,1,1,1], [1,1], [1,1], [1,1,1], [1,1,1]
     ]
 
     const handlePopUpClose = () => {
@@ -69,7 +65,7 @@ export const AlchemyStation = () => {
         setSeletedPotionIngredients(boolArray)
         setBrewable(brewable)
         setCosts(costArray)
-        setPotionAddress(potionAddresses[index])
+        setPotionAddress(potions[index])
         setName(potionNameDict[index])
         setItemNameProps(itemNames)
         setId(index+1)
