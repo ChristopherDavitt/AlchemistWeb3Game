@@ -70,12 +70,12 @@ export const Nursery =()=> {
             setName(creatureDict[index])
             setIdView(`#${index+1}`)
             setDescription(descriptionDict[index])
-            setIdNumber(String(index));
+            setIdNumber(String(index + 1));
         } else {
             setName('???');
             setIdView('#0');
             setDescription('Unknown');
-            setIdNumber(String(index));
+            setIdNumber(String(0));
         }
 
     }
@@ -104,7 +104,7 @@ export const Nursery =()=> {
                     gridTemplateColumns: '1fr 3fr',
                     gap: '0.5rem',
                     width: '700px'
-                    } : {display: 'grid',width: '100%'}}>
+                    } : {display: 'grid', width: '100%'}}>
                         
                     {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', borderRadius: '7px', height: '400px'}}>
                         {hiddenArray.map((value: boolean, index: number) => 
@@ -130,7 +130,7 @@ export const Nursery =()=> {
                             )}
                         </select>  }
 
-                        <img src='https://via.placeholder.com/150' alt='creature-image' />
+                        <img src={'https://gateway.pinata.cloud/ipfs/QmZKSYKxV3ZYUaA4rXBS8273yQn6Hg6QmWyYXT1wCPfmeD/' + idNumber + '.png'} alt='creature-image' />
                         <div style={{padding: '10px'}}>
                             <p style={{fontSize: '12px' }}>Found:</p><br />
                             <p style={{fontSize: '12px' }}>Description: {description} </p>
