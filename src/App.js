@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ethers, providers, getDefaultProvider, EtherscanProvider } from 'ethers';
 
-import {getApproved, getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions} from './components/assets/helpers/getTokens'
+import {getApproved, getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions, getNftsStakedSwamp, getNftsStakedOcean} from './components/assets/helpers/getTokens'
 import { useAppDispatch, useAppSelector } from './components/store/hooks';
 import { store } from './components/store/store';
 import { networks } from './components/assets/helpers/networks';
@@ -10,8 +10,9 @@ import { Link } from 'react-router-dom';
 export const App = () => {
     
     const [error, setError] = useState();
-    const [connected, setConnected] = useState(false);
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+
+    const connected = useAppSelector((state) => state.connected)
 
     const handleChainChange = () => {
         window.location.reload()
@@ -51,16 +52,14 @@ export const App = () => {
                         getUserBalance(result[0]);
                         dispatch({type: 'LOADING'});
                         dispatch({type: 'UPDATE_ADDRESS', payload: result[0]});
-                        dispatch({type: 'CONNECT_WALLET'});
+                        dispatch({type: 'CONNECT_WALLET'})
                     })
                 } 
             } else {
-                setConnected(false);
                 setConnButtonText('Connect Wallet'); 
                 dispatch({type: 'DISCONNECT_WALLET'});
             }
         } else {
-            setConnected(false);
             setConnButtonText('Connect Wallet'); 
             dispatch({type: 'DISCONNECT_WALLET'});
         }
@@ -77,13 +76,14 @@ export const App = () => {
         dispatch({type: 'NFTS_AVAIL', payload: nfts})
         const forestStaked = await getNftsStakedForest(address);
         dispatch({type: 'NFTS_STAKED_FOREST', payload: forestStaked})
-        const oceanStaked = await getNftsStakedForest(address);
+        const oceanStaked = await getNftsStakedOcean(address);
         dispatch({type: 'NFTS_STAKED_OCEAN', payload: oceanStaked})
-        const swampStaked = await getNftsStakedForest(address);
+        const swampStaked = await getNftsStakedSwamp(address);
         dispatch({type: 'NFTS_STAKED_SWAMP', payload: swampStaked})
         const approvals = await getApproved(address);
         dispatch({type: 'UPDATE_APPROVALS', payload: approvals})
         dispatch({type: 'FINISH_LOADING'});
+        dispatch({type: 'CONNECT_WALLET'});
         console.log('Account Updated!')
     }
   

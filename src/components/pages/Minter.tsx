@@ -4,6 +4,7 @@ import { alchemistABI } from '../assets/helpers/tokenABI';
 import { AlchemistNFTAddress } from '../assets/helpers/contractAddresses';
 import { useAppSelector } from '../store/hooks';
 import nftImage from '../assets/images/AlchemistGameNFTAlternate.png'
+import { transferTokens, allowCreatureContracts } from '../assets/helpers/getTokens';
 
 export const Minter = () => {
     
@@ -99,13 +100,21 @@ export const Minter = () => {
           }
     }
 
+    const transferItems = () => {
+        transferTokens()
+    }
+
+    const allowCreatures = () => {
+        allowCreatureContracts();
+    }
+
     return (
         <div style={{width: '95vw', height: '89vh'}}>
             <div style={{margin: 'auto', position: 'sticky', top: 'calc(50% - 270px)'}} className="Minter">
                 <h1 style={{textAlign: 'center'}} className='minter-h'>Start Your Adventure</h1>
                 <div style={{justifyContent: 'center', display: 'grid'}}>
                     <img style={{margin: 'auto', width: '300px'}} src={nftImage} alt='nftImage' ></img>
-                    <p className='minter-h'>Price: {cost} FTM</p>
+                    <p className='minter-h'>Price: {cost} ETH</p>
                     <p className='minter-h'>Supply: {supply}/10000</p>
                     <p className='minter-h'>Mint Amount: {count} <span><button onClick={handleNegate}>-</button><button onClick={handlePlus} >+</button></span></p>
                 </div>
@@ -113,7 +122,7 @@ export const Minter = () => {
                 <div style={{justifyContent: 'center', display:'flex', alignItems: 'center'}}>
                     {connected ? <button style={{width: '200px', height: '50px'}} onClick={() => mint(count)} >Mint</button>
                                 : <button style={{width: '200px', height: '50px'}} disabled>Connect Wallet</button> }
-                    {/* <button style={{width: '200px', height: '50px'}} onClick={() => withdrawFunds()} >Change Cost</button> */}
+                    {/* <button style={{width: '200px', height: '50px'}} onClick={() => allowCreatures()} >Change Cost</button> */}
                 </div>
             </div>
         </div>

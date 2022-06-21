@@ -2,22 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { potionBrewABI, tokenABI } from '../assets/helpers/tokenABI';
 import Transaction from './Transaction';
-import { getItems } from '../assets/helpers/getTokens';
+import { getPotions } from '../assets/helpers/getTokens';
 import { items } from '../assets/helpers/contractAddresses';
 
 export const PotionBrew = (props: any) =>  {
 
     const [transacting, setTransacting] = useState(false)
     const [updated, setUpdated] = useState(false) 
+    const [approvalItems, setApprovalItems] = useState<number[]>([]);
+    const [count, setCount] = useState(0);
 
-    const address = useAppSelector((state) => state.address)
-    const dispatch = useAppDispatch()
+    const address = useAppSelector((state) => state.address);
+    const dispatch = useAppDispatch();
 
-    var approvals:number[] = [];
 
     useEffect(() => {
         getApprovals();
-    }, [])
+    }, [count])
 
     const getApprovals = async () => {
         const isApproved: number[] = []
@@ -25,28 +26,34 @@ export const PotionBrew = (props: any) =>  {
         const network = 'rinkeby'
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         for (let i =0 ; i< props.itemIds.length; i++) {
-            var itemContract = new ethers.Contract(items[i], tokenABI, provider)
+            var itemContract = new ethers.Contract(items[props.itemIds[i]], tokenABI, provider)
             try {
                 const approve = await itemContract.allowance(address, props.contractAddress)
-                console.log(approve)
+                console.log(parseInt(approve._hex, 16))
                 isApproved.push(parseInt(approve._hex, 16))
             } catch (error) {
                 console.log(error)
             }
         }
-        approvals = isApproved
-        console.log(approvals)
+        setApprovalItems(isApproved);
+        console.log(approvalItems)
     }
 
     const approve = async (index: number) => {
-        const isApproved: boolean[] = []
         const ethers = require('ethers')
         const network = 'rinkeby'
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
-        const itemContract = new ethers.Contract(items[index], props.contractAddress, signer)
+        const itemContract = new ethers.Contract(items[index], tokenABI, signer)
         try {
-            const tx = await itemContract.approve(props.contractAddress, 1000000) 
+            const tx = await itemContract.approve(props.contractAddress, 1000000)
+            await tx.wait() 
+            setUpdated(true)
+            console.log('Updated!')
+            setCount(count + 1);
+            setTimeout(() => {
+                setUpdated(false)
+            }, 1000)
         } catch (error) {
             console.log(error)
         }
@@ -54,8 +61,8 @@ export const PotionBrew = (props: any) =>  {
 
     const update = async () => {
         setUpdated(true)
-        const items = await getItems(address)
-        dispatch({type: 'UPDATE_ITEMS', payload: items})
+        const potions = await getPotions(address)
+        dispatch({type: 'UPDATE_POTIONS', payload: potions})
         console.log('Updated!')
         setTimeout(() => {
             setUpdated(false)
@@ -94,7 +101,9 @@ export const PotionBrew = (props: any) =>  {
                 <div style={{display: 'grid', gridTemplateColumns: '1fr'}}>
                     {props.boolArray.map((value: boolean, index: number) => 
                         <p key={index} style={{fontSize: '10px',color: `${!value ? 'grey' : 'white'}`}} >
-                            #{props.itemIds[index] + 1} {props.itemName[index]}: ( {props.costArray[index]} )</p>
+                            #{props.itemIds[index] + 1} {props.itemName[index]}: ( {props.costArray[index]} ) 
+                            {!approvalItems[index] && <button onClick={() => approve(props.itemIds[index])}>Approve</button>}
+                        </p>
                     )}
                 </div>
                 <br></br>

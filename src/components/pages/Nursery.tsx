@@ -6,20 +6,18 @@ import { useAppSelector } from '../store/hooks';
 export const Nursery =()=> {
 
     const creatureDict = [
-        "Ghiblun", "Hoppunny", "Pluckinerr", "Flux", // Forest
-        "Dirtruk", "Juepl", "Ghree", "Lundkrid", "Hazurk", // Forest
-        "Gratur", "Phoog", "Skitt", "Swupix", "Caplin", "Crugley", // Swamp
-        "Ingk", "Tuk", "Stagbu", "Creighb", "Ghoyster",   // Ocean
-        "Turple", "Rainbo", "Blupper", "Ghoster", "Bol",    // Ocean
-        "Furbat", "Geopul", "Crawk", "Mander", "Plubite", "Troglogbite", // Cave
-        "Gohot", "Asgred", "Snuphex", "Cyl", "Hram", "Flutter",  "Atelig" , // Mtn
-        "Icegol", "Lyr", "Engui", "Pubear", "Snuphex", "Walrax", "Moog", "Sussky"   // Tundra
+        'Marbley','Phoog',  
+        'Ghiblin','Hazurk',
+        'Blupper', 'Tuk',
     ]
 
     const descriptionDict = [
-        "Hoppy creature that likes to eat small fruits. Found in Forest.",
-        "Somewhat Like a bunny, but much smaller, and likes to spend time underground in the root systems of trees. Found in Forest",
-        "Flying creature that has strong wings, and an even stronger beak. Spends time high up in trees. Found in Forest"
+        "Tree creature that sits alone in the tree canopies. When resting, their tail lights up.",
+        "Small creature that likes to eat bugs, and climb trees.",
+        "Hoppy creature that likes to eat small fruits, and spend its time in the root systems of trees.",
+        "Bear like. Spends time at the river dams interacting with the fish. Can't tell if they eat fish...",
+        "Seal like creature that emits a powder. Fish seem to follow them.",
+        "Shell creature that spends its time deep on the ocean floor. Sometimes comes up to the shore at night."
     ]
 
     const [width, setWindowWidth] = useState(0)
@@ -35,7 +33,7 @@ export const Nursery =()=> {
     const [creatures, setCreatures] = useState(false)
     const [location, setLocation] = useState<string>()
 
-    const locationDict = ['Forest', 'Forest', 'Forest']
+    const locationDict = ['Swamp', 'Swamp', 'Forest','Forest', 'Ocean','Ocean']
 
     useEffect(() => {
         const boolArray = []
@@ -108,7 +106,7 @@ export const Nursery =()=> {
                     width: '700px'
                     } : {display: 'grid', width: '100%'}}>
                         
-                    {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', borderRadius: '7px', height: '400px'}}>
+                    {!mobile ? <div className='creature-sidebar' style={{border: 'solid 2px white', borderRadius: '7px',overflowY: 'auto', height: '400px'}}>
                         {hiddenArray.map((value: boolean, index: number) => 
                         // On click here, change state variables to pass through into the creatureBio
                             <div 
@@ -127,7 +125,7 @@ export const Nursery =()=> {
                     
 
                     <div className='creature-bio' style={{border: 'solid 2px white', margin: 'auto', borderRadius: '7px',
-                    width: `${mobile ? '350px' : '100%'}`, minWidth: '340px', maxWidth: '500px', height: '400px', overflow: 'auto', display: 'grid', justifyItems: 'center' }} >
+                    width: `${mobile ? '350px' : '100%'}`, minWidth: '340px', maxWidth: '500px', height: '400px', display: 'grid', justifyItems: 'center' }} >
     
                         {/* ipfs://fdfahvur/{id}.json */}
                         {!mobile ?  <h4>{name}</h4> : <select style={{height: '50px',
@@ -139,7 +137,7 @@ export const Nursery =()=> {
                             )}
                         </select>  }
 
-                        <img style={{border: 'double 10px white'}} src={'https://gateway.pinata.cloud/ipfs/QmasfHMxUAemZBXShp96ZVXN67YqNZuZtFJ39V8bpgthxP/' + idNumber + '.png'} alt='creature-image' />
+                        <img style={{border: 'double 10px white'}} src={'https://gateway.pinata.cloud/ipfs/QmYjasF2yyqaoSSkmxfqN28sLiqpc5r4XXk2gxr4KnpRm7/' + idNumber + '.png'} alt='creature-image' />
                         <div style={{padding: '10px'}}>
                             <p style={{fontSize: '12px' }}>Found: {location}</p><br />
                             <p style={{fontSize: '12px' }}>Description: {description} </p>

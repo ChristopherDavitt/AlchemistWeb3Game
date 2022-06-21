@@ -31,10 +31,10 @@ root.render(
           <Route path='/minter' element={<Minter />} />
           <Route path='/app' element={<Map />} />
           {/* <Route path='/app/mountains' element={<QuestLocation loc='mountains'  />} /> */}
-          <Route path='/app/ocean' element={<QuestLocation loc='ocean' stakingAddress={oceanStaking} type='NFT_STAKED_OCEAN' approvedIndex={2} />} />
+          <Route path='/app/ocean' element={<QuestLocation loc='ocean' stakingAddress={oceanStaking} type='NFT_STAKED_OCEAN'  />} />
           {/* <Route path='/app/tundra' element={<QuestLocation loc='tundra'  />} /> */}
-          <Route path='/app/swamp' element={<QuestLocation loc='swamp' stakingAddress={swampStaking} type='NFT_STAKED_SWAMP' approvedIndex={1}/>} />
-          <Route path='/app/forest' element={<QuestLocation loc='forest' stakingAddress={forestStaking} type='NFT_STAKED_FOREST' approvedIndex={0} />} />
+          <Route path='/app/swamp' element={<QuestLocation loc='swamp' stakingAddress={swampStaking} type='NFT_STAKED_SWAMP' />} />
+          <Route path='/app/forest' element={<QuestLocation loc='forest' stakingAddress={forestStaking} type='NFT_STAKED_FOREST'  />} />
           {/* <Route path='/app/caves' element={<QuestLocation loc='caves'  />} /> */}
           <Route path='/app/house' element={<House />} />
           <Route path='/app/nursery' element={<Nursery />} />

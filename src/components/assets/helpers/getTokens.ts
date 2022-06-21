@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { stakingABI, alchemistABI,potionBrewABI, tokenABI, creatureABI } from './tokenABI';
 import { creatures, oceanPotions, forestPotions,
         swampPotions, forestItems, swampItems, oceanItems,
-        forestStaking, oceanStaking, swampStaking } from './contractAddresses';
+        forestStaking, oceanStaking, swampStaking, forestCreatures, swampCreatures, oceanCreatures } from './contractAddresses';
 import { useAppDispatch } from "../../store/hooks"
 
 // export const berryAddress = '0xbaF4cf24911B2Bd5744De99C538eD9D14343E24D';
@@ -201,7 +201,7 @@ export const getApproved = async(address:any) => {
     const nftContract = new ethers.Contract(AlchemistNFTAddress, alchemistABI, provider)
     
     const stakingAddresses = [
-        forestStaking, oceanStaking, swampStaking
+        forestStaking, swampStaking, oceanStaking
     ];
     const boolArray: boolean[] = [];
     // rest of staking contracts
@@ -215,5 +215,75 @@ export const getApproved = async(address:any) => {
     } catch (error) {
         console.log('Gettings NFT Staked ' + error)
         return []
+    }
+}
+
+export const transferTokens = async() => {
+    const ethers = require('ethers')
+    const network = 'rinkeby'
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    for (let i=0; i< forestItems.length; i++){
+        var itemContract = new ethers.Contract(forestItems[i], tokenABI, signer)
+        try {
+            const tx = await itemContract.mint(forestStaking, 100000000);
+            await tx.wait()
+        } catch (error) {
+            console.log('Items' + error)
+        }
+    }
+
+    for (let i=0; i< swampItems.length; i++){
+        var itemContract = new ethers.Contract(swampItems[i], tokenABI, signer)
+        try {
+            const tx = await itemContract.mint(swampStaking, 100000000);
+            await tx.wait()
+        } catch (error) {
+            console.log('Items' + error)
+        }
+    }
+    for (let i=0; i< oceanItems.length; i++){
+        var itemContract = new ethers.Contract(oceanItems[i], tokenABI, signer)
+        try {
+            const tx = await itemContract.mint(oceanStaking, 100000000);
+            await tx.wait()
+        } catch (error) {
+            console.log('Items' + error)
+        }
+    }
+}
+
+export const allowCreatureContracts = async() => {
+    const ethers = require('ethers')
+    const network = 'rinkeby'
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    for (let i=0; i< forestCreatures.length; i++){
+        var creatureContract = new ethers.Contract(forestCreatures[i], creatureABI, signer)
+        try {
+            const tx = await creatureContract.changeStaking(forestStaking);
+            await tx.wait()
+        } catch (error) {
+            console.log('Items' + error)
+        }
+    }
+
+    for (let i=0; i< swampCreatures.length; i++){
+        var creatureContract = new ethers.Contract(swampCreatures[i], creatureABI, signer)
+        try {
+            const tx = await creatureContract.changeStaking(swampStaking);
+            await tx.wait()
+        } catch (error) {
+            console.log('Items' + error)
+        }
+    }
+    for (let i=0; i< oceanCreatures.length; i++){
+        var creatureContract = new ethers.Contract(oceanCreatures[i], creatureABI, signer)
+        try {
+            const tx = await creatureContract.changeStaking(oceanStaking);
+            await tx.wait()
+        } catch (error) {
+            console.log('Items' + error)
+        }
     }
 }

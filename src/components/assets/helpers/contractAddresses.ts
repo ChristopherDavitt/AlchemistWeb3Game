@@ -65,7 +65,11 @@ export const blupper = '0xfE5d1A6fb53Af7A1c9748Ed08714baD1763F1D2E';
 export const tuk = '0x29B3A7647cc5aCf39aF20a90A60b88b45Ced73cb';
 export const gratur = '0x329B5B377BEC3D17D807aee80508290EFF68B559';
 
-export const creatures = [phoog, marbley, ghiblin, hazurk, blupper, tuk, gratur]
+export const forestCreatures = [ghiblin,hazurk ]
+export const swampCreatures = [marbley, phoog]
+export const oceanCreatures = [blupper, tuk, gratur]
+
+export const creatures = [phoog, marbley, ghiblin, hazurk, blupper, tuk, gratur, gratur]
 
 export const forestStaking = '0xE631fc0E07CC8DC07e7B70050f2B7D6bbeCceCE9';
 export const swampStaking = '0xEf8386f1e17BA893d4be0581AD61310E8d9c7a5E';

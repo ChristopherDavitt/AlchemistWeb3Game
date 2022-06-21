@@ -18,11 +18,11 @@ code {
     monospace;
 }
 .auth-button {
-  border: solid 1px rgb(51, 51, 51);
-  border-radius: 5px;
+  border: solid 5px rgb(0, 0, 0);
 }
 .auth-button:hover,
 .auth-button:focus{
+  border: solid 6px black;
   background-color: rgb(255, 240, 23);
   cursor: pointer;
   

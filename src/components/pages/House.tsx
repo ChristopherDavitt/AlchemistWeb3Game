@@ -54,7 +54,8 @@ export default function House() {
         }
         setWindowWidth(width);
     }
-
+    const state= useAppSelector((state) => state)
+    console.log(state)
     const handleItemToggle = () => {
         const bool = items
         setPotions(false)
