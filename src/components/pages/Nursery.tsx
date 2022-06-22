@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 import { creature1Address } from '../assets/helpers/contractAddresses';
 import { useAppSelector } from '../store/hooks';
 
@@ -86,6 +88,10 @@ export const Nursery =()=> {
     }
 
     return (
+        <motion.div
+        initial={{opacity: 0}}
+         animate={{opacity: 1}}>
+            
         <div style={{width: '97vw', height: '92vh'}} >
             <div style={{
                 display: 'grid',
@@ -149,5 +155,6 @@ export const Nursery =()=> {
                 <Link to={'/app'} className='auth'><h3 className='quest-map'>Back to Map {'-->'}</h3></Link>
             </div>
         </div>
+        </motion.div>
     )
 }

@@ -11,7 +11,7 @@ export const PotionBrew = (props: any) =>  {
     const [updated, setUpdated] = useState(false) 
     const [approvalItems, setApprovalItems] = useState<number[]>([]);
     const [count, setCount] = useState(0);
-
+    
     const address = useAppSelector((state) => state.address);
     const dispatch = useAppDispatch();
 
@@ -36,7 +36,7 @@ export const PotionBrew = (props: any) =>  {
             }
         }
         setApprovalItems(isApproved);
-        console.log(approvalItems)
+        console.log(isApproved)
     }
 
     const approve = async (index: number) => {
@@ -102,7 +102,7 @@ export const PotionBrew = (props: any) =>  {
                     {props.boolArray.map((value: boolean, index: number) => 
                         <p key={index} style={{fontSize: '10px',color: `${!value ? 'grey' : 'white'}`}} >
                             #{props.itemIds[index] + 1} {props.itemName[index]}: ( {props.costArray[index]} ) 
-                            {!approvalItems[index] && <button onClick={() => approve(props.itemIds[index])}>Approve</button>}
+                            {approvalItems[index] < 10 && <button onClick={() => approve(props.itemIds[index])}>Approve</button>}
                         </p>
                     )}
                 </div>

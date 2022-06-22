@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { ethers, providers, getDefaultProvider, EtherscanProvider } from 'ethers';
 
-import {getApproved, getCreatures, getItems, getNFTS, getNftsStakedForest, getPotions, getNftsStakedSwamp, getNftsStakedOcean} from './components/assets/helpers/getTokens'
-import { useAppDispatch, useAppSelector } from './components/store/hooks';
-import { store } from './components/store/store';
-import { networks } from './components/assets/helpers/networks';
+import {getApproved, getCreatures, getItems, getNFTS, 
+        getNftsStakedForest, getPotions, getNftsStakedSwamp, 
+        getNftsStakedOcean} from '../assets/helpers/getTokens'
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { networks } from '../assets/helpers/networks';
 import { Link } from 'react-router-dom';
 
-export const App = () => {
+export const WalletConnect = () => {
     
     const [error, setError] = useState();
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');

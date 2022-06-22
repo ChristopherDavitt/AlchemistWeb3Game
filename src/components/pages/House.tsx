@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 import { useAppSelector } from '../store/hooks';
 import { AlchemyStation }from './AlchemyStation'
-import { ItemInventory } from '../popups/ItemInventory'
-import { PotionInventory } from '../popups/PotionInventory'
+import { ItemInventory } from './ItemInventory'
+import { PotionInventory } from './PotionInventory'
 import PopUp from '../popups/PopUp';
 
 import homeImage9 from '../assets/images/House9.png'
@@ -78,7 +79,7 @@ export default function House() {
     }
     
     return (
-        <>
+        <motion.div initial={{opacity: 0}} animate={{opacity: 1}}>
             {!connected ? 
             
             <div style={{width: '100%', height: '80vh', display: 'grid', 
@@ -165,6 +166,6 @@ export default function House() {
             
             <p>Refresh Page</p>}
              
-        </>
+        </motion.div>
     )
 }

@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown';
+import { motion } from 'framer-motion';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { stakingABI, alchemistABI } from '../assets/helpers/tokenABI';
@@ -197,7 +198,10 @@ export const QuestLocation = (props: any ) => {
 
     return (
       
-       <>
+      <motion.div
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      >
         {!connected ? 
         
         <div style={{width: '100%', height: '80vh', display: 'grid', 
@@ -227,7 +231,7 @@ export const QuestLocation = (props: any ) => {
           <div style={{display: 'grid',justifyItems: 'center', maxWidth: '1130px',
                   alignItems: 'center', border: 'solid 5px white',  borderRadius: '10px',margin: 'auto',
                   position: 'sticky', top: 'calc(50% - 270px)', minHeight: '300px',height: '100%', maxHeight: '600px' }}>
-              <h1 style={{color: 'white', margin: 'auto'}}>Explore the {props.loc}</h1>
+              <p style={{fontSize: '32px',color: 'white', textAlign: 'center', margin: '1rem auto'}}>Explore the {props.loc}</p>
               <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem', height: '360px', overflowY: 'hidden'}}>
                   <div>
                     <div>
@@ -272,6 +276,6 @@ export const QuestLocation = (props: any ) => {
         </div> 
            
         : <p>Refresh Page</p>}
-      </>
+      </motion.div>
     )
 }

@@ -47,7 +47,10 @@ export const Map = () => {
         setWindowWidth(width);
     }
     return (
-      <>
+      <motion.div
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+      >
         { !connected ? 
 
         <div style={{width: '100%', height: '80vh', display: 'grid', 
@@ -158,6 +161,6 @@ export const Map = () => {
             </div>
         </div>}
         
-      </>
+      </motion.div>
     )
 }

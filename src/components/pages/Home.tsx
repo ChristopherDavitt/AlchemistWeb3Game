@@ -1,12 +1,16 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import landingGif from '../assets/images/wizardgif.gif'
-import title from '../assets/images/title.png'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+import landingGif from '../assets/images/wizardgif.gif';
+import title from '../assets/images/title.png';
 
 export default class Home extends Component {
   render() {
     return (
-      <>
+      <motion.div 
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}>
         <div style={{
               backgroundImage: `url(${landingGif})`,
               backgroundRepeat: 'no-repeat',
@@ -47,7 +51,7 @@ export default class Home extends Component {
             </div>
           </div>
         </div>
-      </>
+      </motion.div>
     )
   }
 }
