@@ -98,7 +98,7 @@ export const AlchemyStation = () => {
                 <p style={{fontSize:'12px'}}>Tundra</p>
                 <input id='tundra' type="checkbox" />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', maxWidth: '520px', border: 'solid 3px white', borderRadius: '5px',  
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', maxWidth: '520px',height: '390px',overflowY: 'auto', border: 'solid 3px white', borderRadius: '5px',  
                         paddingLeft: '0.5rem', justifyContent: 'center', alignItems: 'center', margin: '1rem auto'}}>
                 {potionCount.map((value: number, index: number) => 
                     <div onClick={() => selectPotion(index)} key={index} style={{display: 'flex', 

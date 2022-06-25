@@ -32,7 +32,7 @@ export default class Home extends Component {
               
               <Link to="/minter" className='auth'>
                 <button style={{width: '12em',height: '4.5em'}} className='auth-button'>
-                  Mint Your NFT
+                  Mint Your Alchemist
                 </button>
               </Link>
               

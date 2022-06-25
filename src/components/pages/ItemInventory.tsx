@@ -55,7 +55,7 @@ export const ItemInventory = () => {
           <p style={{fontSize:'12px'}}>Tundra</p>
           <input id='tundra' type="checkbox" />
         </div>
-        <div style={{display: 'grid', gridTemplateColumns: '1fr', maxWidth: '520px', height: '400px', border: 'solid 3px white', borderRadius: '5px',  
+        <div style={{display: 'grid', gridTemplateColumns: '1fr', maxWidth: '520px', height: '390px', border: 'solid 3px white', borderRadius: '5px',  
           paddingLeft: '0.5rem', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', margin: '1rem auto'}}>
           {count.map((item: number, index: number) =>
             <div key={index} style={{display: 'flex', alignItems: 'center', justifyContent: 'left', gap: '1rem'}}> 

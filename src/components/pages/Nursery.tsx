@@ -33,7 +33,7 @@ export const Nursery =()=> {
     const [idNumber, setIdNumber] = useState<string>('0')
     const [hiddenArray, setHiddenArray] = useState<boolean[]>([])
     const [creatures, setCreatures] = useState(false)
-    const [location, setLocation] = useState<string>()
+    const [location, setLocation] = useState<string>('Unknown')
 
     const locationDict = ['Swamp', 'Swamp', 'Forest','Forest', 'Ocean','Ocean']
 

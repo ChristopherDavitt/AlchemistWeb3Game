@@ -9,16 +9,19 @@ import { WalletConnect } from './components/pages/WalletConnect';
 import { Nursery } from './components/pages/Nursery';
 import { AlchemyStation } from './components/pages/AlchemyStation';
 import { Minter } from './components/pages/Minter';
+import { Storyline } from './components/storyline/Storyline';
 import { forestStaking, oceanStaking, swampStaking } from './components/assets/helpers/contractAddresses';
 
 import './index.css';
 
 export default function App() {
-    const location = useLocation()
+  
+  const location = useLocation()
+  
   return (
     <>
-        <WalletConnect/>
-        <Routes location={location} key={location.pathname}>
+      <WalletConnect/>
+      <Routes location={location} key={location.pathname}>
         <Route path='/' element={<Home />} />
         <Route path='/minter' element={<Minter />} />
         <Route path='/app' element={<Map />} />
@@ -31,7 +34,8 @@ export default function App() {
         <Route path='/app/house' element={<House />} />
         <Route path='/app/nursery' element={<Nursery />} />
         <Route path='/app/house/alchemy-table' element={<AlchemyStation />} />
-        </Routes> 
+        <Route path='/app/storylines'  element={<Storyline />}/>
+      </Routes> 
     </>
   )
 }

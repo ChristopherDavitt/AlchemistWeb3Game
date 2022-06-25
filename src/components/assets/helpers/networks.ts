@@ -1,4 +1,4 @@
-export const networks = {
+export const networks  = <any> {
     polygon: {
       chainId: `0x${Number(137).toString(16)}`,
       chainName: "Polygon Mainnet",

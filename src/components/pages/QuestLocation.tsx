@@ -254,9 +254,9 @@ export const QuestLocation = (props: any ) => {
                           {!unstakeArray[index] 
                             ? <Countdown
                               date={Date.now() + (tokenTime * 1000)}
-                              renderer={renderer} 
-                              onComplete={() => changeBoolArray(index)} /> 
-                          
+                              onComplete={() => changeBoolArray(index)}
+                              renderer={renderer} /> 
+
                             : <button style={{width: '140px', height: '40px'}} onClick={() => unstake(tokenIds[index])}>Complete Quest</button>} 
                             
                           <p>potion</p>
