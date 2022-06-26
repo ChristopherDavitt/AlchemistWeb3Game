@@ -3,11 +3,7 @@ import { Link, Route } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { motion } from 'framer-motion';
 
-import mapImage9 from '../assets/images/Map9.png';
-import mapImage8 from '../assets/images/Map8.png';
-import mapImage7 from '../assets/images/Map7.png';
-import mapImage6 from '../assets/images/Map6.png';
-import mapImage5 from '../assets/images/Map5.png';
+import mapImage from '../assets/images/Map9.png';
 
 import loadingGif from '../assets/images/LoadingGif.gif'
 
@@ -69,12 +65,13 @@ export const Map = () => {
         : !mobile ? 
       
         <div style={{
-            backgroundImage: `url(${
-                responsiveNum == 5 ? mapImage5 
-                : responsiveNum == 9 ? mapImage9 
-                : responsiveNum == 8 ? mapImage8 
-                : responsiveNum == 6 ? mapImage6 
-                : responsiveNum == 7 ? mapImage7 : null})`, backgroundRepeat: 'no-repeat',
+            backgroundImage: `url(${mapImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: `${responsiveNum == 9 ? '1152px' :
+                                responsiveNum == 8 ? '1024px' :
+                                responsiveNum == 7 ? '896px' :
+                                responsiveNum == 6 ? '768px' :
+                                responsiveNum == 5 ? '640px' : null}`,
             backgroundPosition: 'center', width: '100vw',
             height: 'calc(100vh - 70px)', overflow: 'auto',
             }}>

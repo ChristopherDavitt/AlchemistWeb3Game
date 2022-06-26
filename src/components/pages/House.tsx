@@ -9,10 +9,6 @@ import { PotionInventory } from './PotionInventory'
 import PopUp from '../popups/PopUp';
 
 import homeImage9 from '../assets/images/House9.png'
-import homeImage8 from '../assets/images/House8.png'
-import homeImage7 from '../assets/images/House7.png'
-import homeImage6 from '../assets/images/House6.png'
-import homeImage5 from '../assets/images/House5.png'
 
 import loadingGif from '../assets/images/LoadingGif.gif';
 
@@ -98,13 +94,13 @@ export default function House() {
             : !mobile ? 
 
             <div style={{
-                backgroundImage: `url(${responsiveNum == 9 ? homeImage9 :
-                    responsiveNum == 8 ? homeImage8 :
-                    responsiveNum == 7 ? homeImage7 :
-                    responsiveNum == 6 ? homeImage6 :
-                    responsiveNum == 5 ? homeImage5 : null
-                })`,
+                backgroundImage: `url(${homeImage9})`,
                 backgroundRepeat: 'no-repeat',
+                backgroundSize: `${responsiveNum == 9 ? '1152px' :
+                    responsiveNum == 8 ? '1024px' :
+                    responsiveNum == 7 ? '896px' :
+                    responsiveNum == 6 ? '768px' :
+                    responsiveNum == 5 ? '640px' : null}`,
                 backgroundPosition: 'center',
                 width: '100vw',
                 height: 'calc(100vh - 70px)'
