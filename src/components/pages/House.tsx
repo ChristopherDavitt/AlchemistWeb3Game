@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 
 import { useAppSelector } from '../store/hooks';
 import { AlchemyStation }from './AlchemyStation'
-import { ItemInventory } from './ItemInventory'
-import { PotionInventory } from './PotionInventory'
+import { Inventory } from './Inventory'
 import PopUp from '../popups/PopUp';
 
 import homeImage9 from '../assets/images/House9.png'
@@ -52,7 +51,7 @@ export default function House() {
         setWindowWidth(width);
     }
     const state= useAppSelector((state) => state)
-    console.log(state)
+    
     const handleItemToggle = () => {
         const bool = items
         setPotions(false)
@@ -105,8 +104,8 @@ export default function House() {
                 width: '100vw',
                 height: 'calc(100vh - 70px)'
             }}>
-                { potions && <PopUp handleClose={handlePotionToggle} content={<PotionInventory />} /> }
-                { items && <PopUp handleClose={handleItemToggle} content={<ItemInventory />} /> }
+                { potions && <PopUp handleClose={handlePotionToggle} content={<Inventory inventoryType='potion'  />} /> }
+                { items && <PopUp handleClose={handleItemToggle} content={<Inventory inventoryType='item' />} /> }
                 { alchemy && <PopUp handleClose={handleAlchemyToggle} content={<AlchemyStation />} /> }
                 
                 <div style={{
@@ -142,8 +141,8 @@ export default function House() {
             : mobile ? 
            
             <div style={{position: 'sticky', top: 'calc(50% - 325px)'}}>
-                { potions && <PopUp handleClose={handlePotionToggle} content={<PotionInventory />} /> }
-                { items && <PopUp handleClose={handleItemToggle} content={<ItemInventory />} /> }
+                { potions && <PopUp handleClose={handlePotionToggle} content={<Inventory inventoryType='item' />} /> }
+                { items && <PopUp handleClose={handleItemToggle} content={<Inventory />} /> }
                 { alchemy && <PopUp handleClose={handleAlchemyToggle} content={<AlchemyStation />} /> }
                 <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
                     <h4 onClick={handleAlchemyToggle} className='map-h4'>Alchemy Table</h4>
