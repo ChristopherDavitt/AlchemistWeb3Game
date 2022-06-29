@@ -26,7 +26,7 @@ contract QuestStaking is ERC721Holder, Ownable {
     Item public giantTuna;
     Item public oysterShells;
 
-    uint public initialNumber;
+    uint private initialNumber;
 
     mapping(uint256 => address) public tokenOwnerOf;
     mapping(uint256 => uint256) public tokenStakedAt;
@@ -68,7 +68,6 @@ contract QuestStaking is ERC721Holder, Ownable {
             tokenOwnerOf[tokenId] = msg.sender;
             tokenStakedAt[tokenId] = block.timestamp;
             listOfNftStaked[msg.sender].push(tokenId);
-            nftHasPotion[tokenId] = 0
             fishyPhilter.burnFrom(msg.sender, 1);
             nftHaspotion[tokenId] = potionId;
         } else if (potionId == 2) {
@@ -77,7 +76,6 @@ contract QuestStaking is ERC721Holder, Ownable {
             tokenOwnerOf[tokenId] = msg.sender;
             tokenStakedAt[tokenId] = block.timestamp;
             listOfNftStaked[msg.sender].push(tokenId);
-            nftHasPotion[tokenId] = 0
             electricVial.burnFrom(msg.sender, 1);
             nftHaspotion[tokenId] = potionId;
         } else {
@@ -85,10 +83,8 @@ contract QuestStaking is ERC721Holder, Ownable {
             tokenOwnerOf[tokenId] = msg.sender;
             tokenStakedAt[tokenId] = block.timestamp;
             listOfNftStaked[msg.sender].push(tokenId);
-            nftHasPotion[tokenId] = 0
+            nftHasPotion[tokenId] = 0;
         }
-
-        
     }
 
     function createRandom(uint number) public returns(uint){

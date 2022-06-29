@@ -8,7 +8,7 @@ import { stakingABI, alchemistABI } from '../assets/helpers/tokenABI';
 import { forestStaking, oceanStaking, swampStaking, AlchemistNFTAddress } from '../assets/helpers/contractAddresses';
 import { QuestPopUp } from '../popups/QuestPopUp'
 import Popup from '../popups/PopUp';
-import { getApproved, getItems, getNFTS, getNftsStakedForest, getNftsStakedOcean, getNftsStakedSwamp } from '../assets/helpers/getTokens';
+import { getApproved, getItems, getNFTS, getNftsStakedForest, getNftsStakedOcean, getNftsStakedSwamp, getPotions } from '../assets/helpers/getTokens';
 import Transaction from '../popups/Transaction';
 import loadingGif from '../assets/images/LoadingGif.gif';
 import { potionIndexByLoc } from '../assets/helpers/potionIndexByLoc';
@@ -109,15 +109,14 @@ export const QuestLocation = (props: any ) => {
     }, 1000)
     
     if (props.loc == 'forest') {
-    // FIX THIS
       const staked = await getNftsStakedForest(address)
-      dispatch({type: props.type, payload: staked})
+      dispatch({type: 'NFTS_STAKED_FOREST', payload: staked})
     } else if (props.loc == 'swamp') {
       const staked = await getNftsStakedSwamp(address)
-      dispatch({type: props.type, payload: staked})
+      dispatch({type:'NFTS_STAKED_SWAMP', payload: staked})
     } else if (props.loc == 'ocean') {
       const staked = await getNftsStakedOcean(address)
-      dispatch({type: props.type, payload: staked})
+      dispatch({type: 'NFTS_STAKED_OCEAN', payload: staked})
     }
 
     const nftAvail = await getNFTS(address);
@@ -125,6 +124,12 @@ export const QuestLocation = (props: any ) => {
 
     const items = await getItems(address);
     dispatch({type: 'UPDATE_ITEMS', payload: items})
+
+    const potions = await getPotions(address);
+    dispatch({type: 'UPDATE_POTIONS', payload: potions})
+
+    const creatures = await getPotions(address);
+    dispatch({type: 'UPDATE_CREATURES', payload: creatures})
 
     console.log('Updated!')
   }
@@ -144,6 +149,7 @@ export const QuestLocation = (props: any ) => {
       await tx.wait()
       update();
     } catch (error) {
+      setTransacting(false)
       alert("Already Unstaked, or Not Done With Quest")
     }
   }
@@ -177,7 +183,7 @@ export const QuestLocation = (props: any ) => {
     hours: number,
     minutes: number, 
     seconds: number,
-    completed: any
+    completed: boolean
   }) => {
     if (completed) {
       // Render a completed state
@@ -201,6 +207,7 @@ export const QuestLocation = (props: any ) => {
       <motion.div
       initial={{opacity: 0}}
       animate={{opacity: 1}}
+      transition={{duration: 1, delay: 0.2}}
       >
         {!connected ? 
         
@@ -231,7 +238,7 @@ export const QuestLocation = (props: any ) => {
           <div style={{display: 'grid',justifyItems: 'center', maxWidth: '1130px',
                   alignItems: 'center', border: 'solid 5px white',  borderRadius: '10px',margin: 'auto',
                   position: 'sticky', top: 'calc(50% - 270px)', minHeight: '300px',height: '100%', maxHeight: '600px' }}>
-              <p style={{fontSize: '32px',color: 'white', textAlign: 'center', margin: '1rem auto'}}>Explore the {props.loc}</p>
+              <p style={{fontSize: '32px',color: 'white', textAlign: 'center', margin: '1rem auto'}}>{props.message}</p>
               <div style={{display: 'grid', gridTemplateColumns: '1fr',gap: '1rem', height: '360px', overflowY: 'hidden'}}>
                   <div>
                     <div>
@@ -240,16 +247,15 @@ export const QuestLocation = (props: any ) => {
                         <button style={{width:'150px', height:'40px'}} onClick={()=> approveAddress()}>Approve Quest</button>  }
                         <h4 style={{color:'white'}}>NFT Staked: {tokenIds.length}</h4>
                       </div>
-                      <div style={{display: 'grid', gap: '0.5rem', borderBottom: 'solid 2px white', marginBottom: '1rem', gridTemplateColumns: '1fr 3fr 2fr'}}>
-                          <p>ID</p>
+                      <div style={{display: 'flex', borderBottom: 'solid 2px white', marginBottom: '1rem', justifyContent: 'space-between'}}>
+                          <p>Token ID</p>
                           <p>Time Left</p>
-                          <p>Potion</p>
                       </div>
                     </div>
                     <div style={{overflowY: 'auto', height: '300px'}}>
                       
                       {timeStaked.map((tokenTime: number, index: number) => 
-                        <div key={index} style={{display: 'grid', alignItems: 'center', gridTemplateColumns: '1fr 3fr 2fr'}}>
+                        <div key={index} style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                           <p><span style={{fontSize: '0px'}}>{timeStaked[index]}</span>#{tokenIds[index]}</p>
                           {!unstakeArray[index] 
                             ? <Countdown
@@ -259,8 +265,6 @@ export const QuestLocation = (props: any ) => {
 
                             : <button style={{width: '140px', height: '40px'}} onClick={() => unstake(tokenIds[index])}>Complete Quest</button>} 
                             
-                          <p>potion</p>
-                          
                           {/* {!potionIdArray[index] ? <button onClick={addPotion(tokenId, potionIdArray[index])} >+</button> : <h6>{potionIdArray[index]}</h6>} */}
                           
                         </div>

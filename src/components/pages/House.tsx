@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import { useAppSelector } from '../store/hooks';
 import { AlchemyStation }from './AlchemyStation'
 import { Inventory } from './Inventory'
 import PopUp from '../popups/PopUp';
+import { MobileCard, MobileCardNoLink } from '../sharedComponents/SharedComponents';
 
 import homeImage9 from '../assets/images/House9.png'
+
+import door from '../assets/images/Door.png';
+import bookshelf from '../assets/images/Bookshelf.png';
+import table from '../assets/images/Table.png';
+import chest from '../assets/images/Chest.png';
 
 import loadingGif from '../assets/images/LoadingGif.gif';
 
@@ -16,7 +22,6 @@ export default function House() {
     const [potions, setPotions] = useState(false)
     const [items, setItems] = useState(false)
     const [alchemy, setAlchemy] = useState(false)
-    const [windowWidth, setWindowWidth] = useState(0)
     const [mobile, setMobile] = useState(false)
     const [responsiveNum, setResponsiveNum] = useState<number>(9)
 
@@ -48,29 +53,19 @@ export default function House() {
         } else {
             setMobile(true);
         }
-        setWindowWidth(width);
     }
     const state= useAppSelector((state) => state)
     
     const handleItemToggle = () => {
-        const bool = items
-        setPotions(false)
-        setAlchemy(false)
-        setItems(!bool)
+        setItems(!items)
     }
 
     const handlePotionToggle = () => {
-        const bool = potions
-        setItems(false)
-        setAlchemy(false)
-        setPotions(!bool)
+        setPotions(!potions)
     }
 
     const handleAlchemyToggle = () => {
-        const bool = alchemy
-        setItems(false)
-        setPotions(false)
-        setAlchemy(!bool)
+        setAlchemy(!alchemy)
     }
     
     return (
@@ -104,8 +99,8 @@ export default function House() {
                 width: '100vw',
                 height: 'calc(100vh - 70px)'
             }}>
-                { potions && <PopUp handleClose={handlePotionToggle} content={<Inventory inventoryType='potion'  />} /> }
-                { items && <PopUp handleClose={handleItemToggle} content={<Inventory inventoryType='item' />} /> }
+                { potions && <PopUp handleClose={handlePotionToggle} content={<Inventory inventoryType='Potion'  />} /> }
+                { items && <PopUp handleClose={handleItemToggle} content={<Inventory inventoryType='Item' />} /> }
                 { alchemy && <PopUp handleClose={handleAlchemyToggle} content={<AlchemyStation />} /> }
                 
                 <div style={{
@@ -140,22 +135,14 @@ export default function House() {
             
             : mobile ? 
            
-            <div style={{position: 'sticky', top: 'calc(50% - 325px)'}}>
-                { potions && <PopUp handleClose={handlePotionToggle} content={<Inventory inventoryType='item' />} /> }
-                { items && <PopUp handleClose={handleItemToggle} content={<Inventory />} /> }
+            <div style={{display: 'grid', justifyItems: 'center', position: 'sticky', top: 'calc(50% - 325px)'}}>
+                { potions && <PopUp handleClose={handlePotionToggle} content={<Inventory inventoryType='Potion' />} /> }
+                { items && <PopUp handleClose={handleItemToggle} content={<Inventory inventoryType='Item' />} /> }
                 { alchemy && <PopUp handleClose={handleAlchemyToggle} content={<AlchemyStation />} /> }
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                    <h4 onClick={handleAlchemyToggle} className='map-h4'>Alchemy Table</h4>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                    <h4 onClick={handlePotionToggle} className='map-h4'>Potion Inventory</h4>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                    <h4 onClick={handleItemToggle} className='map-h4'>Item Inventory</h4>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                    <Link to="/app" className='auth'><h4 className='map-h4'>Map</h4></Link>
-                </div>
+                <MobileCardNoLink handleClick={handlePotionToggle} name='Potions' image={bookshelf} />
+                <MobileCardNoLink handleClick={handleItemToggle} name='Items' image={chest} />
+                <MobileCardNoLink handleClick={handleAlchemyToggle} name='Table' image={table} />
+                <MobileCard path='/app' name='Map' image={door} />
             </div> 
             :
             

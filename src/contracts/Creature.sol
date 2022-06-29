@@ -12,10 +12,10 @@ contract CreatureBase is ERC721, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("Gratur", "GRATUR") {}
+    constructor() ERC721("Creature", "Creature") {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://QmasfHMxUAemZBXShp96ZVXN67YqNZuZtFJ39V8bpgthxP/13.png";
+        return "ipfs://tbd";
     }
 
     function safeMint(address to) external {

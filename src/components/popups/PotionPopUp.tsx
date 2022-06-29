@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../store/hooks'
-import { AlchemistNFTAddress, potions } from '../assets/helpers/contractAddresses'
-import { alchemistABI, potionBrewABI, tokenABI } from '../assets/helpers/tokenABI'
+import React, { useEffect, useState } from 'react';
+import { useAppSelector } from '../store/hooks';
+import { AlchemistNFTAddress, potions } from '../assets/helpers/contractAddresses';
+import { alchemistABI, potionBrewABI, tokenABI } from '../assets/helpers/tokenABI';
+import potionPic from '../assets/images/Potionipfs.png';
+import noPotion from '../assets/images/NoPotion.png'
 
 export const PotionPopUp = (props:any) => {
 
@@ -54,6 +56,11 @@ export const PotionPopUp = (props:any) => {
             console.log(error)
         }
     }
+
+    const buttonStyle = {
+        width: '120px',
+        height: '45px',
+    }
     
   
   return (
@@ -66,31 +73,34 @@ export const PotionPopUp = (props:any) => {
             }} >  
             <p>Potions Available</p>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
-                <div>
-                    <button onClick={()=>props.handlePotionId(0)}>Take No Potions</button>
+                <div style={{display: 'grid', justifyItems: 'center', cursor: 'pointer'}}>
+                    <p style={{textAlign: 'center'}} >None</p>
+                    <div  style={{ width: '120px', height: '120px', backgroundImage: `url(${noPotion})`, borderRadius: '5px',
+                                    backgroundSize: '120px', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', marginBottom: '10px'}}>
+                    </div>
+                    <button style={buttonStyle} onClick={() => props.handlePotionId(0)}>Go on Quest</button> 
+                        
                 </div>
-              {props.potionArray.map((potionIndex: number, index: number) => 
-                <div key={potionNameDict[potionIndex]} style={{display: 'grid', justifyItems: 'center', cursor: 'pointer'}}>
+                {props.potionArray.map((potionIndex: number, index: number) => 
+                    <div key={potionNameDict[potionIndex]} style={{display: 'grid', justifyItems: 'center', cursor: 'pointer'}}>
+                    <p style={{textAlign: 'center'}} >{potionNameDict[potionIndex]}</p>
+                    <div  style={{ width: '120px', height: '120px', backgroundImage: `url(${potionPic})`, borderRadius: '5px',
+                                    backgroundSize: '120px', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', marginBottom: '10px'}}>
+                        <p style={{display: 'relative', margin: 0, padding: '5px'}}><sub>{potionCount[potionIndex]}</sub></p>
+                    </div>
                     {
                         approvals[index] < 10 
                         
-                        ? <button onClick={() => approve(index)}>Approve Potion</button> 
+                        ? <button style={buttonStyle} onClick={() => approve(index)}>Approve Potion</button> 
                         
                         : potionCount[potionIndex] > 0 ? 
                         
-                        <button onClick={()=>props.handlePotionId(index + 1)}>Take On Quest</button>:
+                        <button style={buttonStyle} onClick={()=>props.handlePotionId(index + 1)}>Take On Quest</button>:
 
-                        <button disabled>Not Enough Potions</button>  
-                        
-                        }
-                  <img 
-                    style={{width: '100px'}}
-                    src='https://gateway.pinata.cloud/ipfs/QmZKSYKxV3ZYUaA4rXBS8273yQn6Hg6QmWyYXT1wCPfmeD/Potionipfs.png'
-                    alt='Alchemist-Image' />
-                  <p><sub>{potionCount[potionIndex]}</sub></p>
-                  <p>#{potionIndex} {potionNameDict[potionIndex]}</p>
-                </div>
-              )}
+                        <button style={buttonStyle} disabled>Not Enough Potions</button>  
+                    }
+                    </div>
+                )}
             </div>
         </div>
   )

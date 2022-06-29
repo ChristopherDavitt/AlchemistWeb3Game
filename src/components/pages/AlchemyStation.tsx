@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
-import {PotionBrew} from '../popups/PotionBrew';
+import { PotionBrew } from '../popups/PotionBrew';
 import { potions } from '../assets/helpers/contractAddresses';
 import Popup from '../popups/PopUp';
 
@@ -13,7 +12,6 @@ export const AlchemyStation = () => {
     const connected = useAppSelector((state) => state.connected)
     const loading = useAppSelector((state) => state.loading)
 
-
     const [selectedPotionIngredients, setSeletedPotionIngredients] = useState<boolean[]>()
     const [potionBrewable, setBrewable] = useState<boolean>()
     const [costs, setCosts] = useState<number[]>()
@@ -24,6 +22,16 @@ export const AlchemyStation = () => {
     const [id, setId] = useState<number>()
     const [itemIds, setItemIds] = useState<number[]>()
     const [txn, setTxn] = useState(false)
+
+    // Checkboxes
+    const [forest, setForest] = useState(false)
+    const [mountains, setMountains] = useState(false)
+    const [caves, setCaves] = useState(false)
+    const [ocean, setOcean] = useState(false)
+    const [tundra, setTundra] = useState(false)
+    const [swamp, setSwamp] = useState(false)
+    const [allLocs, setAllLocs] = useState(true)
+  
 
     const itemNameDict = ['Bawnberry', 'Nickelstem', 'Valeria Pedals', 'Sugarbark', 'Caapi Root',
      'Honey Fungus', 'Mugwort', 'Eel', 'Water Lillies', 'Bottle o Bugs', 
@@ -45,6 +53,37 @@ export const AlchemyStation = () => {
     const handlePopUpClose = () => {
         setPopUp(false)
     }
+
+    const handleChange = (event:any) => {
+        const name:string = event.target.name
+        console.log(name)
+        if (name == 'forest') {
+          setForest(!forest)
+        } else if (name == 'caves') {
+          setCaves(!caves)
+        } else if (name == 'ocean') {
+          setOcean(!ocean)
+        } else if (name == 'tundra') {
+          setTundra(!tundra)
+        } else if (name == 'swamp') {
+          setSwamp(!swamp)
+        } else if (name == 'mountains') {
+          setMountains(!mountains)
+        }
+    }
+
+    const checkAllLocs = () => {
+        if (!forest && !caves && !mountains && !tundra && !ocean && !swamp) {
+            setAllLocs(true);
+        } else {
+            setAllLocs(false);
+        }
+    }
+
+    useEffect(() => {
+        checkAllLocs();
+    }, [forest, caves, mountains, ocean, tundra, swamp])
+
 
     const selectPotion = (index: number) => {
         const boolArray: boolean[] = []
@@ -86,28 +125,44 @@ export const AlchemyStation = () => {
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
                          alignItems: 'center', justifyItems: 'left', maxWidth: '500px', margin: ' 10px auto'}}>
                 <p style={{fontSize:'12px'}}>Forest</p>
-                <input id='forest' type="checkbox" />
+                <input onChange={(e) => handleChange(e)} name='forest' type="checkbox" />
                 <p style={{fontSize:'12px'}}>Ocean</p>
-                <input id='ocean' type="checkbox" />
+                <input onChange={(e) => handleChange(e)} name='ocean' type="checkbox" />
                 <p style={{fontSize:'12px'}}>Caves</p>
-                <input id='caves' type="checkbox" />
+                <input onChange={(e) => handleChange(e)} name='caves' type="checkbox" />
                 <p style={{fontSize:'12px'}}>Mountains</p>
-                <input id='mountain' type="checkbox" />
+                <input onChange={(e) => handleChange(e)} name='mountains' type="checkbox" />
                 <p style={{fontSize:'12px'}}>Swamp</p>
-                <input id='swamp' type="checkbox" />
+                <input onChange={(e) => handleChange(e)} name='swamp' type="checkbox" />
                 <p style={{fontSize:'12px'}}>Tundra</p>
-                <input id='tundra' type="checkbox" />
+                <input onChange={(e) => handleChange(e)} name='tundra' type="checkbox" />
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', maxWidth: '520px',height: '390px',overflowY: 'auto', border: 'solid 3px white', borderRadius: '5px',  
+            <div style={{display: 'grid', gridTemplateRows: '1fr 1fr 1fr 1fr 1fr 1fr', gridTemplateColumns: '1fr 1fr', maxWidth: '520px', maxHeight: '390px', height: '50vh',overflowY: 'auto', border: 'solid 3px white', borderRadius: '5px',  
                         paddingLeft: '0.5rem', justifyContent: 'center', alignItems: 'center', margin: '1rem auto'}}>
-                {potionCount.map((value: number, index: number) => 
+                {forest || allLocs ? potionCount.slice(0,2).map((value: number, index: number) => 
                     <div onClick={() => selectPotion(index)} key={index} style={{display: 'flex', 
                                                                                 alignItems: 'center', 
                                                                                 cursor: 'pointer',
                                                                                  justifyContent: 'left'}}>
                         <p style={{fontSize: '12px'}}>#{index + 1} {potionNameDict[index]}</p>
                     </div>
-                )}
+                ): null}
+                {swamp || allLocs ? potionCount.slice(2,4).map((value: number, index: number) => 
+                    <div onClick={() => selectPotion(index + 2)} key={index + 2} style={{display: 'flex', 
+                                                                                alignItems: 'center', 
+                                                                                cursor: 'pointer',
+                                                                                 justifyContent: 'left'}}>
+                        <p style={{fontSize: '12px'}}>#{index + 3} {potionNameDict[index + 2]}</p>
+                    </div>
+                ): null}
+                {ocean || allLocs ? potionCount.slice(4,6).map((value: number, index: number) => 
+                    <div onClick={() => selectPotion(index + 4)} key={index + 4} style={{display: 'flex', 
+                                                                                alignItems: 'center', 
+                                                                                cursor: 'pointer',
+                                                                                 justifyContent: 'left'}}>
+                        <p style={{fontSize: '12px'}}>#{index + 5} {potionNameDict[index + 4]}</p>
+                    </div>
+                ): null}
             </div>
         </div> : loading ? <div style={{width: '100%', height: '80vh', display: 'grid', 
                         justifyItems: 'center',alignContent: 'center', margin: 0}}>

@@ -2,22 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import { creature1Address } from '../assets/helpers/contractAddresses';
 import { useAppSelector } from '../store/hooks';
+
+import questionPic from '../assets/images/IPFS/0.png'
+import ghiblinPic from '../assets/images/IPFS/1.png';
+import hazurkPic from '../assets/images/IPFS/2.png';
+import marbleyPic from '../assets/images/IPFS/3.png';
+import phoogPic from '../assets/images/IPFS/4.png';
+import blupperPic from '../assets/images/IPFS/5.png';
+import tukPic from '../assets/images/IPFS/6.png';
 
 export const Nursery =()=> {
 
     const creatureDict = [
-        'Marbley','Phoog',  
         'Ghiblin','Hazurk',
+        'Marbley','Phoog',  
         'Blupper', 'Tuk',
     ]
 
+    const picDict = [
+        questionPic, ghiblinPic, hazurkPic, marbleyPic, phoogPic, blupperPic, tukPic
+    ]
+
     const descriptionDict = [
-        "Tree creature that sits alone in the tree canopies. When resting, their tail lights up.",
-        "Small creature that likes to eat bugs, and climb trees.",
         "Hoppy creature that likes to eat small fruits, and spend its time in the root systems of trees.",
         "Bear like. Spends time at the river dams interacting with the fish. Can't tell if they eat fish...",
+        "Tree creature that sits alone in the tree canopies. When resting, their tail lights up.",
+        "Small creature that likes to eat bugs, and climb trees.",
         "Seal like creature that emits a powder. Fish seem to follow them.",
         "Shell creature that spends its time deep on the ocean floor. Sometimes comes up to the shore at night."
     ]
@@ -30,7 +41,7 @@ export const Nursery =()=> {
     const [name, setName] = useState<string>('???')
     const [description, setDescription] = useState<string>('Unknown')
     const [idView, setIdView] = useState<string>('#0')
-    const [idNumber, setIdNumber] = useState<string>('0')
+    const [idNumber, setIdNumber] = useState<number>(0)
     const [hiddenArray, setHiddenArray] = useState<boolean[]>([])
     const [creatures, setCreatures] = useState(false)
     const [location, setLocation] = useState<string>('Unknown')
@@ -70,14 +81,14 @@ export const Nursery =()=> {
             setName(creatureDict[index])
             setIdView(`#${index+1}`)
             setDescription(descriptionDict[index])
-            setIdNumber(String(index + 1));
+            setIdNumber(index + 1);
             setLocation(locationDict[index]);
         } else {
             setName('???');
             setLocation('Unknown');
             setIdView('#0');
             setDescription('Unknown');
-            setIdNumber(String(0));
+            setIdNumber(0);
         }
 
     }
@@ -143,7 +154,7 @@ export const Nursery =()=> {
                             )}
                         </select>  }
 
-                        <img style={{border: 'double 10px white'}} src={'https://gateway.pinata.cloud/ipfs/QmYjasF2yyqaoSSkmxfqN28sLiqpc5r4XXk2gxr4KnpRm7/' + idNumber + '.png'} alt='creature-image' />
+                        <img style={{border: 'double 10px white'}} src={picDict[idNumber]} alt='creature-image' />
                         <div style={{padding: '10px'}}>
                             <p style={{fontSize: '12px' }}>Found: {location}</p><br />
                             <p style={{fontSize: '12px' }}>Description: {description} </p>

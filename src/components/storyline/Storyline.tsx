@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../store/hooks';
 import { motion } from 'framer-motion';
 
-import SceneOne from './scenes/SceneOne';
+import Lore from './Lore';
 
 
 export const Storyline = () => {
@@ -66,7 +66,7 @@ export const Storyline = () => {
       initial={{opacity: 0}}
       animate={{opacity: 1}}>
         
-        {story && <SceneOne />}
+        {story && <Lore />}
 
         <div style={{width: '90vw'}}>
           <button onClick={() => showStory(1)} style={buttonStyle}>Story Begins</button>

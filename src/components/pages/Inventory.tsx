@@ -66,7 +66,7 @@ export const Inventory = (props: any) => {
 
   const itemDict = ['Bawnberry', 'Nickelstem', 'Valeria Pedals', 'Sugarbark', 'Caapi Root', 'Honey Fungus', 
                     'Mugwort', 'Eel', 'Water Lillies', 'Bottle o Bugs', 'Sugar Soot',
-                    'Kelp', 'Jelly Jelly', 'Mackerel', 'Giant Tuna', 'Oyster Shells', 'OceanPearl']
+                    'Kelp', 'Jelly Jelly', 'Mackerel', 'Giant Tuna', 'Oyster Shells']
 
   const potionDict = ['Ghibl Jam', 'Sweet Sea', 'Mycil Matte', 
                     'Hoppity Tonic', 'Fishy Philter', 'Electric Vial', 'Turt Tonic']
@@ -78,7 +78,7 @@ export const Inventory = (props: any) => {
       height: '100%',
       backgroundColor: 'black',
     }}>
-        <h1 style={{margin: 'auto', textAlign: 'center'}}>Item{mobile ? 's' : ' Inventory'}</h1>
+        <h1 style={{margin: 'auto', textAlign: 'center'}}>{props.inventoryType}{mobile ? 's' : ' Inventory'}</h1>
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
           alignItems: 'center', justifyItems: 'left', maxWidth: '500px', margin: ' 10px auto'}}>
           <p style={{fontSize:'12px'}}>Forest</p>
@@ -96,7 +96,7 @@ export const Inventory = (props: any) => {
         </div>
         <div style={{ maxWidth: '520px', height: '390px', border: 'solid 3px white', borderRadius: '5px',  
           paddingLeft: '0.5rem', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', margin: '1rem auto'}}>
-          {props.inventoryType == 'item' ? 
+          {props.inventoryType == 'Item' ? 
           <>
             {forest || allLocs ? itemCount.slice(0,6).map((item: number, index: number) =>
             <div  key={index}> 
@@ -110,7 +110,7 @@ export const Inventory = (props: any) => {
               </div>
             </div>
             ): null}
-            {swamp || allLocs ? itemCount.slice(6,12).map((item: number, index: number) =>
+            {swamp || allLocs ? itemCount.slice(6,11).map((item: number, index: number) =>
             <div key={index + 6}> 
               <div style={{display: 'flex', alignItems: 'center', justifyContent: 'left', gap: '1rem'}}> 
                 <p style={{fontSize:'12px'}}>#{index + 7}</p>
@@ -122,15 +122,15 @@ export const Inventory = (props: any) => {
               </div> 
             </div>
             ): null}
-            {ocean || allLocs ? itemCount.slice(12,18).map((item: number, index: number) =>
-            <div key={index + 12}> 
+            {ocean || allLocs ? itemCount.slice(11,16).map((item: number, index: number) =>
+            <div key={index + 11}> 
               <div style={{display: 'flex', alignItems: 'center', justifyContent: 'left', gap: '1rem'}}> 
-                <p style={{fontSize:'12px'}}>#{index + 13}</p>
+                <p style={{fontSize:'12px'}}>#{index + 12}</p>
                 <div style={{display: 'flex', alignItems: 'center'}}>
                   <img src={itemImg} alt="potion-pic" />
                   <p><sub><sub><sub>{item}</sub></sub></sub></p>
                 </div>
-                <p style={{fontSize:'12px'}}>{itemDict[index + 12]}</p>
+                <p style={{fontSize:'12px'}}>{itemDict[index + 11]}</p>
               </div>
             </div>
             ):null}

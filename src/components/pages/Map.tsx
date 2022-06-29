@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { motion } from 'framer-motion';
 
 import mapImage from '../assets/images/Map9.png';
-
+import mobileHouse from '../assets/images/mapHouse.png'
+import mobileNursery from '../assets/images/mapNursery.png'
+import mobileForest from '../assets/images/mapForest.png'
+import mobileSwamp from '../assets/images/mapSwamp.png'
+import mobileOcean from '../assets/images/mapOcean.png'
+import mobileMountains from '../assets/images/mapMountains.png'
+import mobileCave from '../assets/images/mapCave.png'
+import mobileTundra from '../assets/images/mapTundra.png'
 import loadingGif from '../assets/images/LoadingGif.gif'
+
+import  { MobileCard } from '../sharedComponents/SharedComponents';
 
 export const Map = () => {
  
-    const [windowWidth, setWindowWidth] = useState(0)
     const [mobile, setMobile] = useState(false)
 
     const loading = useAppSelector((state) => state.loading)
@@ -40,12 +48,12 @@ export const Map = () => {
         } else {
             setMobile(true);
         }
-        setWindowWidth(width);
     }
     return (
       <motion.div
         initial={{opacity: 0}}
         animate={{opacity: 1}}
+        style={{height: '90vh', width: '95vw'}}
       >
         { !connected ? 
 
@@ -77,10 +85,10 @@ export const Map = () => {
             }}>
             <div>
                 <div style={{
-                        position: 'fixed',left: `calc(50% - ((510px * (${responsiveNum}/10)))`,
+                        position: 'fixed',left: `calc(50% - ((560px * (${responsiveNum}/10)))`,
                         top: `calc(50% - (105px * (${responsiveNum}/10)))`
                     }} className='map-div'>
-                    <Link to="/app/mountains" className='auth'><h2 className='map-h2'>Mountains</h2></Link>
+                    <Link to="/app" className='auth'><h2 className='map-h2'>Full Version</h2></Link>
                 </div>
                 <div  style={{
                         position: 'fixed', left: `calc(50% - (460px * (${responsiveNum}/10)))`,
@@ -101,16 +109,16 @@ export const Map = () => {
                     <Link to="/app/swamp" className='auth'><h2 className='map-h2'>Swamp</h2></Link>
                 </div>
                 <div style={{
-                        position: 'fixed', left: `calc(50% - (30px* (${responsiveNum}/10)))`,
+                        position: 'fixed', left: `calc(50% - (90px * (${responsiveNum}/10)))`,
                         top: `calc(50% - (240px* (${responsiveNum}/10)))`
                     }} className='map-div'>
-                    <Link to="/app/tundra" className='auth'><h2 className='map-h2'>Tundra</h2></Link>
+                    <Link to="/app" className='auth'><h2 className='map-h2'>Full Version</h2></Link>
                 </div>
                 <div style={{
-                        position: 'fixed',left: `calc(50% - (170px* (${responsiveNum}/10)))`,
+                        position: 'fixed',left: `calc(50% - (240px* (${responsiveNum}/10)))`,
                         top: `calc(50% )`
                     }} className='map-div'>
-                    <Link to="/app/caves" className='auth'><h2 className='map-h2'>Caves</h2></Link>
+                    <Link to="/app" className='auth'><h2 className='map-h2'>Full Version</h2></Link>
                 </div>
                 <div style={{
                         position: 'fixed',left: `calc(50% + (80px* (${responsiveNum}/10)))`,
@@ -131,31 +139,15 @@ export const Map = () => {
         
         : 
        
-        <div style={{position: 'sticky', top: 'calc(50% - 325px)'}}>
-            <div style={{display: 'flex'}}>
-                <Link to="/app/mountains" className='auth'><h2 className='map-h2'>Mountains</h2></Link>  
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/forest" className='auth'><h2 className='map-h2'>Forest</h2></Link>
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/ocean" className='auth'><h2 className='map-h2'>Ocean</h2></Link>
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/tundra" className='auth'><h2 className='map-h2'>Tundra</h2></Link>  
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/swamp" className='auth'><h2 className='map-h2'>Swamp</h2></Link>  
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/caves" className='auth'><h2 className='map-h2'>Caves</h2></Link> 
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/house" className='auth'> <h2 className='map-h2'>House</h2></Link> 
-            </div>
-            <div style={{display: 'flex'}}>
-            <Link to="/app/nursery" className='auth'><h2 className='map-h2'>Nursery</h2></Link>
-            </div>
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center' ,position: 'sticky',  top: 'calc(50% - 270px)'}}>
+            <MobileCard name='Forest' image={mobileForest} path='/app/forest' />
+            <MobileCard name='Swamp' image={mobileSwamp} path='/app/swamp' />
+            <MobileCard name='Ocean' image={mobileOcean} path='/app/ocean' />
+            <MobileCard name='Soon...' image={mobileCave} path='/app' />
+            <MobileCard name='Soon...' image={mobileMountains} path='/app' />
+            <MobileCard name='Soon...' image={mobileTundra} path='/app' />
+            <MobileCard name='House' image={mobileHouse} path='/app/house' />
+            <MobileCard name='Nursery' image={mobileNursery} path='/app/nursery' />
         </div>}
         
       </motion.div>

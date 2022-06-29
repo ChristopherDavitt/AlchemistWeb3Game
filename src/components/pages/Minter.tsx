@@ -11,7 +11,7 @@ import loadingGif from '../assets/images/LoadingGif.gif'
 
 export const Minter = () => {
     
-    const [supply, setSupply] = useState<number>()
+    const [supply, setSupply] = useState<any>('???')
     const [count, setCount] = useState(1)
     const [minting, setMinting] = useState(false)
 
@@ -32,8 +32,10 @@ export const Minter = () => {
     }
 
     useEffect(() => {
-        getSupply();
-    }, [minting])
+        if (connected) {
+            getSupply();
+        }
+    }, [minting, connected])
 
     const getSupply = async () => {
         const ethers = require('ethers')
@@ -66,64 +68,20 @@ export const Minter = () => {
           }
     }
 
-    const changeCost = async() => {
-        const ethers = require('ethers')
-        const network = 'rinkeby'
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        const signer = provider.getSigner()
-        const nftContract = new ethers.Contract(AlchemistNFTAddress, alchemistABI, signer)
-        try {
-            // Add potion to the tokenId mapping in the contract
-            setMinting(true)
-            const tx = await nftContract.setCost(ethers.utils.parseEther("0.1")) 
-            await tx.wait()
-            console.log('Cost Changed!')
-            setMinting(false) 
-          } catch (error) {
-            alert("Error in txn")
-            console.log(error)
-          }
-    }
-
-    const withdrawFunds = async() => {
-        const ethers = require('ethers')
-        const network = 'rinkeby'
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        const signer = provider.getSigner()
-        const nftContract = new ethers.Contract(AlchemistNFTAddress, alchemistABI, signer)
-        try {
-            // Add potion to the tokenId mapping in the contract
-            setMinting(true)
-            const tx = await nftContract.withdraw() 
-            await tx.wait()
-            console.log('withdrew Funds!')
-            setMinting(false) 
-          } catch (error) {
-            alert("Error in txn")
-            console.log(error)
-          }
-    }
-
-    const transferItems = () => {
-        transferTokens()
-    }
-
-    const allowCreatures = () => {
-        allowCreatureContracts();
-    }
-
     return (
         <motion.div
         initial={{opacity: 0}}
         animate={{opacity: 1}}>
-            <div style={{width: '95vw', height: '89vh'}}>
+            <div style={{width: '100vw', height: 'calc(95vh - 40px)'}}>
                 <div style={{margin: 'auto', position: 'sticky', top: 'calc(50% - 270px)'}} className="Minter">
-                    <h1 style={{textAlign: 'center'}} className='minter-h'>Start Your Adventure</h1>
-                    <div style={{justifyContent: 'center', display: 'grid'}}>
-                        <img style={{margin: 'auto', width: '300px'}} src={nftImage} alt='nftImage' ></img>
-                        <p className='minter-h'>Price: {cost} ETH</p>
-                        <p className='minter-h'>Supply: {supply}/10000</p>
-                        <p className='minter-h'>Mint Amount: {count} <span><button onClick={handleNegate}>-</button><button onClick={handlePlus} >+</button></span></p>
+                    <p style={{textAlign: 'center', fontSize: '32px', margin: '5px 0'}}>Start Your Adventure</p>
+                    <div style={{display: 'flex', margin: 'auto', justifyContent: 'center'}}>
+                        <div>
+                            <img style={{margin: 'auto', width: '50vh', maxWidth: '320px'}} src={nftImage} alt='nftImage' ></img>
+                            <p style={{margin: '20px auto'}}>Price: {cost} RETH</p>
+                            <p style={{margin: '20px auto'}}>Supply: {supply}/10000</p>
+                            <p style={{margin: 'auto', display: 'flex', alignItems: 'center', gap: '10px'}}>Mint Amount: <span><button onClick={handleNegate}>-</button></span> {count} <span><button onClick={handlePlus} >+</button></span></p>
+                        </div>
                     </div>
                     <br></br>
                     <div style={{justifyContent: 'center', display:'flex', alignItems: 'center'}}>

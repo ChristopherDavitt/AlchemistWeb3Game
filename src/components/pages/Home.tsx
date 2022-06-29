@@ -1,12 +1,42 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import landingGif from '../assets/images/wizardgif.gif';
 import title from '../assets/images/title.png';
 
-export default class Home extends Component {
-  render() {
+export default function Home () {
+
+  const [mobile, setMobile] = useState(false)
+  const [responsiveNum, setResponsiveNum] = useState<number>(9)
+
+  useEffect(() => {
+    updateDimensions();
+    
+    window.addEventListener("resize", updateDimensions);
+    return () => 
+        window.removeEventListener("resize",updateDimensions);
+  }, [])
+
+  const updateDimensions = () => {
+      const width = window.innerWidth
+      setMobile(false);
+      if (width > 1000) {
+          setResponsiveNum(9);
+      }else if (width > 900) {
+          setResponsiveNum(8);
+      }else if (width > 800) {
+          setResponsiveNum(7);
+      }else if (width > 700) {
+          setResponsiveNum(6);
+      }else if (width > 600) {
+          setResponsiveNum(5);
+      } else {
+          setMobile(true);
+      }
+  }
+
+ 
     return (
       <motion.div 
       initial={{opacity: 0}}
@@ -29,18 +59,17 @@ export default class Home extends Component {
                 margin: 'auto',
                 
             }}>
-              
-              <Link to="/minter" className='auth'>
-                <button style={{width: '12em',height: '4.5em'}} className='auth-button'>
-                  Mint Your Alchemist
+              <Link to="/lore" className='auth'>
+                <button style={{width: '12em', height: '4.5em'}} className='auth-button'>
+                  Lore
                 </button>
               </Link>
               
-              <a href='https://github.com' className='auth'>
-                <button style={{width: '12em', height: '4.5em'}} className='auth-button'>
-                  Explore The Docs
+              <Link to="/minter" className='auth'>
+                <button style={{width: '12em',height: '4.5em'}} className='auth-button'>
+                  Mint NFT
                 </button>
-              </a>
+              </Link>
               
               <Link to="/app" className='auth'>
                 <button style={{width: '12em', height: '4.5em'}} className='auth-button'>
@@ -53,5 +82,4 @@ export default class Home extends Component {
         </div>
       </motion.div>
     )
-  }
 }

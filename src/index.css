@@ -89,10 +89,6 @@ code {
   cursor: pointer;
   text-decoration: none;
 }
-.minter-h {
-  color: white;
-}
-
 /* Pop Up */
 
 .popup-box {
@@ -133,4 +129,15 @@ code {
   line-height: 20px;
   text-align: center;
   font-size: 20px;
+}
+
+.mobile-card {
+  background-color: grey;
+  text-decoration: none;
+  color: #551A8B;
+}
+
+.mobile-card:hover, .mobile-card:focus {
+  background-color: rgb(111, 111, 111);
+  color: rgb(255, 255, 55);
 }

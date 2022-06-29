@@ -1,20 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Amended by HashLips
-/**
-    !Disclaimer!
-    These contracts have been used to create tutorials,
-    and was created for the purpose to teach people
-    how to create smart contracts on the blockchain.
-    please review this code on your own before using any of
-    the following code for production.
-    The developer will not be responsible or liable for all loss or 
-    damage whatsoever caused by you participating in any way in the 
-    experimental code, whether putting money into the contract or 
-    using the code for your own project.
-*/
-
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -31,15 +17,15 @@ contract Alchemist is ERC721, Ownable, ERC721Enumerable{
   string public uriSuffix = ".json";
   string public hiddenMetadataUri;
   
-  uint256 public cost = 0 ether;
-  uint256 public maxSupply = 10000;
-  uint256 public maxMintAmountPerTx = 5;
+  uint256 public cost = 0.1 ether;
+  uint256 public maxSupply = 2222;
+  uint256 public maxMintAmountPerTx = 10;
 
   bool public paused = true;
   bool public revealed = false;
 
-  constructor() ERC721("NAME", "SYMBOL") {
-    setHiddenMetadataUri("ipfs://__CID__/hidden.json");
+  constructor() ERC721("Alchemist", "Alchemist") {
+    setHiddenMetadataUri("ipfs://tbd");
   }
 
   modifier mintCompliance(uint256 _mintAmount) {
@@ -121,6 +107,9 @@ contract Alchemist is ERC721, Ownable, ERC721Enumerable{
   function setMaxMintAmountPerTx(uint256 _maxMintAmountPerTx) public onlyOwner {
     maxMintAmountPerTx = _maxMintAmountPerTx;
   }
+  function setMaxSupply(uint256 _maxSupply) public onlyOwner {
+    maxSupply = _maxSupply;
+  }
 
   function setHiddenMetadataUri(string memory _hiddenMetadataUri) public onlyOwner {
     hiddenMetadataUri = _hiddenMetadataUri;
@@ -139,12 +128,8 @@ contract Alchemist is ERC721, Ownable, ERC721Enumerable{
   }
 
   function withdraw() public onlyOwner {
-
-    // This will transfer the contract balance to the owner.
-    // =============================================================================
     (bool os, ) = payable(owner()).call{value: address(this).balance}("");
     require(os);
-    // =============================================================================
   }
 
   function _mintLoop(address _receiver, uint256 _mintAmount) internal {
