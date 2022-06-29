@@ -58,7 +58,7 @@ export const WalletConnect = () => {
             if (window.ethereum) {
                 // Trigger network switch
                 if (window.ethereum.networkVersion != 4) {
-                    handleNetworkSwitch('polygon')
+                    handleNetworkSwitch('rinkeby')
                 } else {
                     window.ethereum.request({method: 'eth_requestAccounts'})
                     .then((result: string[]) => {
