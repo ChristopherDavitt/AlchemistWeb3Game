@@ -25,18 +25,4 @@ export const networks  = <any> {
         ],
       blockExplorerUrls: ["https://mumbai.polygonscan.com"]
     },
-    rinkeby: {
-      chainId: `0x${Number(4).toString(16)}`,
-      chainName: "Rinkeby Testnet",
-      nativeCurrency: {
-        name: "Rinkeby Ether",
-        symbol: "RIN",
-        decimals: 18
-      },
-      rpcUrls: [
-        "https://rinkeby.infura.io/v3/",
-        "wss://rinkeby.infura.io/ws/v3/"
-      ],
-      blockExplorerUrls: ["https://rinkeby.etherscan.io"]
-    }
   };

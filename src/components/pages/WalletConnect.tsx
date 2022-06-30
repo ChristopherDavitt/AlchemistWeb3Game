@@ -16,14 +16,15 @@ export const WalletConnect = () => {
     const connected = useAppSelector((state) => state.connected)
 
     useEffect(() => {
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', connectWalletHandler)
+            window.ethereum.on('chainChanged', handleChainChange)
 
-        window.ethereum.on('accountsChanged', connectWalletHandler)
-        window.ethereum.on('chainChanged', handleChainChange)
-
-        return () => {
-            window.ethereum.removeListener('accountsChanged', connectWalletHandler)
-            window.ethereum.removeListener('chainChanged', handleChainChange)
-        }
+            return () => {
+                window.ethereum.removeListener('accountsChanged', connectWalletHandler)
+                window.ethereum.removeListener('chainChanged', handleChainChange)
+            }
+        } 
     },[])
 
     const handleChainChange = () => {
@@ -58,6 +59,12 @@ export const WalletConnect = () => {
             if (window.ethereum) {
                 // Trigger network switch
                 if (window.ethereum.networkVersion != 4) {
+                    window.ethereum.request({
+                        method: "wallet_switchEthereumChain",
+                        params: [{
+                           chainId: `0x${Number(4).toString(16)}`
+                        }]
+                     })
                     handleNetworkSwitch('rinkeby')
                 } else {
                     window.ethereum.request({method: 'eth_requestAccounts'})

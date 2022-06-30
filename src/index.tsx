@@ -7,8 +7,10 @@ import { AnimatePresence } from 'framer-motion';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
+import { firebaseConfig } from './firebaseConfig';
 
 import './index.css';
+import { FirebaseAppProvider } from 'reactfire';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,13 +18,15 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AnimatePresence exitBeforeEnter >
-        <Router>
-          <App />
-        </Router>
-      </AnimatePresence>
-    </Provider>
+    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+      <Provider store={store}>
+        <AnimatePresence exitBeforeEnter >
+          <Router>
+            <App />
+          </Router>
+        </AnimatePresence>
+      </Provider>
+    </FirebaseAppProvider>
   </React.StrictMode>
 );
 
